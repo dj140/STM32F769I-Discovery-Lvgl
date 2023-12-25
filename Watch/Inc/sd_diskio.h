@@ -1,12 +1,12 @@
 /**
   ******************************************************************************
-  * @file    LCD_DSI/LCD_DSI_CmdMode_DoubleBuffering/Inc/main.h
+  * @file    sd_diskio.h
   * @author  MCD Application Team
-  * @brief   Header for main.c module
+  * @brief   Header for sd_diskio.c module.
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2016 STMicroelectronics.
+  * Copyright (c) 2017 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -17,40 +17,16 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __SD_DISKIO_H
+#define __SD_DISKIO_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f7xx.h"
-#include "stm32f7xx_hal.h"
-#include "stm32f769i_discovery.h"
-#include "stm32f769i_discovery_lcd.h"
-#include "stm32f769i_discovery_sdram.h"
 #include "stm32f769i_discovery_sd.h"
-
-#include "usbd_core.h"
-#include "usbd_desc.h"
-#include "usbd_msc.h"
-#include "usbd_storage.h"
-
-/* FatFs includes component */
-#include "ff_gen_drv.h"
-#include "sd_diskio.h"
-
-#include "tft.h"
-#include "touchpad.h"
-
-#include "lvgl/lvgl.h"
-#include "lvgl/examples/lv_examples.h"
-#include "lvgl/demos/lv_demos.h"
-
-#include "fonts/fonts.h"
-#include "icon/anim/icon_anim.h"
-#include "icon/static/icon_static.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
+extern const Diskio_drvTypeDef  SD_Driver;
 
-#endif /* __MAIN_H */
+#endif /* __SD_DISKIO_H */
+
 

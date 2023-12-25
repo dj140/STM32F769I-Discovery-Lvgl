@@ -1,12 +1,12 @@
 /**
   ******************************************************************************
-  * @file    LCD_DSI/LCD_DSI_CmdMode_DoubleBuffering/Inc/main.h
+  * @file    USB_Device/MSC_Standalone/Inc/usbd_desc.h
   * @author  MCD Application Team
-  * @brief   Header for main.c module
+  * @brief   Header for usbd_desc.c module
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2016 STMicroelectronics.
+  * Copyright (c) 2017 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -17,40 +17,22 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __USBD_DESC_H
+#define __USBD_DESC_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f7xx.h"
-#include "stm32f7xx_hal.h"
-#include "stm32f769i_discovery.h"
-#include "stm32f769i_discovery_lcd.h"
-#include "stm32f769i_discovery_sdram.h"
-#include "stm32f769i_discovery_sd.h"
+#include "usbd_def.h"
 
-#include "usbd_core.h"
-#include "usbd_desc.h"
-#include "usbd_msc.h"
-#include "usbd_storage.h"
-
-/* FatFs includes component */
-#include "ff_gen_drv.h"
-#include "sd_diskio.h"
-
-#include "tft.h"
-#include "touchpad.h"
-
-#include "lvgl/lvgl.h"
-#include "lvgl/examples/lv_examples.h"
-#include "lvgl/demos/lv_demos.h"
-
-#include "fonts/fonts.h"
-#include "icon/anim/icon_anim.h"
-#include "icon/static/icon_static.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
+#define         DEVICE_ID1          (0x1FFF7A10)
+#define         DEVICE_ID2          (0x1FFF7A14)
+#define         DEVICE_ID3          (0x1FFF7A18)
+
+#define  USB_SIZ_STRING_SERIAL       0x1A
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
+extern USBD_DescriptorsTypeDef MSC_Desc;
 
-#endif /* __MAIN_H */
-
+#endif /* __USBD_DESC_H */
+ 

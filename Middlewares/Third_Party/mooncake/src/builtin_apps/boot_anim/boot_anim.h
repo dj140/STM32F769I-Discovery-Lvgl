@@ -22,8 +22,8 @@ namespace MOONCAKE {
             struct Data_t {
                 
                 /* Path to the boot anim assets */
-                const char* img_bg_static_path = "A:sdcard/boot_anim/background.png";
-                const char* img_bg_gif_path = "A:sdcard/boot_anim/background.gif";
+                const char* img_bg_static_path = "0:sdcard/boot_anim/background.png";
+                const char* img_bg_gif_path = "0:sdcard/boot_anim/background.gif";
 
                 lv_obj_t* screen = nullptr;
                 lv_obj_t* img_bg_static = nullptr;

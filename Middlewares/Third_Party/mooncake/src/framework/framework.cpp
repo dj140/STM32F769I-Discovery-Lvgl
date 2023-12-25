@@ -19,28 +19,28 @@ namespace MOONCAKE {
     bool Framework::_run_boot_anim()
     {
         /* If boot anim is not set */
-//        bool using_builtin_bootAnim = false;
-//        if (_config.bootAnim == nullptr) {
-//            using_builtin_bootAnim = true;
-//            _config.bootAnim = new BUILTIN_APP::Boot_Anim;
-//            if (_config.bootAnim == nullptr) {
-//                return false;
-//            }
-//        }
-//        /* Run Anim until finished */
-//        APP_Register::install(_config.bootAnim, nullptr, nullptr);
-//        startApp(_config.bootAnim);
-//        while (1) {
-//            APP_Manger::update();
-//            if (!isAppRunning(_config.bootAnim)) {
-//                break;
-//            }
-//        }
-//        APP_Register::uninstall(_config.bootAnim);
-//        if (using_builtin_bootAnim) {
-//            delete _config.bootAnim;
-//            _config.bootAnim = nullptr;
-//        }
+        bool using_builtin_bootAnim = false;
+        if (_config.bootAnim == nullptr) {
+            using_builtin_bootAnim = true;
+            _config.bootAnim = new BUILTIN_APP::Boot_Anim;
+            if (_config.bootAnim == nullptr) {
+                return false;
+            }
+        }
+        /* Run Anim until finished */
+        APP_Register::install(_config.bootAnim, nullptr, nullptr);
+        startApp(_config.bootAnim);
+        while (1) {
+            APP_Manger::update();
+            if (!isAppRunning(_config.bootAnim)) {
+                break;
+            }
+        }
+        APP_Register::uninstall(_config.bootAnim);
+        if (using_builtin_bootAnim) {
+            delete _config.bootAnim;
+            _config.bootAnim = nullptr;
+        }
         return true;
     }
 

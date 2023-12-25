@@ -8,19 +8,13 @@
 ******************************************************************************
 */
 
-
-#include "stm32f7xx.h"
-#include "stm32f769i_discovery.h"
-#include "tft.h"
-#include "touchpad.h"
-#include "lvgl/lvgl.h"
-#include "lvgl/examples/lv_examples.h"
-#include "lvgl/demos/lv_demos.h"
+#include "main.h"
 #include <mooncake.h>
 
-#include "fonts/fonts.h"
-#include "icon/anim/icon_anim.h"
-#include "icon/static/icon_static.h"
+USBD_HandleTypeDef USBD_Device;
+FATFS SD_FatFs;  /* File system object for SD card logical drive */
+char SD_Path[4]; /* SD card logical drive path */
+static void MPU_Config(void);
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
 
@@ -132,6 +126,9 @@ public:
 };
 
 int main(void) {
+  
+  /* Configure the MPU attributes */
+//  MPU_Config();
 
   /* Enable the CPU Cache */
   CPU_CACHE_Enable();
@@ -149,11 +146,26 @@ int main(void) {
   HAL_Init();
 
   SystemClock_Config();
-
+  
+  /* Init Device Library */
+//  USBD_Init(&USBD_Device, &MSC_Desc, 0);
+//  
+//  /* Add Supported Class */
+//  USBD_RegisterClass(&USBD_Device, USBD_MSC_CLASS);
+//  
+//  /* Add Storage callbacks for MSC Class */
+//  USBD_MSC_RegisterStorage(&USBD_Device, &USBD_DISK_fops);
+//  
+//  /* Start Device Process */
+//  USBD_Start(&USBD_Device);
+  
   lv_init();
-
   tft_init();
   touchpad_init();
+  /*##-2- Link the SD Card disk I/O driver ###################################*/
+  FATFS_LinkDriver(&SD_Driver, SD_Path);
+  f_mount(&SD_FatFs, "0:", 0);
+  lv_fs_fatfs_init();
 
   //    lv_demo_benchmark();
   //    lv_demo_music();
@@ -235,6 +247,36 @@ static void SystemClock_Config(void)
   {
     while(1) { ; }
   }
+}
+/**
+  * @brief  Configure the MPU attributes
+  * @param  None
+  * @retval None
+  */
+static void MPU_Config(void)
+{
+  MPU_Region_InitTypeDef MPU_InitStruct;
+
+  /* Disable the MPU */
+  HAL_MPU_Disable();
+
+  /* Configure the MPU as Strongly ordered for not defined regions */
+  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+  MPU_InitStruct.BaseAddress = 0x00;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+  MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.SubRegionDisable = 0x87;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+  /* Enable the MPU */
+  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
 
 
