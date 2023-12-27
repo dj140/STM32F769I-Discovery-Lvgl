@@ -15,7 +15,7 @@
 ; 
 ;* @attention
 ;*
-;* Copyright (c) 2016 STMicroelectronics.
+;* Copyright (c) 2017 STMicroelectronics.
 ;* All rights reserved.
 ;*
 ;* This software is licensed under terms that can be found in the LICENSE file
@@ -41,7 +41,7 @@ __initial_sp
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size      EQU     0x2600
+Heap_Size      EQU     0x2500
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -342,24 +342,24 @@ Default_Handler PROC
                 EXPORT  DMA2D_IRQHandler                  [WEAK]
                 EXPORT  SAI2_IRQHandler                   [WEAK]   
                 EXPORT  QUADSPI_IRQHandler                [WEAK]
-                EXPORT  LPTIM1_IRQHandler                 [WEAK]
+				EXPORT  LPTIM1_IRQHandler                 [WEAK]
                 EXPORT  CEC_IRQHandler                    [WEAK]   
                 EXPORT  I2C4_EV_IRQHandler                [WEAK]
-                EXPORT  I2C4_ER_IRQHandler                [WEAK] 
+				EXPORT  I2C4_ER_IRQHandler                [WEAK] 
                 EXPORT  SPDIF_RX_IRQHandler               [WEAK]
-                EXPORT  DSI_IRQHandler                    [WEAK]
-                EXPORT  DFSDM1_FLT0_IRQHandler            [WEAK]
-                EXPORT  DFSDM1_FLT1_IRQHandler            [WEAK]
-                EXPORT  DFSDM1_FLT2_IRQHandler            [WEAK]
-                EXPORT  DFSDM1_FLT3_IRQHandler            [WEAK]
-                EXPORT  SDMMC2_IRQHandler                 [WEAK]
-                EXPORT  CAN3_TX_IRQHandler                [WEAK]
-                EXPORT  CAN3_RX0_IRQHandler               [WEAK]
-                EXPORT  CAN3_RX1_IRQHandler               [WEAK]
-                EXPORT  CAN3_SCE_IRQHandler               [WEAK]
-                EXPORT  JPEG_IRQHandler                   [WEAK]
-                EXPORT  MDIOS_IRQHandler                  [WEAK]
-                
+				EXPORT  DSI_IRQHandler                    [WEAK]
+				EXPORT  DFSDM1_FLT0_IRQHandler            [WEAK]
+				EXPORT  DFSDM1_FLT1_IRQHandler            [WEAK]
+				EXPORT  DFSDM1_FLT2_IRQHandler            [WEAK]
+				EXPORT  DFSDM1_FLT3_IRQHandler            [WEAK]
+				EXPORT  SDMMC2_IRQHandler                 [WEAK]
+				EXPORT  CAN3_TX_IRQHandler                [WEAK]
+				EXPORT  CAN3_RX0_IRQHandler               [WEAK]
+				EXPORT  CAN3_RX1_IRQHandler               [WEAK]
+				EXPORT  CAN3_SCE_IRQHandler               [WEAK]
+				EXPORT  JPEG_IRQHandler                   [WEAK]
+				EXPORT  MDIOS_IRQHandler                  [WEAK]
+				
 WWDG_IRQHandler                                                       
 PVD_IRQHandler                                      
 TAMP_STAMP_IRQHandler                  

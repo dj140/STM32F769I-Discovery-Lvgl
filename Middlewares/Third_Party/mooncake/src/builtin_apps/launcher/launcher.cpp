@@ -14,7 +14,7 @@
 #define DEBUG_PRINT(...)
 
 
-#define SCROLL_VER          0
+#define SCROLL_VER          1
 #define ICON_ZOOM_LIMIT     32
 #define PLAY_WALKING_ANIM   1
 
@@ -370,7 +370,7 @@ namespace MOONCAKE {
             #if PLAY_WALKING_ANIM
             lv_obj_t* walking_man = lv_animimg_create(_data.infoPanel);
             lv_obj_align(walking_man, LV_ALIGN_CENTER, lv_pct(3), lv_pct(2));
-            lv_animimg_set_src(walking_man, (const void**)anim_lc_walking, NUM_ANIM_LC_WALKING);
+            lv_animimg_set_src(walking_man, (const void**)anim_walking_cycle, NUM_ANIM_WALKING_CYCLE);
             lv_animimg_set_duration(walking_man, 1209);
             lv_animimg_set_repeat_count(walking_man, LV_ANIM_REPEAT_INFINITE);
             lv_animimg_start(walking_man);

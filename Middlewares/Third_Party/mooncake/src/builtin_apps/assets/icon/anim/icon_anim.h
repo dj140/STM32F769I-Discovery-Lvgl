@@ -81,6 +81,44 @@ static const lv_img_dsc_t * anim_lc_walking[] = {
 #define NUM_ANIM_LC_WALKING 10
 
 
+LV_IMG_DECLARE(ui_img_walking_cycle_00_png);
+LV_IMG_DECLARE(ui_img_walking_cycle_01_png); 
+LV_IMG_DECLARE(ui_img_walking_cycle_02_png);  
+LV_IMG_DECLARE(ui_img_walking_cycle_03_png);  
+LV_IMG_DECLARE(ui_img_walking_cycle_04_png); 
+LV_IMG_DECLARE(ui_img_walking_cycle_05_png);    
+LV_IMG_DECLARE(ui_img_walking_cycle_06_png); 
+//LV_IMG_DECLARE(ui_img_walking_cycle_07_png);   
+//LV_IMG_DECLARE(ui_img_walking_cycle_08_png);  
+//LV_IMG_DECLARE(ui_img_walking_cycle_09_png);  
+//LV_IMG_DECLARE(ui_img_walking_cycle_10_png);  
+//LV_IMG_DECLARE(ui_img_walking_cycle_11_png);    
+//LV_IMG_DECLARE(ui_img_walking_cycle_12_png);  
+//LV_IMG_DECLARE(ui_img_walking_cycle_13_png); 
+//LV_IMG_DECLARE(ui_img_walking_cycle_14_png);  
+//LV_IMG_DECLARE(ui_img_walking_cycle_15_png);   
+
+
+static const lv_img_dsc_t * anim_walking_cycle[] = {
+    &ui_img_walking_cycle_00_png,
+    &ui_img_walking_cycle_01_png,
+    &ui_img_walking_cycle_02_png,
+    &ui_img_walking_cycle_03_png,
+    &ui_img_walking_cycle_04_png,
+    &ui_img_walking_cycle_05_png,
+    &ui_img_walking_cycle_06_png,
+//    &ui_img_walking_cycle_07_png,
+//    &ui_img_walking_cycle_08_png,
+//    &ui_img_walking_cycle_09_png,
+//    &ui_img_walking_cycle_10_png,
+//    &ui_img_walking_cycle_11_png,
+//    &ui_img_walking_cycle_12_png,
+//    &ui_img_walking_cycle_13_png,
+//    &ui_img_walking_cycle_14_png,
+//    &ui_img_walking_cycle_15_png,
+
+};
+#define NUM_ANIM_WALKING_CYCLE 7
 
 //LV_IMG_DECLARE(ui_img_anim_spring_wreath_0_png);    // assets\anim_spring_wreath_0.png
 //LV_IMG_DECLARE(ui_img_anim_spring_wreath_1_png);    // assets\anim_spring_wreath_1.png

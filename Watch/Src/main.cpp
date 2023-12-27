@@ -12,8 +12,8 @@
 #include <mooncake.h>
 
 USBD_HandleTypeDef USBD_Device;
-FATFS SD_FatFs;  /* File system object for SD card logical drive */
-char SD_Path[4]; /* SD card logical drive path */
+
+
 static void MPU_Config(void);
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
@@ -158,18 +158,17 @@ int main(void) {
 //  
 //  /* Start Device Process */
 //  USBD_Start(&USBD_Device);
-  
+
+
   lv_init();
   tft_init();
   touchpad_init();
   /*##-2- Link the SD Card disk I/O driver ###################################*/
-  FATFS_LinkDriver(&SD_Driver, SD_Path);
-  f_mount(&SD_FatFs, "0:", 0);
-  lv_fs_fatfs_init();
+//  lv_fs_fatfs_init();
 
-  //    lv_demo_benchmark();
-  //    lv_demo_music();
-  mooncake_ui.setDisplay(800, 480);
+//  lv_demo_benchmark();
+//  lv_demo_music();
+  mooncake_ui.setDisplay(368, 448);
   mooncake_ui.init();
   mooncake_ui.installBuiltinApps();
 
@@ -248,6 +247,23 @@ static void SystemClock_Config(void)
     while(1) { ; }
   }
 }
+/**
+  * @brief  Toggle LEDs to show user input state.   
+  * @param  None
+  * @retval None
+  */
+void Toggle_Leds(void)
+{
+  static uint32_t ticks;
+  
+  if(ticks++ == 100)
+  {
+    BSP_LED_Toggle(LED1);
+    BSP_LED_Toggle(LED2);
+    ticks = 0;
+  }
+}
+
 /**
   * @brief  Configure the MPU attributes
   * @param  None

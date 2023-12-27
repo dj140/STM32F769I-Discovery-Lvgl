@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F769xx,USE_STM32F769I_DISCO,USE_USB_HS</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../../../../../../Drivers/CMSIS/Device/ST/STM32F7xx/Include;../../../../../../Drivers/STM32F7xx_HAL_Driver/Inc;../../../../../../Drivers/BSP/STM32F769I-Discovery;../../../../../../Drivers/BSP/Components/Common;../../../../../../Utilities/Log;../../../../../../Utilities/Fonts;../../../../../../Utilities/CPU;..\..\Drivers\CMSIS\Device\ST\STM32F7xx\Include;..\..\Drivers\STM32F7xx_HAL_Driver\Inc;..\..\Drivers\BSP\STM32F769I-Discovery;..\..\Drivers\BSP\Components\Common;..\..\hal_stm_lvgl\tft;..\..\hal_stm_lvgl\touchpad;..\..\Middlewares\Third_Party;..\..\Middlewares\Third_Party\mooncake\src;..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets;..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc;..\..\Middlewares\ST\STM32_USB_Device_Library\Class\MSC\Inc;..\..\Middlewares\Third_Party\FatFs\src\drivers;..\..\Middlewares\Third_Party\FatFs\src</IncludePath>
+              <IncludePath>../Inc;../../../../../../Drivers/CMSIS/Device/ST/STM32F7xx/Include;../../../../../../Drivers/STM32F7xx_HAL_Driver/Inc;../../../../../../Drivers/BSP/STM32F769I-Discovery;../../../../../../Drivers/BSP/Components/Common;../../../../../../Utilities/Log;../../../../../../Utilities/Fonts;../../../../../../Utilities/CPU;..\..\Drivers\CMSIS\Device\ST\STM32F7xx\Include;..\..\Drivers\STM32F7xx_HAL_Driver\Inc;..\..\Drivers\BSP\STM32F769I-Discovery;..\..\Drivers\BSP\Components\Common;..\..\hal_stm_lvgl\tft;..\..\hal_stm_lvgl\touchpad;..\..\Middlewares\Third_Party;..\..\Middlewares\Third_Party\mooncake\src;..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets;..\..\Middlewares\Third_Party\FatFs\src\drivers;..\..\Middlewares\Third_Party\FatFs\src;..\..\Middlewares\ST\STM32_USB_Device_Library\Class\MSC\Inc;..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -373,7 +373,7 @@
             <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc></Misc>
+            <Misc>--diag_suppress=L6329</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -394,11 +394,6 @@
               <FilePath>../Src/stm32f7xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f7xx_hal_msp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\stm32f7xx_hal_msp.c</FilePath>
-            </File>
-            <File>
               <FileName>usbd_conf.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\usbd_conf.c</FilePath>
@@ -412,6 +407,11 @@
               <FileName>usbd_storage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\usbd_storage.c</FilePath>
+            </File>
+            <File>
+              <FileName>fatfs_storage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\fatfs_storage.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -679,11 +679,6 @@
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_mmc.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f7xx_hal_msp_template.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_msp_template.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f7xx_hal_nand.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_nand.c</FilePath>
@@ -759,11 +754,6 @@
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_sd.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f7xx_hal_sdram.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_sdram.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f7xx_hal_smartcard.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_smartcard.c</FilePath>
@@ -794,11 +784,6 @@
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_spi_ex.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f7xx_hal_sram.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_sram.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f7xx_hal_tim.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_tim.c</FilePath>
@@ -827,6 +812,26 @@
               <FileName>stm32f7xx_hal_wwdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_wwdg.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f7xx_ll_sdmmc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_ll_sdmmc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f7xx_ll_usb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_ll_usb.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f7xx_hal_sdram.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_sdram.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f7xx_hal_sram.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_sram.c</FilePath>
             </File>
             <File>
               <FileName>stm32f7xx_ll_adc.c</FileName>
@@ -899,11 +904,6 @@
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_ll_rtc.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f7xx_ll_sdmmc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_ll_sdmmc.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f7xx_ll_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_ll_spi.c</FilePath>
@@ -917,11 +917,6 @@
               <FileName>stm32f7xx_ll_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_ll_usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f7xx_ll_usb.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_ll_usb.c</FilePath>
             </File>
             <File>
               <FileName>stm32f7xx_ll_utils.c</FileName>
@@ -1914,14 +1909,14 @@
               <FilePath>..\..\Middlewares\Third_Party\lvgl\demos\music\assets\img_lv_demo_music_cover_3_large.c</FilePath>
             </File>
             <File>
-              <FileName>img_lv_demo_music_icon_1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Middlewares\Third_Party\lvgl\demos\music\assets\img_lv_demo_music_icon_1.c</FilePath>
-            </File>
-            <File>
               <FileName>img_lv_demo_music_icon_1_large.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Middlewares\Third_Party\lvgl\demos\music\assets\img_lv_demo_music_icon_1_large.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_lv_demo_music_icon_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\lvgl\demos\music\assets\img_lv_demo_music_icon_1.c</FilePath>
             </File>
             <File>
               <FileName>img_lv_demo_music_icon_2.c</FileName>
@@ -2473,10 +2468,90 @@
               <FileType>1</FileType>
               <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\static\status\ui_img_icon_wifi_on_png.c</FilePath>
             </File>
+            <File>
+              <FileName>ui_img_walking_cycle_00_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_00_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_01_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_01_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_02_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_02_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_03_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_03_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_04_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_04_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_05_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_05_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_06_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_06_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_07_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_07_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_08_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_08_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_09_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_09_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_10_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_10_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_11_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_11_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_12_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_12_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_13_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_13_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_14_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_14_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_img_walking_cycle_15_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets\icon\anim\walking_cycle\ui_img_walking_cycle_15_png.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>USBPD/core</GroupName>
+          <GroupName>USB_Device/core</GroupName>
           <Files>
             <File>
               <FileName>usbd_core.c</FileName>
@@ -2496,7 +2571,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>USBPD/Class</GroupName>
+          <GroupName>USB_Device/Class</GroupName>
           <Files>
             <File>
               <FileName>usbd_msc.c</FileName>
