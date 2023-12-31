@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F769xx,USE_STM32F769I_DISCO,USE_USB_HS</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../../../../../../Drivers/CMSIS/Device/ST/STM32F7xx/Include;../../../../../../Drivers/STM32F7xx_HAL_Driver/Inc;../../../../../../Drivers/BSP/STM32F769I-Discovery;../../../../../../Drivers/BSP/Components/Common;../../../../../../Utilities/Log;../../../../../../Utilities/Fonts;../../../../../../Utilities/CPU;..\..\Drivers\CMSIS\Device\ST\STM32F7xx\Include;..\..\Drivers\STM32F7xx_HAL_Driver\Inc;..\..\Drivers\BSP\STM32F769I-Discovery;..\..\Drivers\BSP\Components\Common;..\..\hal_stm_lvgl\tft;..\..\hal_stm_lvgl\touchpad;..\..\Middlewares\Third_Party;..\..\Middlewares\Third_Party\mooncake\src;..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets;..\..\Middlewares\Third_Party\FatFs\src\drivers;..\..\Middlewares\Third_Party\FatFs\src;..\..\Middlewares\ST\STM32_USB_Device_Library\Class\MSC\Inc;..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</IncludePath>
+              <IncludePath>../Inc;../../../../../../Drivers/CMSIS/Device/ST/STM32F7xx/Include;../../../../../../Drivers/STM32F7xx_HAL_Driver/Inc;../../../../../../Drivers/BSP/STM32F769I-Discovery;../../../../../../Drivers/BSP/Components/Common;../../../../../../Utilities/Log;../../../../../../Utilities/Fonts;../../../../../../Utilities/CPU;..\..\Drivers\CMSIS\Device\ST\STM32F7xx\Include;..\..\Drivers\STM32F7xx_HAL_Driver\Inc;..\..\Drivers\BSP\STM32F769I-Discovery;..\..\Drivers\BSP\Components\Common;..\..\hal_stm_lvgl\tft;..\..\hal_stm_lvgl\touchpad;..\..\Middlewares\Third_Party;..\..\Middlewares\Third_Party\mooncake\src;..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets;..\..\Middlewares\Third_Party\FatFs\src\drivers;..\..\Middlewares\Third_Party\FatFs\src;..\..\Middlewares\ST\STM32_USB_Device_Library\Class\MSC\Inc;..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc;..\..\Middlewares\Third_Party\ArduinoJson\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -409,9 +409,9 @@
               <FilePath>..\Src\usbd_storage.c</FilePath>
             </File>
             <File>
-              <FileName>fatfs_storage.c</FileName>
+              <FileName>bsp_debug_usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Src\fatfs_storage.c</FilePath>
+              <FilePath>..\Src\bsp_debug_usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2053,6 +2053,11 @@
               <FileType>8</FileType>
               <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\wf_spring_wreath\wf_spring_wreath.cpp</FilePath>
             </File>
+            <File>
+              <FileName>wf_user_custom.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\wf_user_custom\wf_user_custom.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2608,35 +2613,20 @@
               <FileType>1</FileType>
               <FilePath>..\..\Middlewares\Third_Party\FatFs\src\ff.c</FilePath>
             </File>
-            <File>
-              <FileName>ff_gen_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>FatFs/Drivers</GroupName>
-          <Files>
-            <File>
-              <FileName>sd_diskio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\sd_diskio.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>FatFs/Option</GroupName>
           <Files>
             <File>
-              <FileName>syscall.c</FileName>
+              <FileName>ffsystem.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Middlewares\Third_Party\FatFs\src\option\syscall.c</FilePath>
+              <FilePath>..\..\Middlewares\Third_Party\FatFs\src\ffsystem.c</FilePath>
             </File>
             <File>
-              <FileName>unicode.c</FileName>
+              <FileName>ffunicode.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Middlewares\Third_Party\FatFs\src\option\unicode.c</FilePath>
+              <FilePath>..\..\Middlewares\Third_Party\FatFs\src\ffunicode.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2653,8 +2643,8 @@
   <RTE>
     <apis/>
     <components>
-      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.1.2" condition="ARMv6_7_8-M Device">
-        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.4.0"/>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.4.0" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="STM32F769I_DISCOVERY"/>
         </targetInfos>

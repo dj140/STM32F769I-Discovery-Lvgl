@@ -46,18 +46,7 @@ static lv_fs_res_t fs_dir_close(lv_fs_drv_t * drv, void * dir_p);
 /**********************
  *      MACROS
  **********************/
- #define MAX_BMP_FILES     25
-#define MAX_BMP_FILE_NAME 11
 
-FATFS SD_FatFs;  /* File system object for SD card logical drive */
-char SD_Path[4]; /* SD card logical drive path */
-char* pDirectoryFiles[MAX_BMP_FILES];
-uint8_t  ubNumberOfFiles = 0;
-uint32_t uwBmplen = 0;
-
-/**********************
- *   GLOBAL FUNCTIONS
- **********************/
 
 void lv_fs_fatfs_init(void)
 {
@@ -99,41 +88,7 @@ void lv_fs_fatfs_init(void)
 /*Initialize your Storage device and File system.*/
 static void fs_init(void)
 {
-    uint32_t counter = 0, transparency = 0;
-//    FATFS_LinkDriver(&SD_Driver, SD_Path);
-//    f_mount(&SD_FatFs,"0:",1);
-    /*Initialize the SD card and FatFS itself.
-   *Better to do it in your code to keep this library untouched for easy updating*/
-    /*##-2- Link the SD Card disk I/O driver ###################################*/
-//  if(FATFS_LinkDriver(&SD_Driver, SD_Path) == 0)
-//  {
-//    /*##-3- Initialize the Directory Files pointers (heap) ###################*/
-//    for (counter = 0; counter < MAX_BMP_FILES; counter++)
-//    {
-//      pDirectoryFiles[counter] = malloc(MAX_BMP_FILE_NAME);
-//      if(pDirectoryFiles[counter] == NULL)
-//      {
-//        /* Set the Text Color */
-//        BSP_LCD_SetTextColor(LCD_COLOR_RED);
 
-//        BSP_LCD_DisplayStringAtLine(8, (uint8_t*)"  Cannot allocate memory ");
-//        while(1) { ; }
-//      }
-//    }
-//  }
-//    /* Get the BMP file names on root directory */
-//    ubNumberOfFiles = Storage_GetDirectoryBitmapFiles("/Media", pDirectoryFiles);
-
-//    if (ubNumberOfFiles == 0)
-//    {
-//      for (counter = 0; counter < MAX_BMP_FILES; counter++)
-//      {
-//        free(pDirectoryFiles[counter]);
-//      }
-//      BSP_LCD_DisplayStringAtLine(8, (uint8_t*)"  No Bitmap files...      ");
-//      while(1) { ; }
-//    }
-  
 }
 
 /**
@@ -156,6 +111,7 @@ static void * fs_open(lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode)
     if(f == NULL) return NULL;
 
     FRESULT res = f_open(f, path, flags);
+  
     if(res == FR_OK) {
         return f;
     }

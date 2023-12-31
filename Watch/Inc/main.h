@@ -43,12 +43,16 @@ extern "C" {
 #include "stm32f769i_discovery_lcd.h"
 
 /* FatFs includes component */
-#include "ff_gen_drv.h"
-#include "sd_diskio.h"
+//#include "ff_gen_drv.h"
+//#include "sd_diskio.h"
+#include "ff.h"
+#include "diskio.h"
 
 #include "fonts/fonts.h"
 #include "icon/anim/icon_anim.h"
 #include "icon/static/icon_static.h"
+
+#include "bsp_debug_usart.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
