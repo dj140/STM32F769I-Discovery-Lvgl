@@ -413,6 +413,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\bsp_debug_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>new.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\new.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -938,6 +943,11 @@
         <Group>
           <GroupName>lvgl</GroupName>
           <Files>
+            <File>
+              <FileName>lv_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\lv_conf.h</FilePath>
+            </File>
             <File>
               <FileName>lv_disp.c</FileName>
               <FileType>1</FileType>
@@ -1679,9 +1689,19 @@
               <FilePath>..\..\Middlewares\Third_Party\lvgl\src\widgets\lv_textarea.c</FilePath>
             </File>
             <File>
-              <FileName>lv_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\Middlewares\Third_Party\lv_conf.h</FilePath>
+              <FileName>lv_bmp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\lvgl\src\extra\libs\bmp\lv_bmp.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_ffmpeg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\lvgl\src\extra\libs\ffmpeg\lv_ffmpeg.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_gpu_stm32_dma2d.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\lvgl\src\draw\stm32_dma2d\lv_gpu_stm32_dma2d.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -130,6 +130,7 @@ namespace MOONCAKE {
             while (1) {
                 /* Open dir */
                 res = lv_fs_dir_read(&dir, string_buffer);
+                printf("[%s] read dir ok %d\n", getAppName().c_str(), res);
                 if (res != LV_FS_RES_OK) {
                     printf("[%s] read dir error %d\n", getAppName().c_str(), res);
                     return false;
@@ -144,7 +145,7 @@ namespace MOONCAKE {
             }
             /* Remove extra \n */
             wf_custom_path_list = wf_custom_path_list.substr(0, wf_custom_path_list.size() - 1);
-            // printf("%s\n", wf_custom_path_list.c_str());
+             printf("%s\n", wf_custom_path_list.c_str());
 
             /* Close folder */
             lv_fs_dir_close(&dir);

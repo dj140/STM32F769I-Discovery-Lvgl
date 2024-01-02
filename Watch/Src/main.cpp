@@ -310,12 +310,11 @@ int main(void) {
     /* 初始化调试串口，一般为串口1 */
   DEBUG_USART_Config();	
   printf("****** usart enable ******\r\n");
-  	res_flash = f_mount(&fsA,"A:",1);
+  	res_flash = f_mount(&fsA,"0:",1);
   if(res_flash!=FR_OK)
   {
     printf("！！外部Flash挂载文件系统失败。(%d)\r\n",res_flash);
     printf("！！可能原因：SPI Flash初始化不成功。\r\n");
-		while(1);
   }
   else
   {
@@ -349,7 +348,7 @@ int main(void) {
 
   lv_init();
 //  lv_fs_file_t f;
-//  lv_fs_res_t res = lv_fs_open(&f, "A:/b.txt", LV_FS_MODE_RD);
+//  lv_fs_res_t res = lv_fs_open(&f, "0:sdcard/boot_anim/background.png", LV_FS_MODE_RD);
 //  printf("res: %d\n", res);
   tft_init();
   touchpad_init();

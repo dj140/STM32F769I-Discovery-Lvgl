@@ -10,6 +10,8 @@
  */
 #include "boot_anim.h"
 #include <lvgl/lvgl.h>
+#include "../assets/assets.h"
+
 #define DEBUG_PRINT(...)
 
 
@@ -22,7 +24,6 @@ namespace MOONCAKE {
             setAppName("BootAnim");
             setAllowBgRunning(false);
         }
-
 
         /* Life cycle */
         void Boot_Anim::onCreate()

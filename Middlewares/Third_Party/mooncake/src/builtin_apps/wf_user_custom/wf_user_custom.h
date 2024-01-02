@@ -69,11 +69,11 @@ namespace MOONCAKE {
             };
 
             struct CustomData_t {
-                const char* wf_folder_path = "A:sdcard/watch_faces";
+                const char* wf_folder_path = "0:sdcard/watch_faces";
                 const char* wf_custom_description_path = "face.json";
                 const char* wf_custom_bg_asset_path = "background/";
                 const char* wf_custom_num_asset_path = "number/";
-                const char* wf_custom_static_asset_suffix = ".png";
+                const char* wf_custom_static_asset_suffix = ".bin";
                 const char* wf_custom_gif_asset_suffix = ".gif";
                 const char* wf_custom_bg_asset_name = "background";
 
