@@ -9,7 +9,8 @@
 */
 
 #include "main.h"
-#include <mooncake.h>
+//#include <mooncake.h>
+#include "App.h"
 
 USBD_HandleTypeDef USBD_Device;
 
@@ -18,112 +19,112 @@ static void MPU_Config(void);
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
 
-static   MOONCAKE::Mooncake mooncake_ui;
+//static   MOONCAKE::Mooncake mooncake_ui;
 
-int btn_value = 0;
+//int btn_value = 0;
 
-class AppTest : public MOONCAKE::APP_BASE {
-private:
+//class AppTest : public MOONCAKE::APP_BASE {
+//private:
 
-  lv_obj_t* screen;
-  int bbb1;
-  int bbb2;
+//  lv_obj_t* screen;
+//  int bbb1;
+//  int bbb2;
 
-  uint32_t ticks;
+//  uint32_t ticks;
 
-  static void event_handler(lv_event_t * e)
-  {
-    lv_event_code_t code = lv_event_get_code(e);
+//  static void event_handler(lv_event_t * e)
+//  {
+//    lv_event_code_t code = lv_event_get_code(e);
 
-    if(code == LV_EVENT_CLICKED) {
+//    if(code == LV_EVENT_CLICKED) {
 
-      btn_value = *(int*)lv_event_get_user_data(e);
+//      btn_value = *(int*)lv_event_get_user_data(e);
 
-    }
-  }
-  
-public:
-  AppTest(const char* name, void* icon = nullptr) {
-    setAppName(name);
-    setAppIcon(icon);
-  }
+//    }
+//  }
+//  
+//public:
+//  AppTest(const char* name, void* icon = nullptr) {
+//    setAppName(name);
+//    setAppIcon(icon);
+//  }
 
-  void onSetup() {
-    
-  }
+//  void onSetup() {
+//    
+//  }
 
-  /* Life cycle */
-  void onCreate() {
-    //DEBUG_PRINT("[%s] onCreate\n", getAppName().c_str());
-    setAllowBgRunning(false);
-  }
-  void onResume() {
-    //DEBUG_PRINT("[%s] onResume\n", getAppName().c_str());
-    btn_value = 0;
-
-
-    screen = lv_obj_create(NULL);
-    lv_scr_load_anim(screen, LV_SCR_LOAD_ANIM_MOVE_TOP, 50, 0, false);
+//  /* Life cycle */
+//  void onCreate() {
+//    //DEBUG_PRINT("[%s] onCreate\n", getAppName().c_str());
+//    setAllowBgRunning(false);
+//  }
+//  void onResume() {
+//    //DEBUG_PRINT("[%s] onResume\n", getAppName().c_str());
+//    btn_value = 0;
 
 
-    lv_obj_t * label;
-
-    lv_obj_t * btn1 = lv_btn_create(screen);
-    bbb1 = 1;
-    lv_obj_add_event_cb(btn1, event_handler, LV_EVENT_ALL, (void*)&bbb1);
-    lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -40);
-
-    label = lv_label_create(btn1);
-    // lv_obj_add_flag(btn1, LV_OBJ_FLAG_CHECKABLE);
-    lv_obj_add_state(btn1, LV_STATE_CHECKED);
-    lv_label_set_text(label, "Quit App");
-    lv_obj_center(label);
+//    screen = lv_obj_create(NULL);
+//    lv_scr_load_anim(screen, LV_SCR_LOAD_ANIM_MOVE_TOP, 50, 0, false);
 
 
+//    lv_obj_t * label;
 
-    lv_obj_t * btn2 = lv_btn_create(screen);
-    bbb2 = 2;
-    lv_obj_add_event_cb(btn2, event_handler, LV_EVENT_ALL, (void*)&bbb2);
-    lv_obj_align(btn2, LV_ALIGN_CENTER, 0, 40);
+//    lv_obj_t * btn1 = lv_btn_create(screen);
+//    bbb1 = 1;
+//    lv_obj_add_event_cb(btn1, event_handler, LV_EVENT_ALL, (void*)&bbb1);
+//    lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -40);
 
-    label = lv_label_create(btn2);
-    lv_label_set_text(label, "Run background");
-    lv_obj_center(label);
+//    label = lv_label_create(btn1);
+//    // lv_obj_add_flag(btn1, LV_OBJ_FLAG_CHECKABLE);
+//    lv_obj_add_state(btn1, LV_STATE_CHECKED);
+//    lv_label_set_text(label, "Quit App");
+//    lv_obj_center(label);
 
-  }
-  void onRunning() {
-    // DEBUG_PRINT("[%s] onRunning\n", getAppName().c_str());
 
-    if ((lv_tick_get() - ticks) > 1000) {
-      //DEBUG_PRINT("[%s] onRunning\n", getAppName().c_str());
-      ticks = lv_tick_get();
-    }
-    // DEBUG_PRINT("%d\n", btn_value);
-    if (btn_value == 1) {
-      setAllowBgRunning(false);
-      destroyApp();
-    }
-    else if (btn_value == 2) {
-      setAllowBgRunning(true);
-      closeApp();
-    }
-  }
-  void onRunningBG() {
-    // DEBUG_PRINT("[%s] onRunningBG\n", getAppName().c_str());
 
-    if ((lv_tick_get() - ticks) > 1000) {
-      //DEBUG_PRINT("[%s] onRunningBG\n", getAppName().c_str());
-      ticks = lv_tick_get();
-    }
-  }
-  void onPause() {
-  //            DEBUG_PRINT("[%s] onPause\n", getAppName().c_str());
-  }
-  void onDestroy() {
-  //            DEBUG_PRINT("[%s] onDestroy\n", getAppName().c_str());
-  }
-  
-};
+//    lv_obj_t * btn2 = lv_btn_create(screen);
+//    bbb2 = 2;
+//    lv_obj_add_event_cb(btn2, event_handler, LV_EVENT_ALL, (void*)&bbb2);
+//    lv_obj_align(btn2, LV_ALIGN_CENTER, 0, 40);
+
+//    label = lv_label_create(btn2);
+//    lv_label_set_text(label, "Run background");
+//    lv_obj_center(label);
+
+//  }
+//  void onRunning() {
+//    // DEBUG_PRINT("[%s] onRunning\n", getAppName().c_str());
+
+//    if ((lv_tick_get() - ticks) > 1000) {
+//      //DEBUG_PRINT("[%s] onRunning\n", getAppName().c_str());
+//      ticks = lv_tick_get();
+//    }
+//    // DEBUG_PRINT("%d\n", btn_value);
+//    if (btn_value == 1) {
+//      setAllowBgRunning(false);
+//      destroyApp();
+//    }
+//    else if (btn_value == 2) {
+//      setAllowBgRunning(true);
+//      closeApp();
+//    }
+//  }
+//  void onRunningBG() {
+//    // DEBUG_PRINT("[%s] onRunningBG\n", getAppName().c_str());
+
+//    if ((lv_tick_get() - ticks) > 1000) {
+//      //DEBUG_PRINT("[%s] onRunningBG\n", getAppName().c_str());
+//      ticks = lv_tick_get();
+//    }
+//  }
+//  void onPause() {
+//  //            DEBUG_PRINT("[%s] onPause\n", getAppName().c_str());
+//  }
+//  void onDestroy() {
+//  //            DEBUG_PRINT("[%s] onDestroy\n", getAppName().c_str());
+//  }
+//  
+//};
 FATFS fsA;						/* FatFs文件系统对象 */
 FIL fnew;						/* 文件对象 */
 FRESULT res_flash;              /* 文件操作结果 */
@@ -310,16 +311,16 @@ int main(void) {
     /* 初始化调试串口，一般为串口1 */
   DEBUG_USART_Config();	
   printf("****** usart enable ******\r\n");
-  	res_flash = f_mount(&fsA,"0:",1);
-  if(res_flash!=FR_OK)
-  {
-    printf("！！外部Flash挂载文件系统失败。(%d)\r\n",res_flash);
-    printf("！！可能原因：SPI Flash初始化不成功。\r\n");
-  }
-  else
-  {
-    printf("》文件系统挂载成功，可以进行测试\r\n");    
-  }
+//  	res_flash = f_mount(&fsA,"0:",1);
+//  if(res_flash!=FR_OK)
+//  {
+//    printf("！！外部Flash挂载文件系统失败。(%d)\r\n",res_flash);
+//    printf("！！可能原因：SPI Flash初始化不成功。\r\n");
+//  }
+//  else
+//  {
+//    printf("》文件系统挂载成功，可以进行测试\r\n");    
+//  }
   
 //  /* FatFs多项功能测试 */
 //  res_flash = miscellaneous();
@@ -352,39 +353,40 @@ int main(void) {
 //  printf("res: %d\n", res);
   tft_init();
   touchpad_init();
+    App_Init();
 
 //  lv_demo_benchmark();
 //  lv_demo_music();
-  mooncake_ui.setDisplay(368, 448);
-  mooncake_ui.init();
-  mooncake_ui.installBuiltinApps();
+//  mooncake_ui.setDisplay(368, 448);
+//  mooncake_ui.init();
+//  mooncake_ui.installBuiltinApps();
 
-  /* Install Apps */
-  MOONCAKE::APP_BASE* app_ptr = nullptr;
+//  /* Install Apps */
+//  MOONCAKE::APP_BASE* app_ptr = nullptr;
 
-  app_ptr = new AppTest("333", (void*)&ui_img_app_icon_hdpi_boxing_png);
-  mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("444", (void*)&ui_img_app_icon_hdpi_camera_png);
-  mooncake_ui.install(app_ptr);
-  // app_ptr = new AppTest("555", (void*)&ui_img_app_icon_hdpi_canvas_png);
-  // mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("111", (void*)&ui_img_app_icon_hdpi_badminton_png);
-  mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("222", (void*)&ui_img_app_icon_hdpi_birdhead_png);
-  mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("666", (void*)&ui_img_app_icon_hdpi_cheers_png);
-  mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("999", (void*)&ui_img_app_icon_hdpi_pingpong_png);
-  mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("1010", (void*)&ui_img_app_icon_hdpi_weather_png);
-  mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("777", (void*)&ui_img_app_icon_hdpi_location_png);
-  mooncake_ui.install(app_ptr);
-  app_ptr = new AppTest("888", (void*)&ui_img_app_icon_hdpi_music_png);
-  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("333", (void*)&ui_img_app_icon_hdpi_boxing_png);
+//  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("444", (void*)&ui_img_app_icon_hdpi_camera_png);
+//  mooncake_ui.install(app_ptr);
+//  // app_ptr = new AppTest("555", (void*)&ui_img_app_icon_hdpi_canvas_png);
+//  // mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("111", (void*)&ui_img_app_icon_hdpi_badminton_png);
+//  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("222", (void*)&ui_img_app_icon_hdpi_birdhead_png);
+//  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("666", (void*)&ui_img_app_icon_hdpi_cheers_png);
+//  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("999", (void*)&ui_img_app_icon_hdpi_pingpong_png);
+//  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("1010", (void*)&ui_img_app_icon_hdpi_weather_png);
+//  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("777", (void*)&ui_img_app_icon_hdpi_location_png);
+//  mooncake_ui.install(app_ptr);
+//  app_ptr = new AppTest("888", (void*)&ui_img_app_icon_hdpi_music_png);
+//  mooncake_ui.install(app_ptr);
 
   while(1) {
-      mooncake_ui.update();
+//      mooncake_ui.update();
       lv_task_handler();
       HAL_Delay(5);
     }
