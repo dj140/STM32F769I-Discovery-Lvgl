@@ -10,7 +10,7 @@ void StartupView::Create(lv_obj_t* root)
     lv_obj_t* cont = lv_obj_create(root);
     lv_obj_remove_style_all(cont);
     lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_size(cont, 110, 50);
+    lv_obj_set_size(cont, 283, 140);
     lv_obj_set_style_border_color(cont, COLOR_ORANGE, 0);
     lv_obj_set_style_border_side(cont, LV_BORDER_SIDE_BOTTOM, 0);
     lv_obj_set_style_border_width(cont, 3, 0);
@@ -26,7 +26,7 @@ void StartupView::Create(lv_obj_t* root)
 //    ui.labelLogo = label;
   
     lv_obj_t* img = lv_img_create(cont);
-    lv_img_set_src(img, ResourcePool::GetImage("sd_card"));
+    lv_img_set_src(img, "0:sdcard/boot_anim/shm_logo.bin");
     lv_obj_center(img);
     ui.labelLogo = img;
     

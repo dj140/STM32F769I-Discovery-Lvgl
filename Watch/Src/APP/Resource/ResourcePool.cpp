@@ -49,6 +49,14 @@ do{\
         IMPORT_IMG(system_info);
         IMPORT_IMG(time_info);
         IMPORT_IMG(trip);
+        IMPORT_IMG(bg1_png);
+        IMPORT_IMG(bg2_png);
+        IMPORT_IMG(bg3_png);
+        IMPORT_IMG(clockwise_hour_png);
+        IMPORT_IMG(clockwise_min_png);
+        IMPORT_IMG(clockwise_sec_png);
+        IMPORT_IMG(sec_dot_png);
+
     }
 
 } /* extern "C" */

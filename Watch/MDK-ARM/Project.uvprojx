@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>7</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -3142,6 +3142,41 @@
               <FileName>img_src_trip.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Image\img_src_trip.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_bg1_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_bg1_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_bg2_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_bg2_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_bg3_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_bg3_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_clockwise_hour_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_clockwise_hour_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_clockwise_min_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_clockwise_min_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_clockwise_sec_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_clockwise_sec_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_sec_dot_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_sec_dot_png.c</FilePath>
             </File>
           </Files>
         </Group>

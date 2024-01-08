@@ -40,18 +40,18 @@ void Dialplate::onViewWillAppear()
 
     lv_group_set_wrap(group, false);
 
-    lv_group_add_obj(group, View.ui.btnCont.btnMap);
-    lv_group_add_obj(group, View.ui.btnCont.btnRec);
-    lv_group_add_obj(group, View.ui.btnCont.btnMenu);
+//    lv_group_add_obj(group, View.ui.btnCont.btnMap);
+//    lv_group_add_obj(group, View.ui.btnCont.btnRec);
+//    lv_group_add_obj(group, View.ui.btnCont.btnMenu);
 
-    if (lastFocus)
-    {
-        lv_group_focus_obj(lastFocus);
-    }
-    else
-    {
-        lv_group_focus_obj(View.ui.btnCont.btnRec);
-    }
+//    if (lastFocus)
+//    {
+//        lv_group_focus_obj(lastFocus);
+//    }
+//    else
+//    {
+//        lv_group_focus_obj(View.ui.btnCont.btnRec);
+//    }
 
     Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
 
@@ -92,29 +92,29 @@ void Dialplate::onViewDidUnload()
 
 void Dialplate::AttachEvent(lv_obj_t* obj)
 {
-    lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
+//    lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
 }
 
 void Dialplate::Update()
 {
-    char buf[16];
-    lv_label_set_text_fmt(View.ui.topInfo.labelSpeed, "%02d", (int)Model.GetSpeed());
+//    char buf[16];
+//    lv_label_set_text_fmt(View.ui.topInfo.labelSpeed, "%02d", (int)Model.GetSpeed());
 
-    lv_label_set_text_fmt(View.ui.bottomInfo.labelInfoGrp[0].lableValue, "%0.1f km/h", Model.GetAvgSpeed());
-//    lv_label_set_text(
-//        View.ui.bottomInfo.labelInfoGrp[1].lableValue,
-//        DataProc::MakeTimeString(Model.sportStatusInfo.singleTime, buf, sizeof(buf))
+//    lv_label_set_text_fmt(View.ui.bottomInfo.labelInfoGrp[0].lableValue, "%0.1f km/h", Model.GetAvgSpeed());
+////    lv_label_set_text(
+////        View.ui.bottomInfo.labelInfoGrp[1].lableValue,
+////        DataProc::MakeTimeString(Model.sportStatusInfo.singleTime, buf, sizeof(buf))
+////    );
+//    lv_label_set_text_fmt(
+//        View.ui.bottomInfo.labelInfoGrp[2].lableValue,
+//        "%0.1f km",
+//        Model.sportStatusInfo.singleDistance / 1000
 //    );
-    lv_label_set_text_fmt(
-        View.ui.bottomInfo.labelInfoGrp[2].lableValue,
-        "%0.1f km",
-        Model.sportStatusInfo.singleDistance / 1000
-    );
-    lv_label_set_text_fmt(
-        View.ui.bottomInfo.labelInfoGrp[3].lableValue,
-        "%d k",
-        int(Model.sportStatusInfo.singleCalorie)
-    );
+//    lv_label_set_text_fmt(
+//        View.ui.bottomInfo.labelInfoGrp[3].lableValue,
+//        "%d k",
+//        int(Model.sportStatusInfo.singleCalorie)
+//    );
 }
 
 void Dialplate::onTimerUpdate(lv_timer_t* timer)
