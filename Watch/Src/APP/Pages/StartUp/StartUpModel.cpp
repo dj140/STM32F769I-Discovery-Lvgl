@@ -11,11 +11,11 @@ void StartupModel::Init()
 
 void StartupModel::Deinit()
 {
-    if (account)
-    {
-        delete account;
-        account = nullptr;
-    }
+//    if (account)
+//    {
+//        delete account;
+//        account = nullptr;
+//    }
 }
 
 void StartupModel::PlayMusic(const char* music)

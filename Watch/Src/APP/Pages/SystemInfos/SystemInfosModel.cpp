@@ -5,25 +5,25 @@ using namespace Page;
 
 void SystemInfosModel::Init()
 {
-    account = new Account("SystemInfosModel", DataProc::Center(), 0, this);
+//    account = new Account("SystemInfosModel", DataProc::Center(), 0, this);
 
-    account->Subscribe("SportStatus");
-    account->Subscribe("GPS");
-    account->Subscribe("MAG");
-    account->Subscribe("IMU");
-    account->Subscribe("Clock");
-    account->Subscribe("Power");
-    account->Subscribe("Storage");
-    account->Subscribe("StatusBar");
+//    account->Subscribe("SportStatus");
+//    account->Subscribe("GPS");
+//    account->Subscribe("MAG");
+//    account->Subscribe("IMU");
+//    account->Subscribe("Clock");
+//    account->Subscribe("Power");
+//    account->Subscribe("Storage");
+//    account->Subscribe("StatusBar");
 }
 
 void SystemInfosModel::Deinit()
 {
-    if (account)
-    {
-        delete account;
-        account = nullptr;
-    }
+//    if (account)
+//    {
+//        delete account;
+//        account = nullptr;
+//    }
 }
 
 void SystemInfosModel::GetSportInfo(
@@ -33,9 +33,9 @@ void SystemInfosModel::GetSportInfo(
 )
 {
     HAL::SportStatus_Info_t sport = { 0 };
-    account->Pull("SportStatus", &sport, sizeof(sport));
+//    account->Pull("SportStatus", &sport, sizeof(sport));
     *trip = sport.totalDistance / 1000;
-    DataProc::MakeTimeString(sport.totalTime, time, len);
+//    DataProc::MakeTimeString(sport.totalTime, time, len);
     *maxSpd = sport.speedMaxKph;
 }
 
@@ -164,5 +164,5 @@ void SystemInfosModel::SetStatusBarStyle(DataProc::StatusBar_Style_t style)
     info.cmd = DataProc::STATUS_BAR_CMD_SET_STYLE;
     info.param.style = style;
 
-    account->Notify("StatusBar", &info, sizeof(info));
+//    account->Notify("StatusBar", &info, sizeof(info));
 }

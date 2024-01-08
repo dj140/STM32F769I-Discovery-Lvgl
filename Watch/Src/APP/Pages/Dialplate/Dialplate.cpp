@@ -101,10 +101,10 @@ void Dialplate::Update()
     lv_label_set_text_fmt(View.ui.topInfo.labelSpeed, "%02d", (int)Model.GetSpeed());
 
     lv_label_set_text_fmt(View.ui.bottomInfo.labelInfoGrp[0].lableValue, "%0.1f km/h", Model.GetAvgSpeed());
-    lv_label_set_text(
-        View.ui.bottomInfo.labelInfoGrp[1].lableValue,
-        DataProc::MakeTimeString(Model.sportStatusInfo.singleTime, buf, sizeof(buf))
-    );
+//    lv_label_set_text(
+//        View.ui.bottomInfo.labelInfoGrp[1].lableValue,
+//        DataProc::MakeTimeString(Model.sportStatusInfo.singleTime, buf, sizeof(buf))
+//    );
     lv_label_set_text_fmt(
         View.ui.bottomInfo.labelInfoGrp[2].lableValue,
         "%0.1f km",

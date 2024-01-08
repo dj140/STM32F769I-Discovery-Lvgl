@@ -125,7 +125,7 @@ static void CPU_CACHE_Enable(void);
 //  }
 //  
 //};
-FATFS fsA;						/* FatFs文件系统对象 */
+FATFS fs;						/* FatFs文件系统对象 */
 FIL fnew;						/* 文件对象 */
 FRESULT res_flash;              /* 文件操作结果 */
 UINT fnum;            			/* 文件成功读写数量 */
@@ -152,8 +152,8 @@ static FRESULT miscellaneous(void)
   printf("\n******** 文件定位和格式化写入功能测试 ********\r\n");
   res_flash = f_open(&fnew, "A:FatFs.txt",
                             FA_OPEN_ALWAYS|FA_WRITE|FA_READ );
-	if ( res_flash == FR_OK )
-	{
+  if ( res_flash == FR_OK )
+  {
     /*  文件定位 */
     res_flash = f_lseek(&fnew,f_size(&fnew));
     if (res_flash == FR_OK)
@@ -192,7 +192,7 @@ static FRESULT miscellaneous(void)
       /* 重命名并移动文件 */
       res_flash=f_rename("A:FatFsa.txt","1:TestDir/testdir.txt");      
     } 
-	}
+  }
   else
   {
     printf("!! 打开文件失败：%d\n",res_flash);
@@ -268,7 +268,7 @@ static FRESULT scan_files (char* path)
       if (*fn == '.') continue; 	
       //目录，递归读取      
       if (fno.fattrib & AM_DIR)         
-			{ 			
+      {
         //合成完整目录名        
         sprintf(&path[i], "/%s", fn); 		
         //递归遍历         
@@ -276,11 +276,11 @@ static FRESULT scan_files (char* path)
         path[i] = 0;         
         //打开失败，跳出循环        
         if (res != FR_OK) 
-					break; 
+          break; 
       } 
-			else 
-			{ 
-				printf("%s/%s\r\n", path, fn);								//输出文件名	
+      else 
+      { 
+        printf("%s/%s\r\n", path, fn);								//输出文件名	
         /* 可以在这里提取特定格式的文件路径 */        
       }//else
     } //for
@@ -311,16 +311,16 @@ int main(void) {
     /* 初始化调试串口，一般为串口1 */
   DEBUG_USART_Config();	
   printf("****** usart enable ******\r\n");
-//  	res_flash = f_mount(&fsA,"0:",1);
-//  if(res_flash!=FR_OK)
-//  {
-//    printf("！！外部Flash挂载文件系统失败。(%d)\r\n",res_flash);
-//    printf("！！可能原因：SPI Flash初始化不成功。\r\n");
-//  }
-//  else
-//  {
-//    printf("》文件系统挂载成功，可以进行测试\r\n");    
-//  }
+  res_flash = f_mount(&fs,"0:",1);
+  if(res_flash!=FR_OK)
+  {
+    printf("！！外部Flash挂载文件系统失败。(%d)\r\n",res_flash);
+    printf("！！可能原因：SPI Flash初始化不成功。\r\n");
+  }
+  else
+  {
+    printf("》文件系统挂载成功，可以进行测试\r\n");    
+  }
   
 //  /* FatFs多项功能测试 */
 //  res_flash = miscellaneous();
@@ -353,7 +353,7 @@ int main(void) {
 //  printf("res: %d\n", res);
   tft_init();
   touchpad_init();
-    App_Init();
+  App_Init();
 
 //  lv_demo_benchmark();
 //  lv_demo_music();

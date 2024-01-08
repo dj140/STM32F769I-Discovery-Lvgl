@@ -4,31 +4,31 @@ using namespace Page;
 
 void DialplateModel::Init()
 {
-    account = new Account("DialplateModel", DataProc::Center(), 0, this);
-    account->Subscribe("SportStatus");
-    account->Subscribe("Recorder");
-    account->Subscribe("StatusBar");
-    account->Subscribe("GPS");
-    account->Subscribe("MusicPlayer");
-    account->SetEventCallback(onEvent);
+//    account = new Account("DialplateModel", DataProc::Center(), 0, this);
+//    account->Subscribe("SportStatus");
+//    account->Subscribe("Recorder");
+//    account->Subscribe("StatusBar");
+//    account->Subscribe("GPS");
+//    account->Subscribe("MusicPlayer");
+//    account->SetEventCallback(onEvent);
 }
 
 void DialplateModel::Deinit()
 {
-    if (account)
-    {
-        delete account;
-        account = nullptr;
-    }
+//    if (account)
+//    {
+//        delete account;
+//        account = nullptr;
+//    }
 }
 
 bool DialplateModel::GetGPSReady()
 {
     HAL::GPS_Info_t gps;
-    if(account->Pull("GPS", &gps, sizeof(gps)) != Account::RES_OK)
-    {
-        return false;
-    }
+//    if(account->Pull("GPS", &gps, sizeof(gps)) != Account::RES_OK)
+//    {
+//        return false;
+//    }
     return (gps.satellites > 0);
 }
 
@@ -59,7 +59,7 @@ void DialplateModel::RecorderCommand(RecCmd_t cmd)
         DATA_PROC_INIT_STRUCT(recInfo);
         recInfo.cmd = (DataProc::Recorder_Cmd_t)cmd;
         recInfo.time = 1000;
-        account->Notify("Recorder", &recInfo, sizeof(recInfo));
+//        account->Notify("Recorder", &recInfo, sizeof(recInfo));
     }
 
     DataProc::StatusBar_Info_t statInfo;
@@ -88,7 +88,7 @@ void DialplateModel::RecorderCommand(RecCmd_t cmd)
         break;
     }
 
-    account->Notify("StatusBar", &statInfo, sizeof(statInfo));
+//    account->Notify("StatusBar", &statInfo, sizeof(statInfo));
 }
 
 void DialplateModel::PlayMusic(const char* music)
@@ -97,7 +97,7 @@ void DialplateModel::PlayMusic(const char* music)
     DATA_PROC_INIT_STRUCT(info);
 
     info.music = music;
-    account->Notify("MusicPlayer", &info, sizeof(info));
+//    account->Notify("MusicPlayer", &info, sizeof(info));
 }
 
 void DialplateModel::SetStatusBarStyle(DataProc::StatusBar_Style_t style)
@@ -108,5 +108,5 @@ void DialplateModel::SetStatusBarStyle(DataProc::StatusBar_Style_t style)
     info.cmd = DataProc::STATUS_BAR_CMD_SET_STYLE;
     info.param.style = style;
 
-    account->Notify("StatusBar", &info, sizeof(info));
+//    account->Notify("StatusBar", &info, sizeof(info));
 }

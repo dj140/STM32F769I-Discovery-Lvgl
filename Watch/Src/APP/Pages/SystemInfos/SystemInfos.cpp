@@ -88,8 +88,8 @@ void SystemInfos::Update()
     /* Sport */
     float trip;
     float maxSpd;
-    Model.GetSportInfo(&trip, buf, sizeof(buf), &maxSpd);
-    View.SetSport(trip, buf, maxSpd);
+//    Model.GetSportInfo(&trip, buf, sizeof(buf), &maxSpd);
+//    View.SetSport(trip, buf, maxSpd);
 
     /* GPS */
     float lat;
@@ -97,45 +97,45 @@ void SystemInfos::Update()
     float alt;
     float course;
     float speed;
-    Model.GetGPSInfo(&lat, &lng, &alt, buf, sizeof(buf), &course, &speed);
-    View.SetGPS(lat, lng, alt, buf, course, speed);
+//    Model.GetGPSInfo(&lat, &lng, &alt, buf, sizeof(buf), &course, &speed);
+//    View.SetGPS(lat, lng, alt, buf, course, speed);
 
     /* MAG */
     float dir;
     int x;
     int y;
     int z;
-    Model.GetMAGInfo(&dir, &x, &y, &z);
-    View.SetMAG(dir, x, y, z);
+//    Model.GetMAGInfo(&dir, &x, &y, &z);
+//    View.SetMAG(dir, x, y, z);
 
     /* IMU */
     int steps;
-    Model.GetIMUInfo(&steps, buf, sizeof(buf));
-    View.SetIMU(steps, buf);
+//    Model.GetIMUInfo(&steps, buf, sizeof(buf));
+//    View.SetIMU(steps, buf);
 
     /* RTC */
-    Model.GetRTCInfo(buf, sizeof(buf));
-    View.SetRTC(buf);
+//    Model.GetRTCInfo(buf, sizeof(buf));
+//    View.SetRTC(buf);
 
     /* Power */
     int usage;
     float voltage;
-    Model.GetBatteryInfo(&usage, &voltage, buf, sizeof(buf));
-    View.SetBattery(usage, voltage, buf);
+//    Model.GetBatteryInfo(&usage, &voltage, buf, sizeof(buf));
+//    View.SetBattery(usage, voltage, buf);
 
     /* Storage */
     bool detect;
     const char* type = "-";
-    Model.GetStorageInfo(&detect, &type, buf, sizeof(buf));
-    View.SetStorage(
-        detect ? "OK" : "ERROR",
-        buf,
-        type,
-        VERSION_FILESYSTEM
-    );
+//    Model.GetStorageInfo(&detect, &type, buf, sizeof(buf));
+//    View.SetStorage(
+//        detect ? "OK" : "ERROR",
+//        buf,
+//        type,
+//        VERSION_FILESYSTEM
+//    );
 
     /* System */
-    DataProc::MakeTimeString(lv_tick_get(), buf, sizeof(buf));
+//    DataProc::MakeTimeString(lv_tick_get(), buf, sizeof(buf));
     View.SetSystem(
         VERSION_FIRMWARE_NAME " " VERSION_SOFTWARE,
         VERSION_AUTHOR_NAME,

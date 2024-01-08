@@ -2721,6 +2721,135 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>App/Page/Dialplate</GroupName>
+          <Files>
+            <File>
+              <FileName>Dialplate.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\Dialplate\Dialplate.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DialplateModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\Dialplate\DialplateModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DialplateView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\Dialplate\DialplateView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App/Page/LiveMap</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>0</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>0</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>0</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <uGnu>2</uGnu>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <vShortEn>2</vShortEn>
+                <vShortWch>2</vShortWch>
+                <v6Lto>2</v6Lto>
+                <v6WtE>2</v6WtE>
+                <v6Rtti>2</v6Rtti>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <ClangAsOpt>0</ClangAsOpt>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
+          <Files>
+            <File>
+              <FileName>LiveMap.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\LiveMap\LiveMap.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>LiveMapModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\LiveMap\LiveMapModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>LiveMapView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\LiveMap\LiveMapView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App/Page/SystemInfos</GroupName>
+          <Files>
+            <File>
+              <FileName>SystemInfos.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\SystemInfos\SystemInfos.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SystemInfosModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\SystemInfos\SystemInfosModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SystemInfosView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\SystemInfos\SystemInfosView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Utils/DataCenter</GroupName>
           <Files>
             <File>
@@ -2792,6 +2921,11 @@
               <FileName>lv_anim_timeline_wrapper.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_obj_ext_func.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Utils\lv_ext\lv_obj_ext_func.cpp</FilePath>
             </File>
           </Files>
         </Group>
