@@ -11,7 +11,7 @@
 #include "launcher.h"
 #include "../../system_data_def.h"
 #include "../assets/assets.h"
-#define DEBUG_PRINT(...)
+//#define printf(...)
 
 
 #define SCROLL_VER          1
@@ -52,7 +52,7 @@ namespace MOONCAKE {
             else if (code == LV_EVENT_LONG_PRESSED) {
                 /* Get App pointer */
                 APP_BASE* app = (APP_BASE*)lv_obj_get_user_data(lv_event_get_target(e));
-                // DEBUG_PRINT("%s\n", app->getAppName().c_str());
+                // printf("%s\n", app->getAppName().c_str());
 
                 /* Draw a message box to show App infos */
                 static const char * btns[] = {""};
@@ -158,12 +158,12 @@ namespace MOONCAKE {
             /* Update time */
             if (getDatabase()->Get(MC_TIME)->addr != nullptr) {
                 /* Hour */
-                DEBUG_PRINT(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().hour);
+                printf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().hour);
 //                lv_label_set_text(_data.infoClockHour, _data.infoUpdateBuffer);
                 lv_label_set_text(_data.infoClockHour, "23");
 
                 /* Min */
-                DEBUG_PRINT(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().min);
+                printf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().min);
 //                lv_label_set_text(_data.infoClockMin, _data.infoUpdateBuffer);
                   lv_label_set_text(_data.infoClockMin, "32");
 
@@ -172,7 +172,7 @@ namespace MOONCAKE {
             /* Update Battery */
             if (getDatabase()->Get(MC_BATTERY_LEVEL)->addr != nullptr) {
                 /* Level */
-                DEBUG_PRINT(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%d%%", getDatabase()->Get(MC_BATTERY_LEVEL)->value<uint8_t>());
+                printf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%d%%", getDatabase()->Get(MC_BATTERY_LEVEL)->value<uint8_t>());
 //                lv_label_set_text(_data.infoBatLevel, _data.infoUpdateBuffer);
                 lv_label_set_text(_data.infoBatLevel, "96%");
             }
@@ -180,7 +180,7 @@ namespace MOONCAKE {
             /* Update step counter */
             if (getDatabase()->Get(MC_STEPS)->addr != nullptr) {
                 /* Level */
-                DEBUG_PRINT(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%ld steps!", getDatabase()->Get(MC_STEPS)->value<uint32_t>());
+                printf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%ld steps!", getDatabase()->Get(MC_STEPS)->value<uint32_t>());
 //                lv_label_set_text(_data.infoStepCounter, _data.infoUpdateBuffer);
                 lv_label_set_text(_data.infoStepCounter, "2366 steps!");
 
@@ -229,7 +229,11 @@ namespace MOONCAKE {
 
             /* Update bubble config */
             _bubble_cfg.iconColMax = _data.appPanelHor / USING_ICON.header.w;
+            printf("iconColMax: %d \n",_bubble_cfg.iconColMax);
+
             _bubble_cfg.iconRowMax = _data.appPanelVer / USING_ICON.header.h;
+            printf("iconColMax: %d \n",_bubble_cfg.iconRowMax);
+            
             _bubble_cfg.iconColNum = (_framework->getAppNum() - 1) / _bubble_cfg.iconRowMax;
             if (((_framework->getAppNum() - 1) % _bubble_cfg.iconRowMax) != 0) {
                 _bubble_cfg.iconColNum++;
@@ -276,9 +280,11 @@ namespace MOONCAKE {
                 /* Put App in hexagon mesh */
                 if (!is_long_row) {
                     lv_obj_set_pos(app, icon_x + _bubble_cfg.iconSpaceX / 2 + _bubble_cfg.iconXoffset, icon_y + _bubble_cfg.iconYoffset);
+                    printf("is_long_row  x: %d, y:  %d \n",icon_x + _bubble_cfg.iconSpaceX / 2,icon_y + _bubble_cfg.iconYoffset);
                 }
                 else {
                     lv_obj_set_pos(app, icon_x + _bubble_cfg.iconXoffset, icon_y + _bubble_cfg.iconYoffset);
+                    printf("is_short_row  x: %d, y:  %d \n",icon_x + _bubble_cfg.iconXoffset,icon_y + _bubble_cfg.iconYoffset);
                 }
 
                 /* Go to next col */
@@ -317,7 +323,7 @@ namespace MOONCAKE {
                 /* Next row */
                 if ((icon_x / _bubble_cfg.iconSpaceX) >= _bubble_cfg.iconColNum) {
                     is_long_row = is_long_row ? false : true;
-                    DEBUG_PRINT("%d\n", is_long_row);
+                    printf("%d\n", is_long_row);
                     icon_x = 0;
                     icon_y += _bubble_cfg.iconSpaceY;
                 }
@@ -462,7 +468,7 @@ namespace MOONCAKE {
         /* Life cycle */
         void Launcher::onCreate()
         {
-            DEBUG_PRINT("[%s] onCreate\n", getAppName().c_str());
+            printf("[%s] onCreate\n", getAppName().c_str());
 
             /* Get hardware infos from database */
             _data.dispHor = (int16_t*)getDatabase()->Get(MC_DISP_HOR)->addr;
@@ -492,7 +498,7 @@ namespace MOONCAKE {
 
         void Launcher::onResume()
         {
-            DEBUG_PRINT("[%s] onResume\n", getAppName().c_str());
+            printf("[%s] onResume\n", getAppName().c_str());
 
 
             
@@ -506,7 +512,7 @@ namespace MOONCAKE {
 
         void Launcher::onRunning()
         {
-            // DEBUG_PRINT("[%s] onRunning\n", getAppName().c_str());
+            // printf("[%s] onRunning\n", getAppName().c_str());
 
 
             /* Update infos */
@@ -521,7 +527,7 @@ namespace MOONCAKE {
 
         void Launcher::onRunningBG()
         {
-            // DEBUG_PRINT("[%s] onRunningBG\n", getAppName().c_str());
+            // printf("[%s] onRunningBG\n", getAppName().c_str());
 
             /* If no App is running on foreground */
             if (!_framework->isAnyAppRunningFG()) {
@@ -532,13 +538,13 @@ namespace MOONCAKE {
 
         void Launcher::onPause()
         {
-            DEBUG_PRINT("[%s] onPause\n", getAppName().c_str());
+            printf("[%s] onPause\n", getAppName().c_str());
         }
 
 
         void Launcher::onDestroy()
         {
-            DEBUG_PRINT("[%s] onDestroy\n", getAppName().c_str());
+            printf("[%s] onDestroy\n", getAppName().c_str());
         }
 
 

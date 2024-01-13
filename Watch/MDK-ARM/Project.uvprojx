@@ -3178,6 +3178,21 @@
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Image\img_src_sec_dot_png.c</FilePath>
             </File>
+            <File>
+              <FileName>img_src_app_icon_hdpi_boxing_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_app_icon_hdpi_boxing_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_app_icon_hdpi_pingpong_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_app_icon_hdpi_pingpong_png.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_app_icon_hdpi_settings_png.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_src_app_icon_hdpi_settings_png.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3207,6 +3222,11 @@
               <FileName>font_bahnschrift_65.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Font\font_bahnschrift_65.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_Number_extra.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Font\font_Number_extra.c</FilePath>
             </File>
           </Files>
         </Group>

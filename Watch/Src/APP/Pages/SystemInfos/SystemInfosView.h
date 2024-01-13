@@ -32,7 +32,45 @@ public:
         item_t storage;
         item_t system;
     } ui;
+    struct  {
+        /* Display data */
+        int16_t* dispHor = nullptr;
+        int16_t* dispVer = nullptr;
+        bool dispModePortrait = false;
+        bool is_long_row = true;
+        int icon_x = 0;
+        int icon_y = 0;
+        /* Widget */
+        lv_obj_t* screenMain = nullptr;
 
+        lv_obj_t* appPanel = nullptr;
+        lv_coord_t appPanelHor = 0;
+        lv_coord_t appPanelVer = 0;
+
+        lv_obj_t* infoPanel = nullptr;
+        lv_coord_t infoPanelHor = 0;
+        lv_coord_t infoPanelVer = 0;
+        lv_obj_t* infoClockHour = nullptr;
+        lv_obj_t* infoClockMin = nullptr;
+        lv_obj_t* infoStepCounter = nullptr;
+        lv_obj_t* infoBatLevel = nullptr;
+        lv_obj_t* infoBatIcon = nullptr;
+        lv_obj_t* infoWifiIcon = nullptr;
+        lv_obj_t* infoBleIcon = nullptr;
+        lv_obj_t* infoNoteIcon = nullptr;
+
+        uint32_t infoUpdateTickCount = 0;
+        char infoUpdateBuffer[24];
+    }LauncherData_t;
+    struct BubbleConfig_t {
+        lv_coord_t iconColMax = 0;
+        lv_coord_t iconColNum = 0;
+        lv_coord_t iconRowMax = 0;
+        lv_coord_t iconSpaceX = 0;
+        lv_coord_t iconSpaceY = 0;
+        lv_coord_t iconXoffset = 0;
+        lv_coord_t iconYoffset = 0;
+    };
 public:
     void SetSport(
         float trip,
@@ -81,6 +119,8 @@ public:
     );
 
     void SetScrollToY(lv_obj_t* obj, lv_coord_t y, lv_anim_enable_t en);
+    void updateAppIconZoom(lv_obj_t* obj);
+
     static void onFocus(lv_group_t* e);
 
 private:
@@ -94,14 +134,15 @@ private:
 
 private:
     void Group_Init();
+    BubbleConfig_t _bubble_cfg;
+    void create_app_panel(lv_obj_t* par);
     void Style_Init();
     void Style_Reset();
     void Item_Create(
         item_t* item,
         lv_obj_t* par,
         const char* name,
-        const char* img_src,
-        const char* infos
+        const char* img_src
     );
 };
 

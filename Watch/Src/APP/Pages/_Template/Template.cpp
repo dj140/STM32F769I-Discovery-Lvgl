@@ -1,5 +1,5 @@
 #include "Template.h"
-
+#include "stdio.h"
 using namespace Page;
 
 Template::Template()
@@ -21,13 +21,13 @@ void Template::onCustomAttrConfig()
 
 void Template::onViewLoad()
 {
-    LV_LOG_USER("begin");
+    printf("Template begin");
     View.Create(_root);
-    lv_label_set_text(View.ui.labelTitle, _Name);
+//    lv_label_set_text(View.ui.labelTitle, _Name);
 
-    AttachEvent(_root);
+//    AttachEvent(_root);
 
-    Model.TickSave = Model.GetData();
+//    Model.TickSave = Model.GetData();
 }
 
 void Template::onViewDidLoad()
@@ -83,7 +83,7 @@ void Template::AttachEvent(lv_obj_t* obj)
 
 void Template::Update()
 {
-    lv_label_set_text_fmt(View.ui.labelTick, "tick = %d save = %d", Model.GetData(), Model.TickSave);
+//    lv_label_set_text_fmt(View.ui.labelTick, "tick = %d save = %d", Model.GetData(), Model.TickSave);
 }
 
 void Template::onTimerUpdate(lv_timer_t* timer)

@@ -25,6 +25,7 @@ do{\
         IMPORT_FONT(bahnschrift_32);
         IMPORT_FONT(bahnschrift_65);
         IMPORT_FONT(agencyb_36);
+        IMPORT_FONT(Number_extra);
 
         /* Import Images */
         IMPORT_IMG(alarm);
@@ -56,7 +57,9 @@ do{\
         IMPORT_IMG(clockwise_min_png);
         IMPORT_IMG(clockwise_sec_png);
         IMPORT_IMG(sec_dot_png);
-
+        IMPORT_IMG(app_icon_hdpi_boxing_png);
+        IMPORT_IMG(app_icon_hdpi_pingpong_png);
+        IMPORT_IMG(app_icon_hdpi_settings_png);
     }
 
 } /* extern "C" */

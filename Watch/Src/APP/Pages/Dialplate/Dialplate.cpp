@@ -21,10 +21,11 @@ void Dialplate::onViewLoad()
 {
     Model.Init();
     View.Create(_root);
+    AttachEvent(_root);
 
-    AttachEvent(View.ui.btnCont.btnMap);
-    AttachEvent(View.ui.btnCont.btnRec);
-    AttachEvent(View.ui.btnCont.btnMenu);
+    AttachEvent(View.ui.bottomInfo.cont);
+//    AttachEvent(View.ui.btnCont.btnRec);
+//    AttachEvent(View.ui.btnCont.btnMenu);
 }
 
 void Dialplate::onViewDidLoad()
@@ -92,7 +93,7 @@ void Dialplate::onViewDidUnload()
 
 void Dialplate::AttachEvent(lv_obj_t* obj)
 {
-//    lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
+    lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
 }
 
 void Dialplate::Update()
@@ -215,21 +216,26 @@ void Dialplate::onEvent(lv_event_t* event)
     lv_obj_t* obj = lv_event_get_current_target(event);
     lv_event_code_t code = lv_event_get_code(event);
 
-
-    if (code == LV_EVENT_SHORT_CLICKED)
+    if (code == LV_EVENT_GESTURE)
     {
-        instance->onBtnClicked(obj);
-    }
-
-    if (obj == instance->View.ui.btnCont.btnRec)
-    {
-        if (code == LV_EVENT_SHORT_CLICKED)
-        {
-            instance->onRecord(false);
-        }
-        else if (code == LV_EVENT_LONG_PRESSED)
-        {
-            instance->onRecord(true);
+        if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+            instance->_Manager->Push("Pages/SystemInfos");
         }
     }
+//    if (code == LV_EVENT_SHORT_CLICKED)
+//    {
+//        instance->onBtnClicked(obj);
+//    }
+
+//    if (obj == instance->View.ui.btnCont.btnRec)
+//    {
+//        if (code == LV_EVENT_SHORT_CLICKED)
+//        {
+//            instance->onRecord(false);
+//        }
+//        else if (code == LV_EVENT_LONG_PRESSED)
+//        {
+//            instance->onRecord(true);
+//        }
+//    }
 }

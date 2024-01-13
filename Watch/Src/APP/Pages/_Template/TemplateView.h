@@ -10,6 +10,8 @@ class TemplateView
 {
 public:
     void Create(lv_obj_t* root);
+    void Get_image_name();
+    uint32_t Storage_GetDirectoryBitmapFiles (const char* DirName, char* Files[]);
 
 public:
     struct

@@ -21,13 +21,17 @@ void SystemInfos::onViewLoad()
 {
     Model.Init();
     View.Create(_root);
-    AttachEvent(_root);
+    //AttachEvent(_root);
+    //lv_obj_add_event_cb(View.LauncherData_t.appPanel, onEvent, LV_EVENT_SCROLL, this);
 
-    SystemInfosView::item_t* item_grp = ((SystemInfosView::item_t*)&View.ui);
+    AttachEvent(View.LauncherData_t.appPanel);
+    //AttachEvent(View.ui.sport.cont);
+
+   SystemInfosView::item_t* item_grp = ((SystemInfosView::item_t*)&View.ui);
 
     for (int i = 0; i < sizeof(View.ui) / sizeof(SystemInfosView::item_t); i++)
     {
-        AttachEvent(item_grp[i].icon);
+        AttachEvent(item_grp[i].cont);
     }
 }
 
@@ -43,21 +47,21 @@ void SystemInfos::onViewWillAppear()
     timer = lv_timer_create(onTimerUpdate, 1000, this);
     lv_timer_ready(timer);
 
-    View.SetScrollToY(_root, -LV_VER_RES, LV_ANIM_OFF);
+    //View.SetScrollToY(_root, -LV_VER_RES, LV_ANIM_OFF);
     lv_obj_set_style_opa(_root, LV_OPA_TRANSP, 0);
     lv_obj_fade_in(_root, 300, 0);
 }
 
 void SystemInfos::onViewDidAppear()
 {
-    lv_group_t* group = lv_group_get_default();
-    LV_ASSERT_NULL(group);
-    View.onFocus(group);
+    //lv_group_t* group = lv_group_get_default();
+    //LV_ASSERT_NULL(group);
+    //View.onFocus(group);
 }
 
 void SystemInfos::onViewWillDisappear()
 {
-    lv_obj_fade_out(_root, 300, 0);
+    //lv_obj_fade_out(_root, 300, 0);
 }
 
 void SystemInfos::onViewDidDisappear()
@@ -83,67 +87,7 @@ void SystemInfos::AttachEvent(lv_obj_t* obj)
 
 void SystemInfos::Update()
 {
-    char buf[64];
 
-    /* Sport */
-    float trip;
-    float maxSpd;
-//    Model.GetSportInfo(&trip, buf, sizeof(buf), &maxSpd);
-//    View.SetSport(trip, buf, maxSpd);
-
-    /* GPS */
-    float lat;
-    float lng;
-    float alt;
-    float course;
-    float speed;
-//    Model.GetGPSInfo(&lat, &lng, &alt, buf, sizeof(buf), &course, &speed);
-//    View.SetGPS(lat, lng, alt, buf, course, speed);
-
-    /* MAG */
-    float dir;
-    int x;
-    int y;
-    int z;
-//    Model.GetMAGInfo(&dir, &x, &y, &z);
-//    View.SetMAG(dir, x, y, z);
-
-    /* IMU */
-    int steps;
-//    Model.GetIMUInfo(&steps, buf, sizeof(buf));
-//    View.SetIMU(steps, buf);
-
-    /* RTC */
-//    Model.GetRTCInfo(buf, sizeof(buf));
-//    View.SetRTC(buf);
-
-    /* Power */
-    int usage;
-    float voltage;
-//    Model.GetBatteryInfo(&usage, &voltage, buf, sizeof(buf));
-//    View.SetBattery(usage, voltage, buf);
-
-    /* Storage */
-    bool detect;
-    const char* type = "-";
-//    Model.GetStorageInfo(&detect, &type, buf, sizeof(buf));
-//    View.SetStorage(
-//        detect ? "OK" : "ERROR",
-//        buf,
-//        type,
-//        VERSION_FILESYSTEM
-//    );
-
-    /* System */
-//    DataProc::MakeTimeString(lv_tick_get(), buf, sizeof(buf));
-    View.SetSystem(
-        VERSION_FIRMWARE_NAME " " VERSION_SOFTWARE,
-        VERSION_AUTHOR_NAME,
-        VERSION_LVGL,
-        buf,
-        VERSION_COMPILER,
-        VERSION_BUILD_TIME
-    );
 }
 
 void SystemInfos::onTimerUpdate(lv_timer_t* timer)
@@ -160,20 +104,57 @@ void SystemInfos::onEvent(lv_event_t* event)
 
     lv_obj_t* obj = lv_event_get_current_target(event);
     lv_event_code_t code = lv_event_get_code(event);
+    //LV_LOG_USER("LV_EVENT_GESTURE %d", code);
 
-    if (code == LV_EVENT_PRESSED)
+    if (code == LV_EVENT_GESTURE)
     {
-        if (lv_obj_has_state(obj, LV_STATE_FOCUSED))
-        {
+        LV_LOG_USER("LV_EVENT_GESTURE %d", code);
+
+        if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+            instance->_Manager->Pop();
+        }
+        if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
             instance->_Manager->Pop();
         }
     }
-
-    if (obj == instance->_root)
+    if (obj != instance->View.LauncherData_t.appPanel)
     {
-        if (code == LV_EVENT_LEAVE)
-        {
-            instance->_Manager->Pop();
+        /* Pressed feedback */
+        if (code == LV_EVENT_PRESSED) {
+            /* If pressed, smaller Icon */
+            lv_img_set_zoom(lv_event_get_target(event), lv_img_get_zoom(lv_event_get_target(event)) - 10);
+        }
+        if (code == LV_EVENT_RELEASED) {
+            /* If released, set it back */
+            lv_img_set_zoom(lv_event_get_target(event), lv_img_get_zoom(lv_event_get_target(event)) + 10);
         }
     }
+    /* If scrolling, update Icon zooming */
+    if (code == LV_EVENT_SCROLL) {
+        /* Get launcher pointer */
+        instance->View.updateAppIconZoom(instance->View.LauncherData_t.appPanel);
+    }
+    /* Start App */
+    if (code == LV_EVENT_SHORT_CLICKED) {
+        if (obj == instance->View.ui.sport.cont)
+        {
+            instance->_Manager->Push("Pages/_Template");
+        }
+
+    }
+    //if (code == LV_EVENT_PRESSED)
+    //{
+    //    if (lv_obj_has_state(obj, LV_STATE_FOCUSED))
+    //    {
+    //        instance->_Manager->Pop();
+    //    }
+    //}
+
+    //if (obj == instance->_root)
+    //{
+    //    if (code == LV_EVENT_LEAVE)
+    //    {
+    //        instance->_Manager->Pop();
+    //    }
+    //}
 }
