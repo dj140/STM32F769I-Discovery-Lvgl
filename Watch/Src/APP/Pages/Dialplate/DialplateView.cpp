@@ -85,6 +85,7 @@ void DialplateView::BottomInfo_Create(lv_obj_t* par)
     lv_obj_clear_flag(cont, LV_OBJ_FLAG_GESTURE_BUBBLE);
     lv_obj_set_style_bg_color(cont, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(cont, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_align(cont, LV_ALIGN_CENTER);
 
     lv_obj_t* ui_bg_1 = lv_img_create(cont);
     lv_img_set_src(ui_bg_1, ResourcePool::GetImage("bg1_png"));

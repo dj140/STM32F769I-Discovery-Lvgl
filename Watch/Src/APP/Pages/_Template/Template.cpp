@@ -2,6 +2,15 @@
 #include "stdio.h"
 using namespace Page;
 
+//char* imagepath[100];                /* 保存当前扫描路径 */
+    uint32_t counter = 0;
+uint8_t  ubNumberOfFiles = 0;
+    uint8_t str[100];
+    #define MAX_BMP_FILES     25
+#define MAX_BMP_FILE_NAME 100
+char* pDirectoryFiles[MAX_BMP_FILES];
+uint8_t num = 0;
+
 Template::Template()
     : timer(nullptr)
 {
@@ -21,11 +30,12 @@ void Template::onCustomAttrConfig()
 
 void Template::onViewLoad()
 {
-    printf("Template begin");
+    printf("Template begin \n");
     View.Create(_root);
 //    lv_label_set_text(View.ui.labelTitle, _Name);
 
-//    AttachEvent(_root);
+    AttachEvent(_root);
+    AttachEvent(View.ui.cont);
 
 //    Model.TickSave = Model.GetData();
 }
@@ -38,15 +48,23 @@ void Template::onViewDidLoad()
 void Template::onViewWillAppear()
 {
     LV_LOG_USER("begin");
-    Param_t param;
-    param.color = lv_color_white();
-    param.time = 1000;
 
-    PAGE_STASH_POP(param);
+//    lv_obj_set_style_bg_color(_root, param.color, LV_PART_MAIN);
+//    lv_obj_set_style_bg_opa(_root, LV_OPA_COVER, LV_PART_MAIN);
+    timer = lv_timer_create(onTimerUpdate, 4000, this);
+      for (counter = 0; counter < MAX_BMP_FILES; counter++)
+    {
 
-    lv_obj_set_style_bg_color(_root, param.color, LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(_root, LV_OPA_COVER, LV_PART_MAIN);
-    timer = lv_timer_create(onTimerUpdate, param.time, this);
+      pDirectoryFiles[counter] = new char[MAX_BMP_FILE_NAME];
+      if(pDirectoryFiles[counter] == NULL)
+      {
+
+        printf("Cannot allocate memory \n");
+
+      }
+    }
+    ubNumberOfFiles = View.Storage_GetDirectoryBitmapFiles("/Media", pDirectoryFiles);
+
 }
 
 void Template::onViewDidAppear()
@@ -84,6 +102,15 @@ void Template::AttachEvent(lv_obj_t* obj)
 void Template::Update()
 {
 //    lv_label_set_text_fmt(View.ui.labelTick, "tick = %d save = %d", Model.GetData(), Model.TickSave);
+  if(num == ubNumberOfFiles)
+  {
+    num = 0;
+  }
+    sprintf ((char*)str, "0:Media/%s", pDirectoryFiles[num]);
+    lv_img_set_src(View.ui.image, (char*)str);
+    lv_obj_fade_in(View.ui.image, 3000, 0);
+//    printf("%d: %s\r\n", num, (char*)str);
+    num++;
 }
 
 void Template::onTimerUpdate(lv_timer_t* timer)
@@ -100,12 +127,24 @@ void Template::onEvent(lv_event_t* event)
 
     lv_obj_t* obj = lv_event_get_current_target(event);
     lv_event_code_t code = lv_event_get_code(event);
-
-    if (obj == instance->_root)
-    {
-        if (code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LEAVE)
+//  printf("lv_event_code_t: %d ", code);
+//    if (obj == instance->_root)
+//    {
+        if (code == LV_EVENT_PRESSED)
         {
             instance->_Manager->Pop();
         }
+        
+//        if(code == LV_EVENT_SCREEN_UNLOADED)
+//        {
+//                lv_obj_fade_in(instance->View.ui.cont, 1000, 0);
+
+//        }
+            if (code == LV_EVENT_GESTURE)
+    {
+        if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+            instance->_Manager->Push("Pages/SystemInfos");
+        }
     }
+//    }
 }

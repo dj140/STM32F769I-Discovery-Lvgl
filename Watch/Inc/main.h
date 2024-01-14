@@ -48,9 +48,9 @@ extern "C" {
 #include "ff.h"
 #include "diskio.h"
 
-#include "fonts/fonts.h"
-#include "icon/anim/icon_anim.h"
-#include "icon/static/icon_static.h"
+//#include "fonts/fonts.h"
+//#include "icon/anim/icon_anim.h"
+//#include "icon/static/icon_static.h"
 
 #include "bsp_debug_usart.h"
 

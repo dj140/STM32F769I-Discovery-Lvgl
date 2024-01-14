@@ -89,6 +89,7 @@ void lv_fs_fatfs_init(void)
 static void fs_init(void)
 {
 
+
 }
 
 /**

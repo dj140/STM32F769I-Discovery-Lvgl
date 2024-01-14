@@ -1,4 +1,5 @@
 #include "SystemInfosView.h"
+#include "stdlib.h"
 
 using namespace Page;
 
