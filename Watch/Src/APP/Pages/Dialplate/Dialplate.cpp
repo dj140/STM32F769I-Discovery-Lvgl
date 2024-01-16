@@ -24,6 +24,8 @@ void Dialplate::onViewLoad()
     AttachEvent(_root);
 
     AttachEvent(View.ui.bottomInfo.cont);
+      AttachEvent(View.ui.bottomInfo.bg);
+
 //    AttachEvent(View.ui.btnCont.btnRec);
 //    AttachEvent(View.ui.btnCont.btnMenu);
 }
@@ -218,9 +220,22 @@ void Dialplate::onEvent(lv_event_t* event)
 
     if (code == LV_EVENT_GESTURE)
     {
+//        LV_LOG_USER("LV_EVENT_GESTURE %d", code);
+
         if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
             instance->_Manager->Push("Pages/SystemInfos");
         }
+        if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
+            instance->_Manager->Push("Pages/Blood_oxy");
+        }
+        if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_BOTTOM) {
+            instance->_Manager->Push("Pages/Setting");
+        }
+    }
+    if (code == LV_EVENT_LONG_PRESSED)
+    {
+        instance->_Manager->Replace("Pages/Watch_analog");
+
     }
 //    if (code == LV_EVENT_SHORT_CLICKED)
 //    {

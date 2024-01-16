@@ -138,7 +138,7 @@ void SystemInfos::onEvent(lv_event_t* event)
     if (code == LV_EVENT_SHORT_CLICKED) {
         if (obj == instance->View.ui.sport.cont)
         {
-            instance->_Manager->Push("Pages/_Template");
+            instance->_Manager->BackHome();
         }
 //                if (obj == instance->View.ui.gps.cont)
 //        {

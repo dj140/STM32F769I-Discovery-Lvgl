@@ -3,10 +3,10 @@
 using namespace Page;
 
 //char* imagepath[100];                /* 保存当前扫描路径 */
-    uint32_t counter = 0;
+uint32_t counter = 0;
 uint8_t  ubNumberOfFiles = 0;
-    uint8_t str[100];
-    #define MAX_BMP_FILES     25
+uint8_t str[100];
+#define MAX_BMP_FILES     25
 #define MAX_BMP_FILE_NAME 100
 char* pDirectoryFiles[MAX_BMP_FILES];
 uint8_t num = 0;
@@ -128,23 +128,20 @@ void Template::onEvent(lv_event_t* event)
     lv_obj_t* obj = lv_event_get_current_target(event);
     lv_event_code_t code = lv_event_get_code(event);
 //  printf("lv_event_code_t: %d ", code);
-//    if (obj == instance->_root)
-//    {
-        if (code == LV_EVENT_PRESSED)
-        {
-            instance->_Manager->Pop();
-        }
-        
-//        if(code == LV_EVENT_SCREEN_UNLOADED)
-//        {
-//                lv_obj_fade_in(instance->View.ui.cont, 1000, 0);
 
-//        }
-            if (code == LV_EVENT_GESTURE)
-    {
-        if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
-            instance->_Manager->Push("Pages/SystemInfos");
-        }
+    if (code == LV_EVENT_PRESSED)
+    {    
+
+        instance->_Manager->Push("Pages/Dialplate");
     }
-//    }
+
+    if (code == LV_EVENT_GESTURE)
+    {
+//      LV_LOG_USER("LV_EVENT_GESTURE %d", code);
+
+      if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+          instance->_Manager->Push("Pages/Dialplate");
+      }
+    }
+
 }

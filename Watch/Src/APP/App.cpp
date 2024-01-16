@@ -66,7 +66,7 @@ void App_Init()
     }
 
     /* Initialize the data processing node */
-//    DataProc_Init();
+    DataProc_Init();
 //    ACCOUNT_SEND_CMD(Storage, STORAGE_CMD_LOAD);
 //    ACCOUNT_SEND_CMD(SysConfig, SYSCONFIG_CMD_LOAD);
 
@@ -85,13 +85,15 @@ void App_Init()
     lv_style_set_height(&rootStyle, 397);
     lv_style_set_bg_opa(&rootStyle, LV_OPA_COVER);
     lv_style_set_bg_color(&rootStyle, lv_color_black());
+    lv_style_set_border_width(&rootStyle, 0);
+
     manager.SetRootDefaultStyle(&rootStyle);
 
     /* Initialize resource pool */
     ResourcePool::Init();
 
     /* Initialize status bar */
-//    Page::StatusBar_Create(lv_layer_top());
+    Page::StatusBar_Create(lv_layer_top());
 
 //    /* Initialize pages */
     manager.Install("Template",    "Pages/_Template");
@@ -99,7 +101,11 @@ void App_Init()
     manager.Install("Dialplate",   "Pages/Dialplate");
     manager.Install("SystemInfos", "Pages/SystemInfos");
     manager.Install("Startup",     "Pages/Startup");
-
+    manager.Install("Watch_analog", "Pages/Watch_analog");
+    manager.Install("Blood_oxy", "Pages/Blood_oxy");
+    manager.Install("Heartbeat_Measuing", "Pages/Heartbeat_Measuing");
+    manager.Install("Setting", "Pages/Setting");
+    
     manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP);
 
     manager.Push("Pages/Startup");

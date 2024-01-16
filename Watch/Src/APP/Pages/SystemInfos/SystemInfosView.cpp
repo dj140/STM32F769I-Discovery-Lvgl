@@ -41,19 +41,19 @@ void SystemInfosView::Create(lv_obj_t* root)
     _bubble_cfg.iconXoffset = -(400 / 2) + (_bubble_cfg.iconSpaceX / 2);
     _bubble_cfg.iconYoffset = -(400 / 2) + (_bubble_cfg.iconSpaceY / 2) + gap_between_icon;
     /* Item Sport */
-    Item_Create(&ui.sport, appPanel,"Sport","app_icon_hdpi_settings_png");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.gps, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.imu, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.mag, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.rtc, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.storage, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.system, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_hdpi_settings_png");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_hdpi_settings_png");
+    Item_Create(&ui.sport, appPanel, "Sport", "app_icon_Instagram");
+    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_LinkedIn");
+    Item_Create(&ui.gps, appPanel, "Battery", "app_icon_Meta");
+    Item_Create(&ui.imu, appPanel, "Battery", "app_icon_WeChat");
+    Item_Create(&ui.mag, appPanel, "Battery", "app_icon_Vimeo");
+    Item_Create(&ui.rtc, appPanel, "Battery", "app_icon_Twitter");
+    Item_Create(&ui.storage, appPanel, "Battery", "app_icon_Spotify");
+    Item_Create(&ui.system, appPanel, "Battery", "app_icon_Reddit");
+    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
+    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
+    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
+    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
+    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
     lv_obj_scroll_to_y(appPanel, 1, LV_ANIM_OFF);
 
 }

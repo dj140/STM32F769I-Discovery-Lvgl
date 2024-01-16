@@ -18,10 +18,10 @@ FIL fnew;						/* 文件对象 */
 FRESULT res_flash;              /* 文件操作结果 */
 BYTE work[FF_MAX_SS]; /* Work area (larger is better for processing time) */
     
-UINT fnum;                        /* 文件成功读写数量 */
-BYTE ReadBuffer[1024]= {0};       /* 读缓冲区 */
-BYTE WriteBuffer[] =              /* 写缓冲区*/
-        "欢迎使用野火STM32开发板 今天是个好日子，新建文件系统测试文件\r\n";
+//UINT fnum;                        /* 文件成功读写数量 */
+//BYTE ReadBuffer[1024]= {0};       /* 读缓冲区 */
+//BYTE WriteBuffer[] =              /* 写缓冲区*/
+//        "欢迎使用野火STM32开发板 今天是个好日子，新建文件系统测试文件\r\n";
 static void MPU_Config(void);
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
@@ -127,8 +127,8 @@ static void fs_init(void)
 //        printf("！！打开/创建文件失败。\r\n");
 //    }
 }
-#pragma push
-#pragma O0
+//#pragma push
+//#pragma O0
 static void SystemClock_Config(void)
 {
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
@@ -172,7 +172,7 @@ static void SystemClock_Config(void)
     while(1) { ; }
   }
 }
-#pragma pop
+//#pragma pop
 
 /**
   * @brief  Toggle LEDs to show user input state.   

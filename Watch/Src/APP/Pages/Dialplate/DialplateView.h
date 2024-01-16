@@ -30,6 +30,10 @@ public:
         struct
         {
             lv_obj_t* cont;
+            lv_obj_t* bg;
+            lv_obj_t* labelClock;
+            lv_obj_t* labelClockmin;
+            lv_obj_t* labelClockhour;
             SubInfo_t labelInfoGrp[4];
         } bottomInfo;
 

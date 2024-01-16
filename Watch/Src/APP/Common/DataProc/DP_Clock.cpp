@@ -35,11 +35,11 @@ static bool Clock_Calibrate(Account* account, HAL::GPS_Info_t* gpsInfo)
     if(gpsInfo->isVaild)
     {
         HAL::Clock_Info_t clock;
-        if (account->Pull("TzConv", &clock, sizeof(clock)) == Account::RES_OK)
-        {
-            HAL::Clock_SetInfo(&clock);
-            retval = true;
-        }
+//        if (account->Pull("TzConv", &clock, sizeof(clock)) == Account::RES_OK)
+//        {
+//            HAL::Clock_SetInfo(&clock);
+//            retval = true;
+//        }
     }
     return retval;
 }
@@ -52,7 +52,7 @@ static int onEvent(Account* account, Account::EventParam_t* param)
         {
             if (Clock_Calibrate(account, (HAL::GPS_Info_t*)param->data_p))
             {
-                account->Unsubscribe("GPS");
+//                account->Unsubscribe("GPS");
             }
         }
         
@@ -77,7 +77,7 @@ static int onEvent(Account* account, Account::EventParam_t* param)
 
 DATA_PROC_INIT_DEF(Clock)
 {
-    account->Subscribe("TzConv");
-    account->Subscribe("GPS");
+//    account->Subscribe("TzConv");
+//    account->Subscribe("GPS");
     account->SetEventCallback(onEvent);
 }
