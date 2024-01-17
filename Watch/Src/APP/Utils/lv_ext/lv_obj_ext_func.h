@@ -27,6 +27,7 @@
 
 #define LV_ANIM_TIME_DEFAULT    400
 #define LV_ANIM_EXEC(attr)      (lv_anim_exec_xcb_t)lv_obj_set_##attr
+#define LV_ANIM_IMG(attr)       (lv_anim_exec_xcb_t)lv_img_set_##attr
 
 void lv_obj_set_opa_scale(lv_obj_t* obj, int16_t opa);
 int16_t lv_obj_get_opa_scale(lv_obj_t* obj);

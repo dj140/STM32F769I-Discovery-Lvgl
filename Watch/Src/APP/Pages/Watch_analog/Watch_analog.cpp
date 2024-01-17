@@ -16,7 +16,7 @@ void Watch_analog::onCustomAttrConfig()
 {
     LV_LOG_USER("begin");
     SetCustomCacheEnable(true);
-    SetCustomLoadAnimType(PageManager::LOAD_ANIM_FADE_ON, 1000, lv_anim_path_bounce);
+    SetCustomLoadAnimType(PageManager::LOAD_ANIM_FADE_ON, 1000, lv_anim_path_ease_in);
 }
 
 void Watch_analog::onViewLoad()
@@ -36,6 +36,8 @@ void Watch_analog::onViewWillAppear()
 {
     LV_LOG_USER("begin");
     timer = lv_timer_create(onTimerUpdate, 3000, this);
+    View.AppearAnimStart();
+
 }
 
 void Watch_analog::onViewDidAppear()
@@ -57,6 +59,7 @@ void Watch_analog::onViewDidDisappear()
 void Watch_analog::onViewUnload()
 {
     LV_LOG_USER("begin");
+    View.Delete();
 }
 
 void Watch_analog::onViewDidUnload()
@@ -72,8 +75,6 @@ void Watch_analog::AttachEvent(lv_obj_t* obj)
 
 void Watch_analog::Update()
 {
-    //lv_img_set_src(View.ui.image, ResourcePool::GetImage("app_icon_hdpi_boxing_png"));
-    //lv_obj_fade_in(View.ui.image, 2000, 100);
 
 
 }

@@ -10,9 +10,8 @@ class Watch_analog_View
 {
 public:
     void Create(lv_obj_t* root);
-    void _ui_anim_callback_set_image_angle(lv_anim_t* a, int32_t v);
-    void hour_Animation(lv_obj_t* TargetObject, int delay);
-    int32_t _ui_anim_callback_get_image_angle(lv_anim_t* a);
+    void Delete();
+    void AppearAnimStart(bool reverse = false);
 
 public:
     struct
@@ -27,10 +26,12 @@ public:
         lv_obj_t* ui_sec;
         lv_obj_t* ui_min;
         lv_obj_t* ui_hour;
+        lv_anim_timeline_t* anim_timeline;
 
     } ui;
 
 private:
+    void Watch_Create(lv_obj_t* par);
 
 };
 

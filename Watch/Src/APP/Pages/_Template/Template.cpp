@@ -70,6 +70,8 @@ void Template::onViewWillAppear()
 void Template::onViewDidAppear()
 {
     LV_LOG_USER("begin");
+//    lv_obj_del(View.ui.Spinner);
+
 }
 
 void Template::onViewWillDisappear()

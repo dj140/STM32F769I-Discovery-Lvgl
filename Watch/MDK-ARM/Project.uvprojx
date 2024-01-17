@@ -52,7 +52,7 @@
           <OutputName>STM32F769I_DISCOVERY</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath></ListingPath>
@@ -3310,99 +3310,14 @@
               <FilePath>..\Src\APP\Resource\Image\img_src_bicycle.c</FilePath>
             </File>
             <File>
-              <FileName>img_src_compass.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_compass.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_gps_arrow_dark.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_gps_arrow_dark.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_gps_arrow_default.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_gps_arrow_default.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_gps_arrow_light.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_gps_arrow_light.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_gps_pin.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_gps_pin.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_gyroscope.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_gyroscope.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_locate.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_locate.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_map_location.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_map_location.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_menu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_menu.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_origin_point.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_origin_point.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_pause.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_pause.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_satellite.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_satellite.c</FilePath>
-            </File>
-            <File>
               <FileName>img_src_sd_card.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Image\img_src_sd_card.c</FilePath>
             </File>
             <File>
-              <FileName>img_src_start.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_start.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_stop.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_stop.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_storage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_storage.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_system_info.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_system_info.c</FilePath>
-            </File>
-            <File>
               <FileName>img_src_time_info.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Image\img_src_time_info.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_trip.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_trip.c</FilePath>
             </File>
             <File>
               <FileName>img_src_bg1_png.c</FileName>
@@ -3428,21 +3343,6 @@
               <FileName>img_src_sec_dot_png.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Image\img_src_sec_dot_png.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_app_icon_hdpi_boxing_png.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_app_icon_hdpi_boxing_png.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_app_icon_hdpi_pingpong_png.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_app_icon_hdpi_pingpong_png.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_app_icon_hdpi_settings_png.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\APP\Resource\Image\img_src_app_icon_hdpi_settings_png.c</FilePath>
             </File>
             <File>
               <FileName>img_src_wave1_png.c</FileName>
@@ -3543,6 +3443,11 @@
               <FileName>app_icon_WeChat .c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Image\app_icon_WeChat .c</FilePath>
+            </File>
+            <File>
+              <FileName>apple_watch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\apple_watch.c</FilePath>
             </File>
           </Files>
         </Group>

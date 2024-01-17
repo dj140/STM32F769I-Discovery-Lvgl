@@ -20,18 +20,18 @@ do{\
     static void Resource_Init()
     {
         /* Import Fonts */
-        IMPORT_FONT(bahnschrift_13);
+//        IMPORT_FONT(bahnschrift_13);
         IMPORT_FONT(bahnschrift_17);
-        IMPORT_FONT(bahnschrift_32);
-        IMPORT_FONT(bahnschrift_65);
-        IMPORT_FONT(agencyb_36);
-        IMPORT_FONT(Number_extra);
+//        IMPORT_FONT(bahnschrift_32);
+//        IMPORT_FONT(bahnschrift_65);
+//        IMPORT_FONT(agencyb_36);
+//        IMPORT_FONT(Number_extra);
         IMPORT_FONT(montserratMedium_110);
 
         /* Import Images */
-        IMPORT_IMG(alarm);
-        IMPORT_IMG(battery);
-        IMPORT_IMG(battery_info);
+//        IMPORT_IMG(alarm);
+//        IMPORT_IMG(battery);
+//        IMPORT_IMG(battery_info);
         IMPORT_IMG(bicycle);
 //        IMPORT_IMG(compass);
 //        IMPORT_IMG(gps_arrow_default);
@@ -60,7 +60,7 @@ do{\
         IMPORT_IMG(sec_dot_png);
 //        IMPORT_IMG(app_icon_hdpi_boxing_png);
 //        IMPORT_IMG(app_icon_hdpi_pingpong_png);
-        IMPORT_IMG(app_icon_hdpi_settings_png);
+//        IMPORT_IMG(app_icon_hdpi_settings_png);
         IMPORT_IMG(wave1_png);
         IMPORT_IMG(wave2_png);
         IMPORT_IMG(bg_digital_392x392);
@@ -81,6 +81,7 @@ do{\
         IMPORT_IMG(app_icon_Twitter);
         IMPORT_IMG(app_icon_Spotify);
         IMPORT_IMG(app_icon_Reddit);
+        IMPORT_IMG(apple_watch);
     }
 
 } /* extern "C" */

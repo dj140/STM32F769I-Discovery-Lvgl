@@ -37,15 +37,12 @@ private:
     void AttachEvent(lv_obj_t* obj);
     static void onTimerUpdate(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);
-    void onBtnClicked(lv_obj_t* btn);
-    void onRecord(bool longPress);
-    void SetBtnRecImgSrc(const char* srcName);
+
 
 private:
     DialplateView View;
     DialplateModel Model;
     lv_timer_t* timer;
-    RecordState_t recState;
     lv_obj_t* lastFocus;
 };
 

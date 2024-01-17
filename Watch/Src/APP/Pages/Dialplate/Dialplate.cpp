@@ -3,8 +3,6 @@
 using namespace Page;
 
 Dialplate::Dialplate()
-    : recState(RECORD_STATE_READY)
-    , lastFocus(nullptr)
 {
 }
 
@@ -23,8 +21,8 @@ void Dialplate::onViewLoad()
     View.Create(_root);
     AttachEvent(_root);
 
-    AttachEvent(View.ui.bottomInfo.cont);
-      AttachEvent(View.ui.bottomInfo.bg);
+    AttachEvent(View.ui.dialplate.cont);
+    AttachEvent(View.ui.dialplate.bg);
 
 //    AttachEvent(View.ui.btnCont.btnRec);
 //    AttachEvent(View.ui.btnCont.btnMenu);
@@ -103,18 +101,18 @@ void Dialplate::Update()
 //    char buf[16];
 //    lv_label_set_text_fmt(View.ui.topInfo.labelSpeed, "%02d", (int)Model.GetSpeed());
 
-//    lv_label_set_text_fmt(View.ui.bottomInfo.labelInfoGrp[0].lableValue, "%0.1f km/h", Model.GetAvgSpeed());
+//    lv_label_set_text_fmt(View.ui.dialplate.labelInfoGrp[0].lableValue, "%0.1f km/h", Model.GetAvgSpeed());
 ////    lv_label_set_text(
-////        View.ui.bottomInfo.labelInfoGrp[1].lableValue,
+////        View.ui.dialplate.labelInfoGrp[1].lableValue,
 ////        DataProc::MakeTimeString(Model.sportStatusInfo.singleTime, buf, sizeof(buf))
 ////    );
 //    lv_label_set_text_fmt(
-//        View.ui.bottomInfo.labelInfoGrp[2].lableValue,
+//        View.ui.dialplate.labelInfoGrp[2].lableValue,
 //        "%0.1f km",
 //        Model.sportStatusInfo.singleDistance / 1000
 //    );
 //    lv_label_set_text_fmt(
-//        View.ui.bottomInfo.labelInfoGrp[3].lableValue,
+//        View.ui.dialplate.labelInfoGrp[3].lableValue,
 //        "%d k",
 //        int(Model.sportStatusInfo.singleCalorie)
 //    );
@@ -127,88 +125,6 @@ void Dialplate::onTimerUpdate(lv_timer_t* timer)
     instance->Update();
 }
 
-void Dialplate::onBtnClicked(lv_obj_t* btn)
-{
-    if (btn == View.ui.btnCont.btnMap)
-    {
-        _Manager->Push("Pages/LiveMap");
-    }
-    else if (btn == View.ui.btnCont.btnMenu)
-    {
-        _Manager->Push("Pages/SystemInfos");
-    }
-}
-
-void Dialplate::onRecord(bool longPress)
-{
-    switch (recState)
-    {
-    case RECORD_STATE_READY:
-        if (longPress)
-        {
-            if (!Model.GetGPSReady())
-            {
-                LV_LOG_WARN("GPS has not ready, can't start record");
-                Model.PlayMusic("Error");
-                return;
-            }
-
-            Model.PlayMusic("Connect");
-            Model.RecorderCommand(Model.REC_START);
-            SetBtnRecImgSrc("pause");
-            recState = RECORD_STATE_RUN;
-        }
-        break;
-    case RECORD_STATE_RUN:
-        if (!longPress)
-        {
-            Model.PlayMusic("UnstableConnect");
-            Model.RecorderCommand(Model.REC_PAUSE);
-            SetBtnRecImgSrc("start");
-            recState = RECORD_STATE_PAUSE;
-        }
-        break;
-    case RECORD_STATE_PAUSE:
-        if (longPress)
-        {
-            Model.PlayMusic("NoOperationWarning");
-            SetBtnRecImgSrc("stop");
-            Model.RecorderCommand(Model.REC_READY_STOP);
-            recState = RECORD_STATE_STOP;
-        }
-        else
-        {
-            Model.PlayMusic("Connect");
-            Model.RecorderCommand(Model.REC_CONTINUE);
-            SetBtnRecImgSrc("pause");
-            recState = RECORD_STATE_RUN;
-        }
-        break;
-    case RECORD_STATE_STOP:
-        if (longPress)
-        {
-            Model.PlayMusic("Disconnect");
-            Model.RecorderCommand(Model.REC_STOP);
-            SetBtnRecImgSrc("start");
-            recState = RECORD_STATE_READY;
-        }
-        else
-        {
-            Model.PlayMusic("Connect");
-            Model.RecorderCommand(Model.REC_CONTINUE);
-            SetBtnRecImgSrc("pause");
-            recState = RECORD_STATE_RUN;
-        }
-        break;
-    default:
-        break;
-    }
-}
-
-void Dialplate::SetBtnRecImgSrc(const char* srcName)
-{
-    lv_obj_set_style_bg_img_src(View.ui.btnCont.btnRec, ResourcePool::GetImage(srcName), 0);
-}
 
 void Dialplate::onEvent(lv_event_t* event)
 {
