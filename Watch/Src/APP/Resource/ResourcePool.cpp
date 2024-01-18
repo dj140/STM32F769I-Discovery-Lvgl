@@ -32,7 +32,7 @@ do{\
 //        IMPORT_IMG(alarm);
 //        IMPORT_IMG(battery);
 //        IMPORT_IMG(battery_info);
-        IMPORT_IMG(bicycle);
+//        IMPORT_IMG(bicycle);
 //        IMPORT_IMG(compass);
 //        IMPORT_IMG(gps_arrow_default);
 //        IMPORT_IMG(gps_arrow_dark);
@@ -44,7 +44,7 @@ do{\
 //        IMPORT_IMG(origin_point);
 //        IMPORT_IMG(pause);
 //        IMPORT_IMG(satellite);
-        IMPORT_IMG(sd_card);
+//        IMPORT_IMG(sd_card);
 //        IMPORT_IMG(start);
 //        IMPORT_IMG(stop);
 //        IMPORT_IMG(storage);
@@ -79,9 +79,12 @@ do{\
         IMPORT_IMG(app_icon_WeChat);
         IMPORT_IMG(app_icon_Vimeo);
         IMPORT_IMG(app_icon_Twitter);
-        IMPORT_IMG(app_icon_Spotify);
+//        IMPORT_IMG(app_icon_Spotify);
         IMPORT_IMG(app_icon_Reddit);
         IMPORT_IMG(apple_watch);
+        IMPORT_IMG(cxk_hour);
+        IMPORT_IMG(cxk_min);
+        IMPORT_IMG(cxk_sec);
     }
 
 } /* extern "C" */

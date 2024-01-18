@@ -23,14 +23,19 @@ public:
 
     struct
     {
-        item_t sport;
-        item_t gps;
-        item_t mag;
-        item_t imu;
-        item_t rtc;
-        item_t battery;
-        item_t storage;
-        item_t system;
+        item_t app1;
+        item_t app2;
+        item_t app3;
+        item_t app4;
+        item_t app5;
+        item_t app6;
+        item_t app7;
+        item_t app8;
+        item_t app9;
+        item_t app10;
+        item_t app11;
+        item_t app12;
+        item_t app13;
     } ui;
     struct  {
         /* Display data */
@@ -72,51 +77,6 @@ public:
         lv_coord_t iconYoffset = 0;
     };
 public:
-    void SetSport(
-        float trip,
-        const char* time,
-        float maxSpd
-    );
-    void SetGPS(
-        float lat,
-        float lng,
-        float alt,
-        const char* utc,
-        float course,
-        float speed
-    );
-    void SetMAG(
-        float dir,
-        int x,
-        int y,
-        int z
-    );
-    void SetIMU(
-        int step,
-        const char* info
-    );
-    void SetRTC(
-        const char* dateTime
-    );
-    void SetBattery(
-        int usage,
-        float voltage,
-        const char* state
-    );
-    void SetStorage(
-        const char* detect,
-        const char* size,
-        const char* type,
-        const char* version
-    );
-    void SetSystem(
-        const char* firmVer,
-        const char* authorName,
-        const char* lvglVer,
-        const char* bootTime,
-        const char* compilerName,
-        const char* bulidTime
-    );
 
     void SetScrollToY(lv_obj_t* obj, lv_coord_t y, lv_anim_enable_t en);
     void updateAppIconZoom(lv_obj_t* obj);

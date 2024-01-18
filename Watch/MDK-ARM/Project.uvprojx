@@ -3147,6 +3147,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>App/Page/Watch_cxk</GroupName>
+          <Files>
+            <File>
+              <FileName>Watch_cxk.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\Watch_cxk\Watch_cxk.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Watch_cxk_Model.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\Watch_cxk\Watch_cxk_Model.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Watch_cxk_View.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\APP\Pages\Watch_cxk\Watch_cxk_View.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Utils/DataCenter</GroupName>
           <Files>
             <File>
@@ -3448,6 +3468,21 @@
               <FileName>apple_watch.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\APP\Resource\Image\apple_watch.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_cxk_hour.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_cxk_hour.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_cxk_min.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_cxk_min.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_cxk_sec.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\APP\Resource\Image\img_cxk_sec.c</FilePath>
             </File>
           </Files>
         </Group>

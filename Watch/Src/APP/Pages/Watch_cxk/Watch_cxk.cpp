@@ -1,38 +1,40 @@
-#include "Watch_analog.h"
+#include "Watch_cxk.h"
 
 using namespace Page;
 
-Watch_analog::Watch_analog()
+Watch_cxk::Watch_cxk()
     : timer(nullptr)
 {
 }
 
-Watch_analog::~Watch_analog()
+Watch_cxk::~Watch_cxk()
 {
 
 }
 
-void Watch_analog::onCustomAttrConfig()
+void Watch_cxk::onCustomAttrConfig()
 {
     LV_LOG_USER("begin");
     SetCustomCacheEnable(true);
-    SetCustomLoadAnimType(PageManager::LOAD_ANIM_FADE_ON, 1000, lv_anim_path_ease_in);
+    SetCustomLoadAnimType(PageManager::LOAD_ANIM_OVER_RIGHT, 200, lv_anim_path_ease_in);
 }
 
-void Watch_analog::onViewLoad()
+void Watch_cxk::onViewLoad()
 {
     LV_LOG_USER("begin");
     View.Create(_root);
     AttachEvent(_root);
     AttachEvent(View.ui.cont);
+//    AttachEvent(View.ui.ui_bg);
+
 }
 
-void Watch_analog::onViewDidLoad()
+void Watch_cxk::onViewDidLoad()
 {
     LV_LOG_USER("begin");
 }
 
-void Watch_analog::onViewWillAppear()
+void Watch_cxk::onViewWillAppear()
 {
     LV_LOG_USER("begin");
     timer = lv_timer_create(onTimerUpdate, 3000, this);
@@ -40,55 +42,56 @@ void Watch_analog::onViewWillAppear()
 
 }
 
-void Watch_analog::onViewDidAppear()
+void Watch_cxk::onViewDidAppear()
 {
     LV_LOG_USER("begin");
 }
 
-void Watch_analog::onViewWillDisappear()
+void Watch_cxk::onViewWillDisappear()
 {
     LV_LOG_USER("begin");
 }
 
-void Watch_analog::onViewDidDisappear()
+void Watch_cxk::onViewDidDisappear()
 {
     LV_LOG_USER("begin");
     lv_timer_del(timer);
 }
 
-void Watch_analog::onViewUnload()
+void Watch_cxk::onViewUnload()
 {
     LV_LOG_USER("begin");
     View.Delete();
+
 }
 
-void Watch_analog::onViewDidUnload()
+void Watch_cxk::onViewDidUnload()
 {
     LV_LOG_USER("begin");
 }
 
-void Watch_analog::AttachEvent(lv_obj_t* obj)
+void Watch_cxk::AttachEvent(lv_obj_t* obj)
 {
     //lv_obj_set_user_data(obj, this);
     lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
 }
 
-void Watch_analog::Update()
+void Watch_cxk::Update()
 {
-
-
+    //lv_img_set_src(View.ui.image, ResourcePool::GetImage("app_icon_hdpi_boxing_png"));
+    //lv_obj_fade_in(View.ui.image, 2000, 100);
 }
 
-void Watch_analog::onTimerUpdate(lv_timer_t* timer)
+void Watch_cxk::onTimerUpdate(lv_timer_t* timer)
 {
-    Watch_analog* instance = (Watch_analog*)timer->user_data;
+    Watch_cxk* instance = (Watch_cxk*)timer->user_data;
 
     instance->Update();
 }
 
-void Watch_analog::onEvent(lv_event_t* event)
+void Watch_cxk::onEvent(lv_event_t* event)
 {
-    Watch_analog* instance = (Watch_analog*)lv_event_get_user_data(event);
+    Watch_cxk* instance = (Watch_cxk*)lv_event_get_user_data(event);
     LV_ASSERT_NULL(instance);
 
     lv_obj_t* obj = lv_event_get_current_target(event);
@@ -115,12 +118,12 @@ void Watch_analog::onEvent(lv_event_t* event)
             instance->_Manager->Push("Pages/Setting");
         }
         if (lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
-            instance->_Manager->Replace("Pages/Watch_cxk");
+            instance->_Manager->Replace("Pages/Dialplate");
         }
     }
     if (code == LV_EVENT_LONG_PRESSED)
     {
-        instance->_Manager->Replace("Pages/Watch_cxk");
+        instance->_Manager->Replace("Pages/Dialplate");
 
     }
 }

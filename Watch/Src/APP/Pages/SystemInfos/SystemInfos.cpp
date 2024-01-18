@@ -136,7 +136,7 @@ void SystemInfos::onEvent(lv_event_t* event)
     }
     /* Start App */
     if (code == LV_EVENT_SHORT_CLICKED) {
-        if (obj == instance->View.ui.sport.cont)
+        if (obj == instance->View.ui.app1.cont)
         {
             instance->_Manager->BackHome();
         }

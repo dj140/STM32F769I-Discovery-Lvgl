@@ -41,19 +41,19 @@ void SystemInfosView::Create(lv_obj_t* root)
     _bubble_cfg.iconXoffset = -(400 / 2) + (_bubble_cfg.iconSpaceX / 2);
     _bubble_cfg.iconYoffset = -(400 / 2) + (_bubble_cfg.iconSpaceY / 2) + gap_between_icon;
     /* Item Sport */
-    Item_Create(&ui.sport, appPanel, "Sport", "app_icon_Instagram");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_LinkedIn");
-    Item_Create(&ui.gps, appPanel, "Battery", "app_icon_Meta");
-    Item_Create(&ui.imu, appPanel, "Battery", "app_icon_WeChat");
-    Item_Create(&ui.mag, appPanel, "Battery", "app_icon_Vimeo");
-    Item_Create(&ui.rtc, appPanel, "Battery", "app_icon_Twitter");
-    Item_Create(&ui.storage, appPanel, "Battery", "app_icon_Spotify");
-    Item_Create(&ui.system, appPanel, "Battery", "app_icon_Reddit");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
-    Item_Create(&ui.battery, appPanel, "Battery", "app_icon_Instagram");
+    Item_Create(&ui.app1, appPanel, "app1", "app_icon_Instagram");
+    Item_Create(&ui.app2, appPanel, "app2", "app_icon_LinkedIn");
+    Item_Create(&ui.app3, appPanel, "app3", "app_icon_Meta");
+    Item_Create(&ui.app4, appPanel, "app4", "app_icon_WeChat");
+    Item_Create(&ui.app5, appPanel, "app5", "app_icon_Vimeo");
+    Item_Create(&ui.app6, appPanel, "app6", "app_icon_Twitter");
+    Item_Create(&ui.app7, appPanel, "app7", "app_icon_Instagram");
+    Item_Create(&ui.app8, appPanel, "app8", "app_icon_Reddit");
+    Item_Create(&ui.app9, appPanel, "app9", "app_icon_Instagram");
+    Item_Create(&ui.app10, appPanel, "app10", "app_icon_Instagram");
+    Item_Create(&ui.app11, appPanel, "app11", "app_icon_Instagram");
+    Item_Create(&ui.app12, appPanel, "app12", "app_icon_Instagram");
+    Item_Create(&ui.app13, appPanel, "app13", "app_icon_Instagram");
     lv_obj_scroll_to_y(appPanel, 1, LV_ANIM_OFF);
 
 }
@@ -231,152 +231,3 @@ void SystemInfosView::Item_Create(
     lv_obj_set_style_img_recolor_opa(app, 50, LV_STATE_PRESSED);
 }
 
-void SystemInfosView::SetSport(
-    float trip,
-    const char* time,
-    float maxSpd
-)
-{
-    lv_label_set_text_fmt(
-        ui.sport.labelData,
-        "%0.2fkm\n"
-        "%s\n"
-        "%0.1fkm/h",
-        trip,
-        time,
-        maxSpd
-    );
-}
-
-void SystemInfosView::SetGPS(
-    float lat,
-    float lng,
-    float alt,
-    const char* utc,
-    float course,
-    float speed
-)
-{
-  /*  lv_label_set_text_fmt(
-        ui.gps.labelData,
-        "%0.6f\n"
-        "%0.6f\n"
-        "%0.2fm\n"
-        "%s\n"
-        "%0.1f deg\n"
-        "%0.1fkm/h",
-        lat,
-        lng,
-        alt,
-        utc,
-        course,
-        speed
-    );*/
-}
-
-void SystemInfosView::SetMAG(
-    float dir,
-    int x,
-    int y,
-    int z
-)
-{
-   /* lv_label_set_text_fmt(
-        ui.mag.labelData,
-        "%0.1f deg\n"
-        "%d\n"
-        "%d\n"
-        "%d",
-        dir,
-        x,
-        y,
-        z
-    );*/
-}
-
-void SystemInfosView::SetIMU(
-    int step,
-    const char* info
-)
-{
-    /*lv_label_set_text_fmt(
-        ui.imu.labelData,
-        "%d\n"
-        "%s",
-        step,
-        info
-    );*/
-}
-
-void SystemInfosView::SetRTC(
-    const char* dateTime
-)
-{
- /*   lv_label_set_text(
-        ui.rtc.labelData,
-        dateTime
-    );*/
-}
-
-void SystemInfosView::SetBattery(
-    int usage,
-    float voltage,
-    const char* state
-)
-{
- /*   lv_label_set_text_fmt(
-        ui.battery.labelData,
-        "%d%%\n"
-        "%0.2fV\n"
-        "%s",
-        usage,
-        voltage,
-        state
-    );*/
-}
-
-void SystemInfosView::SetStorage(
-    const char* detect,
-    const char* size,
-    const char* type,
-    const char* version
-)
-{
-  /*  lv_label_set_text_fmt(
-        ui.storage.labelData,
-        "%s\n"
-        "%s\n"
-        "%s\n"
-        "%s",
-        detect,
-        size,
-        type,
-        version
-    );*/
-}
-
-void SystemInfosView::SetSystem(
-    const char* firmVer,
-    const char* authorName,
-    const char* lvglVer,
-    const char* bootTime,
-    const char* compilerName,
-    const char* bulidTime
-)
-{
-   /* lv_label_set_text_fmt(
-        ui.system.labelData,
-        "%s\n"
-        "%s\n"
-        "%s\n"
-        "%s\n"
-        "%s\n"
-        "%s",
-        firmVer,
-        authorName,
-        lvglVer,
-        bootTime,
-        compilerName,
-        bulidTime
-    );*/
-}
