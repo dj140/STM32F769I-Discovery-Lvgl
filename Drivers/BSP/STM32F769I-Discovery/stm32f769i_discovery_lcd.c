@@ -7,12 +7,29 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2016 STMicroelectronics.
-  * All rights reserved.
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * Redistribution and use in source and binary forms, with or without modification,
+  * are permitted provided that the following conditions are met:
+  *   1. Redistributions of source code must retain the above copyright notice,
+  *      this list of conditions and the following disclaimer.
+  *   2. Redistributions in binary form must reproduce the above copyright notice,
+  *      this list of conditions and the following disclaimer in the documentation
+  *      and/or other materials provided with the distribution.
+  *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  *      may be used to endorse or promote products derived from this software
+  *      without specific prior written permission.
+  *
+  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
   */
@@ -178,8 +195,8 @@ typedef struct
 DMA2D_HandleTypeDef hdma2d_discovery;
 LTDC_HandleTypeDef  hltdc_discovery;
 DSI_HandleTypeDef hdsi_discovery;
-uint32_t lcd_x_size = OTM8009A_800X480_WIDTH;
-uint32_t lcd_y_size = OTM8009A_800X480_HEIGHT;
+uint32_t lcd_x_size = SH8601B_LANDSCAPE_WIDTH;
+uint32_t lcd_y_size = SH8601B_LANDSCAPE_HEIGHT;
 /**
   * @}
   */
@@ -330,7 +347,7 @@ uint8_t BSP_LCD_InitEx(LCD_OrientationTypeDef orientation)
   laneByteClk_kHz = 62500; /* 500 MHz / 8 = 62.5 MHz = 62500 kHz */
 
   /* Set number of Lanes */
-  hdsi_discovery.Init.NumberOfLanes = DSI_TWO_DATA_LANES;
+  hdsi_discovery.Init.NumberOfLanes = DSI_ONE_DATA_LANE;
 
   /* TXEscapeCkdiv = f(LaneByteClk)/15.62 = 4 */
   hdsi_discovery.Init.TXEscapeCkdiv = laneByteClk_kHz/15620; 
@@ -342,37 +359,28 @@ uint8_t BSP_LCD_InitEx(LCD_OrientationTypeDef orientation)
   */
   if(orientation == LCD_ORIENTATION_PORTRAIT)
   {
-    lcd_x_size = OTM8009A_480X800_WIDTH;  /* 480 */
-    lcd_y_size = OTM8009A_480X800_HEIGHT; /* 800 */                                
+    lcd_x_size = SH8601B_PORTRAIT_WIDTH;
+    lcd_y_size = SH8601B_PORTRAIT_HEIGHT;                              
   }
   else
   {
     /* lcd_orientation == LCD_ORIENTATION_LANDSCAPE */
-    lcd_x_size = OTM8009A_800X480_WIDTH;  /* 800 */
-    lcd_y_size = OTM8009A_800X480_HEIGHT; /* 480 */                                
+    lcd_x_size = SH8601B_LANDSCAPE_WIDTH;
+    lcd_y_size = SH8601B_LANDSCAPE_HEIGHT;                                
   }
 
   HACT = lcd_x_size;
   VACT = lcd_y_size;
 
   /* The following values are same for portrait and landscape orientations */
-#if defined (USE_STM32F769I_DISCO_REVB03)
-  VSA  = NT35510_480X800_VSYNC;
-  VBP  = NT35510_480X800_VBP;
-  VFP  = NT35510_480X800_VFP;
-  HSA  = NT35510_480X800_HSYNC;
-  HBP  = NT35510_480X800_HBP;
-  HFP  = NT35510_480X800_HFP;  
-#else
-  VSA  = OTM8009A_480X800_VSYNC;
-  VBP  = OTM8009A_480X800_VBP;
-  VFP  = OTM8009A_480X800_VFP;
-  HSA  = OTM8009A_480X800_HSYNC;
-  HBP  = OTM8009A_480X800_HBP;
-  HFP  = OTM8009A_480X800_HFP;
-#endif /* USE_STM32F769I_DISCO_REVB03 */
+  VSA  = SH8601B_PORTRAIT_VSYNC;
+  VBP  = SH8601B_PORTRAIT_VBP;
+  VFP  = SH8601B_PORTRAIT_VFP;
+  HSA  = SH8601B_PORTRAIT_HSYNC;
+  HBP  = SH8601B_PORTRAIT_HBP;
+  HFP  = SH8601B_PORTRAIT_HFP;
 
-  hdsivideo_handle.VirtualChannelID = LCD_OTM8009A_ID;
+  hdsivideo_handle.VirtualChannelID = LCD_SH8601B_ID;
   hdsivideo_handle.ColorCoding = LCD_DSI_PIXEL_DATA_FMT_RBG888;
   hdsivideo_handle.VSPolarity = DSI_VSYNC_ACTIVE_HIGH;
   hdsivideo_handle.HSPolarity = DSI_HSYNC_ACTIVE_HIGH;
@@ -468,26 +476,30 @@ uint8_t BSP_LCD_InitEx(LCD_OrientationTypeDef orientation)
 
 /************************End LTDC Initialization*******************************/
   
-#if defined(USE_STM32F769I_DISCO_REVB03)
-/***********************NT35510 Initialization********************************/  
   
-  /* Initialize the NT35510 LCD Display IC Driver (TechShine LCD IC Driver)
-   * depending on configuration set in 'hdsivideo_handle'.
-   */
-  NT35510_Init(NT35510_FORMAT_RGB888, orientation);
-/***********************End NT35510 Initialization****************************/
+/***********************SH8601B Initialization********************************/ 
+
+  /* Initialize the SH8601B LCD Display IC Driver */
+#if defined(__TARGET_EDO_1_4_PANEL_MODULE__)
+    SH8601B_Init(PANEL_EDO_E01);
+#elif defined(__TARGET_EDO_1_4_1_PANEL_MODULE__)
+    SH8601B_Init(PANEL_EDO_E02);
 #else
-  
-/***********************OTM8009A Initialization********************************/ 
+    SH8601B_Init(PANEL_EDO_E01);
+#endif
 
-  /* Initialize the OTM8009A LCD Display IC Driver (KoD LCD IC Driver)
-  *  depending on configuration set in 'hdsivideo_handle'.
-  */
-  OTM8009A_Init(OTM8009A_FORMAT_RGB888, orientation);
+  HAL_DSI_ShortWrite(&(hdsi_discovery),
+                     hdsivideo_handle.VirtualChannelID,
+                     DSI_DCS_SHORT_PKT_WRITE_P1,
+                     SH8601B_CMD_DISPON,
+                     0x00);
 
-/***********************End OTM8009A Initialization****************************/ 
-#endif /* USE_STM32F769I_DISCO_REVB03 */
-
+  HAL_DSI_ShortWrite(&(hdsi_discovery),
+                     hdsivideo_handle.VirtualChannelID,
+                     DSI_DCS_SHORT_PKT_WRITE_P1,
+                     SH8601B_CMD_RAMWR,
+                     0x00);
+/***********************End SH8601B Initialization****************************/ 
 
   return LCD_OK; 
 }
@@ -642,7 +654,7 @@ uint8_t BSP_LCD_HDMIInitEx(uint8_t format)
 
   HAL_LTDC_DeInit(&(hltdc_discovery));
 
-  /* Timing Configuration */
+  /* Timing Configuration */    
   hltdc_discovery.Init.HorizontalSync = (HDMI_Format[format].HSYNC - 1);
   hltdc_discovery.Init.AccumulatedHBP = (HDMI_Format[format].HSYNC + HDMI_Format[format].HBP - 1);
   hltdc_discovery.Init.AccumulatedActiveW = (HDMI_Format[format].HACT + HDMI_Format[format].HSYNC + HDMI_Format[format].HBP - 1);
@@ -664,7 +676,7 @@ uint8_t BSP_LCD_HDMIInitEx(uint8_t format)
   hltdc_discovery.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
 
   /* Initialize & Start the LTDC */  
-  HAL_LTDC_Init(&hltdc_discovery);
+  HAL_LTDC_Init(&hltdc_discovery);     
 
 #if !defined(DATA_IN_ExtSDRAM)
   /* Initialize the SDRAM */
@@ -701,7 +713,7 @@ void BSP_LCD_Reset(void)
     /* Activate XRES active low */
     HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_15, GPIO_PIN_RESET);
 
-    HAL_Delay(20); /* wait 20 ms */
+    HAL_Delay(10); /* wait 20 ms */
 
     /* Desactivate XRES */
     HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_15, GPIO_PIN_SET);
@@ -1558,7 +1570,7 @@ void BSP_LCD_DisplayOn(void)
     HAL_DSI_ShortWrite(&(hdsi_discovery),
                        hdsivideo_handle.VirtualChannelID,
                        DSI_DCS_SHORT_PKT_WRITE_P1,
-                       OTM8009A_CMD_DISPON,
+                       SH8601B_CMD_DISPON,
                        0x00);
   }  
 }
@@ -1581,7 +1593,7 @@ void BSP_LCD_DisplayOff(void)
     HAL_DSI_ShortWrite(&(hdsi_discovery),
                        hdsivideo_handle.VirtualChannelID,
                        DSI_DCS_SHORT_PKT_WRITE_P1,
-                       OTM8009A_CMD_DISPOFF,
+                       SH8601B_CMD_DISPOFF,
                        0x00);
   }  
 }
@@ -1602,31 +1614,89 @@ void BSP_LCD_SetBrightness(uint8_t BrightnessValue)
   {
     /* Send Display on DCS command to display */
     HAL_DSI_ShortWrite(&hdsi_discovery, 
-                       LCD_OTM8009A_ID, 
+                       LCD_SH8601B_ID, 
                        DSI_DCS_SHORT_PKT_WRITE_P1, 
-                       OTM8009A_CMD_WRDISBV, (uint16_t)(BrightnessValue * 255)/100);
+                       SH8601B_CMD_WRDISBV, (uint16_t)(BrightnessValue * 255)/100);
   }  
 }
+/**
+  * @brief  DCS or Generic read command
+  * @param  ChannelNbr Virtual channel ID
+  * @param  Reg Register to be read
+  * @param  pData pointer to a buffer to store the payload of a read back operation.
+  * @param  Size  Data size to be read (in byte).
+  * @retval BSP status
+  */
+static int32_t DSI_IO_Read(uint16_t ChannelNbr, uint16_t Reg, uint8_t *pData, uint16_t Size)
+{
 
+//  HAL_DSI_Read(&hdsi_discovery, ChannelNbr, pData, Size, DSI_GEN_SHORT_PKT_READ_P1, Reg, pData);
+HAL_DSI_Read(&hdsi_discovery, ChannelNbr, pData, Size, DSI_GEN_SHORT_PKT_READ_P1, 0, (uint8_t[]){Reg, 0});
+
+  return 0;
+}
 /**
   * @brief  DCS or Generic short/long write command
-  * @param  NbrParams: Number of parameters. It indicates the write command mode:
-  *                 If inferior to 2, a long write command is performed else short.
-  * @param  pParams: Pointer to parameter values table.
-  * @retval HAL status
+  * @param  type   : DSI command type
+  * @param  cmd    : DCS command
+  * @param  size   : size of parameter values table
+  * @param  payload: Pointer to parameter values table.
+  * @retval none
   */
-void DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
+void DSI_IO_WriteCmd(uint8_t type, uint8_t cmd, uint32_t size, uint8_t* payload)
 {
-  if(NbrParams <= 1)
+//      const uint8_t len = 5;
+//    uint8_t buffer[len];
+//    memset(buffer, 0, len);
+  if(size <= 1)
   {
-   HAL_DSI_ShortWrite(&hdsi_discovery, LCD_OTM8009A_ID, DSI_DCS_SHORT_PKT_WRITE_P1, pParams[0], pParams[1]); 
+   HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P1, cmd, payload[0]); 
   }
   else
   {
-   HAL_DSI_LongWrite(&hdsi_discovery,  LCD_OTM8009A_ID, DSI_DCS_LONG_PKT_WRITE, NbrParams, pParams[NbrParams], pParams); 
+   HAL_DSI_LongWrite(&hdsi_discovery,  LCD_SH8601B_ID, DSI_DCS_LONG_PKT_WRITE, size, cmd, payload); 
   } 
-}
+//    uint8_t *params = payload;
+//    switch (type) {
+//    case SHT_DSI_DCS_SHORT_PKT_WRITE_P0:
+//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P0, cmd, 0);
+//        break;
+//    case SHT_DSI_DCS_SHORT_PKT_WRITE_P1:
+//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P1, cmd, payload[0]);
+//        break;
+//    case SHT_DSI_GEN_SHORT_PKT_WRITE_P0:
+//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P0, 0, 0);
+//        break;
+//    case SHT_DSI_GEN_SHORT_PKT_WRITE_P1:
+//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, 0, payload[0]);
+//        break;
+//    case SHT_DSI_GEN_SHORT_PKT_WRITE_P2:
+//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, payload[0], payload[1]);
+//        break;
+//    case SHT_DSI_DCS_LONG_PKT_WRITE:
+//        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_LONG_PKT_WRITE, size, cmd, payload);
+//        break;
+//    case SHT_DSI_GEN_LONG_PKT_WRITE:
+//        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_LONG_PKT_WRITE, (size - 1), payload[0], &payload[1]);
+//        break;
+//    default:
+//        break;
+//    }
+//            DSI_IO_Read(0x00, 0x0A, buffer, len);
 
+//    return;
+}
+//void DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
+//{
+//  if(NbrParams <= 1)
+//  {
+//   HAL_DSI_ShortWrite(&hdsi_discovery, LCD_OTM8009A_ID, DSI_DCS_SHORT_PKT_WRITE_P1, pParams[0], pParams[1]); 
+//  }
+//  else
+//  {
+//   HAL_DSI_LongWrite(&hdsi_discovery,  LCD_OTM8009A_ID, DSI_DCS_LONG_PKT_WRITE, NbrParams, pParams[NbrParams], pParams); 
+//  } 
+//}
 /**
   * @brief  Returns the ID of connected screen by checking the HDMI
   *        (adv7533 component) ID or LCD DSI (via TS ID) ID.
@@ -1955,3 +2025,4 @@ static void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uin
   * @}
   */
 
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

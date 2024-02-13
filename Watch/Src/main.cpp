@@ -20,7 +20,7 @@ BYTE work[FF_MAX_SS]; /* Work area (larger is better for processing time) */
     
 //UINT fnum;                        /* 文件成功读写数量 */
 //BYTE ReadBuffer[1024]= {0};       /* 读缓冲区 */
-//BYTE WriteBuffer[] =              /* 写缓冲区*/
+//BYTE WriteBuffer[] =              /*  写缓冲区*/
 //        "欢迎使用野火STM32开发板 今天是个好日子，新建文件系统测试文件\r\n";
 static void MPU_Config(void);
 static void SystemClock_Config(void);
@@ -71,9 +71,9 @@ int main(void) {
 //  printf("res: %d\n", res);
   tft_init();
   touchpad_init();
-  App_Init();
+//  App_Init();
 
-//  lv_demo_benchmark();
+  lv_demo_benchmark();
 //  lv_demo_music();
 
 
@@ -108,7 +108,7 @@ static void fs_init(void)
   } else {
       printf("》文件系统挂载成功，可以进行读写测试\r\n");
   }
-//      printf("\r\n****** 即将进行文件写入测试... ******\r\n");
+//    printf("\r\n****** 即将进行文件写入测试... ******\r\n");
 //    res_flash=f_open(&fnew,"0:FatFs读写测试文件.txt",FA_CREATE_ALWAYS|FA_WRITE);
 //    if ( res_flash == FR_OK ) {
 //        printf("》打开/创建FatFs读写测试文件.txt文件成功，向文件写入数据。\r\n");

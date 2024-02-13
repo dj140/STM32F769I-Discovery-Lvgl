@@ -29,12 +29,13 @@
 /* Include LCD component Driver */
 
 /* Include OTM8009A LCD Driver IC driver code */
-#include "../Components/otm8009a/otm8009a.h"
-/* Include NT35510 LCD Driver IC driver code */
-#include "../Components/nt35510/nt35510.h"
-/* Include ADV7533 HDMI Driver IC driver code */
-#include "../Components/adv7533/adv7533.h"
-   
+//#include "../Components/otm8009a/otm8009a.h"
+///* Include NT35510 LCD Driver IC driver code */
+//#include "../Components/nt35510/nt35510.h"
+///* Include ADV7533 HDMI Driver IC driver code */
+//#include "../Components/adv7533/adv7533.h"
+#include "../Components/sh8601b/sh8601b.h"
+
 /* Include SDRAM Driver */
 #include "stm32f769i_discovery_sdram.h"
 #include "stm32f769i_discovery.h"
@@ -101,6 +102,7 @@
   * @brief  LCD Display OTM8009A DSI Virtual Channel  ID 
   */ 
 #define LCD_OTM8009A_ID  ((uint32_t) 0)
+#define LCD_SH8601B_ID  ((uint32_t) 0)
 
 /** 
   * @brief  HDMI ADV7533 DSI Virtual Channel  ID  

@@ -30,19 +30,27 @@
 #define DMA_STREAM_IRQHANDLER    DMA2_Stream0_IRQHandler
 
 #if TFT_NO_TEARING
-#define ZONES               4       /*Divide the screen into zones to handle tearing effect*/
+#define ZONES               1       /*Divide the screen into zones to handle tearing effect*/
 #else
 #define ZONES               1
 #endif
 
-#define VSYNC               OTM8009A_800X480_VSYNC
-#define VBP                 OTM8009A_800X480_VBP
-#define VFP                 OTM8009A_800X480_VFP
-#define VACT                OTM8009A_800X480_HEIGHT
-#define HSYNC               OTM8009A_800X480_HSYNC
-#define HBP                 OTM8009A_800X480_HBP
-#define HFP                 OTM8009A_800X480_HFP
-#define HACT                (OTM8009A_800X480_WIDTH / ZONES)
+//#define VSYNC               OTM8009A_800X480_VSYNC
+//#define VBP                 OTM8009A_800X480_VBP
+//#define VFP                 OTM8009A_800X480_VFP
+//#define VACT                OTM8009A_800X480_HEIGHT
+//#define HSYNC               OTM8009A_800X480_HSYNC
+//#define HBP                 OTM8009A_800X480_HBP
+//#define HFP                 OTM8009A_800X480_HFP
+//#define HACT                (OTM8009A_800X480_WIDTH / ZONES)
+#define VSYNC                       1 
+#define VBP                         1 
+#define VFP                         1
+#define VACT                        400
+#define HSYNC                       1
+#define HBP                         1
+#define HFP                         1
+#define HACT                        400 / ZONES
 
 #define LAYER0_ADDRESS               (LCD_FB_START_ADDRESS)
 
@@ -99,21 +107,21 @@ static volatile bool refr_qry;
 static volatile uint32_t t_last = 0;
 
 #if TFT_NO_TEARING
-uint8_t pPage[]       = {0x00, 0x00, 0x01, 0xDF}; /*   0 -> 479 */
+uint8_t pPage[]       = {0x00, 0x00, 0x01, 0x8F}; /*   0 -> 479 */
 
 
 uint8_t pCols[ZONES][4] =
 {
 #if (ZONES == 4 )
-  {0x00, 0x00, 0x00, 0xC7}, /*   0 -> 199 */
-  {0x00, 0xC8, 0x01, 0x8F}, /* 200 -> 399 */
-  {0x01, 0x90, 0x02, 0x57}, /* 400 -> 599 */
-  {0x02, 0x58, 0x03, 0x1F}, /* 600 -> 799 */
+  {0x00, 0x00, 0x00, 0x63}, /*   0 -> 99 */
+  {0x00, 0x64, 0x00, 0xC7}, /* 100 -> 199 */
+  {0x00, 0xC8, 0x01, 0x2B}, /* 200 -> 299 */
+  {0x01, 0x2C, 0x01, 0x8F}, /* 300 -> 399 */
 #elif (ZONES == 2 )
   {0x00, 0x00, 0x01, 0x8F}, /*   0 -> 399 */
   {0x01, 0x90, 0x03, 0x1F}
 #elif (ZONES == 1 )
-  {0x00, 0x00, 0x03, 0x1F}, /*   0 -> 799 */
+  {0x00, 0x00, 0x01, 0x8F}, /*   0 -> 799 */
 #endif
 };
 #endif
@@ -149,22 +157,22 @@ void tft_init(void)
   HAL_DSI_ShortWrite(&(hdsi_discovery),
       0,
       DSI_DCS_SHORT_PKT_WRITE_P1,
-      OTM8009A_CMD_DISPON,
+      SH8601B_CMD_DISPON,
       0x00);
 
   DMA_Config();
 
-  static lv_color_t disp_buf1[TFT_HOR_RES * 96];
-  static lv_color_t disp_buf2[TFT_HOR_RES * 96];
+  static lv_color_t disp_buf1[TFT_HOR_RES * 100];
+  static lv_color_t disp_buf2[TFT_HOR_RES * 100];
   static lv_disp_draw_buf_t buf;
-  lv_disp_draw_buf_init(&buf, disp_buf1, disp_buf2, TFT_HOR_RES * 96);
+  lv_disp_draw_buf_init(&buf, disp_buf1, disp_buf2, TFT_HOR_RES * 100);
 
   lv_disp_drv_init(&disp_drv);
   disp_drv.draw_buf = &buf;
   disp_drv.flush_cb = tft_flush_cb;
   disp_drv.monitor_cb = monitor_cb;
-  disp_drv.hor_res = 800;
-  disp_drv.ver_res = 480;
+  disp_drv.hor_res = 400;
+  disp_drv.ver_res = 400;
   lv_disp_drv_register(&disp_drv);
 }
 
@@ -237,8 +245,8 @@ static void LCD_Config(void)
   dsiPllInit.PLLIDF   = DSI_PLL_IN_DIV5;
   dsiPllInit.PLLODF   = DSI_PLL_OUT_DIV1;
 
-  hdsi_discovery.Init.NumberOfLanes = DSI_TWO_DATA_LANES;
-  hdsi_discovery.Init.TXEscapeCkdiv = 0x4;
+  hdsi_discovery.Init.NumberOfLanes = DSI_ONE_DATA_LANE;
+  hdsi_discovery.Init.TXEscapeCkdiv = 0x3;
   HAL_DSI_Init(&(hdsi_discovery), &(dsiPllInit));
 
   /* Configure the DSI for Command mode */
@@ -287,14 +295,16 @@ static void LCD_Config(void)
   PhyTimings.StopWaitTime = 10;
   HAL_DSI_ConfigPhyTimer(&hdsi_discovery, &PhyTimings);
 
+    SH8601B_Init(PANEL_EDO_E01);
+
   /* Initialize the OTM8009A LCD Display IC Driver (KoD LCD IC Driver)
    *  depending on configuration set in 'hdsivideo_handle'.
    */
-#if LV_COLOR_DEPTH == 16
-  OTM8009A_Init(OTM8009A_FORMAT_RBG565, LCD_ORIENTATION_LANDSCAPE);
-#else
-  OTM8009A_Init(OTM8009A_FORMAT_RGB888, LCD_ORIENTATION_LANDSCAPE);
-#endif
+//#if LV_COLOR_DEPTH == 16
+//  OTM8009A_Init(OTM8009A_FORMAT_RBG565, LCD_ORIENTATION_LANDSCAPE);
+//#else
+//  OTM8009A_Init(OTM8009A_FORMAT_RGB888, LCD_ORIENTATION_LANDSCAPE);
+//#endif
   LPCmd.LPGenShortWriteNoP    = DSI_LP_GSW0P_DISABLE;
   LPCmd.LPGenShortWriteOneP   = DSI_LP_GSW1P_DISABLE;
   LPCmd.LPGenShortWriteTwoP   = DSI_LP_GSW2P_DISABLE;
@@ -311,16 +321,16 @@ static void LCD_Config(void)
   HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
 
   /* Send Display Off DCS Command to display */
-  HAL_DSI_ShortWrite(&(hdsi_discovery),
-      0,
-      DSI_DCS_SHORT_PKT_WRITE_P1,
-      OTM8009A_CMD_DISPOFF,
-      0x00);
+//  HAL_DSI_ShortWrite(&(hdsi_discovery),
+//      0,
+//      DSI_DCS_SHORT_PKT_WRITE_P1,
+//      SH8601B_CMD_DISPOFF,
+//      0x00);
 
 
 #if TFT_NO_TEARING
-    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, OTM8009A_CMD_CASET, pCols[0]);
-    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, OTM8009A_CMD_PASET, pPage);
+    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[0]);
+    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_PASET, pPage);
 
   /* Enable GPIOJ clock */
   __HAL_RCC_GPIOJ_CLK_ENABLE();
@@ -344,12 +354,12 @@ static void LCD_Config(void)
 #elif ZONES == 4
   uint16_t scanline = 283;
 #endif
-  ScanLineParams[0] = scanline >> 8;
-  ScanLineParams[1] = scanline & 0x00FF;
+//  ScanLineParams[0] = scanline >> 8;
+//  ScanLineParams[1] = scanline & 0x00FF;
 
-  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 2, 0x44, ScanLineParams);
-  /* set_tear_on */
-  HAL_DSI_ShortWrite(&hdsi_discovery, 0, DSI_DCS_SHORT_PKT_WRITE_P1, OTM8009A_CMD_TEEON, 0x00);
+//  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 2, 0x44, ScanLineParams);
+//  /* set_tear_on */
+  HAL_DSI_ShortWrite(&hdsi_discovery, 0, DSI_DCS_SHORT_PKT_WRITE_P1, SH8601B_CMD_TEON, 0x00);
 #endif
 
 }
@@ -360,7 +370,7 @@ static void LCD_Config(void)
 */
 void LCD_SetUpdateRegion(int idx)
 {
-  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, OTM8009A_CMD_CASET, pCols[idx]);
+  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[idx]);
 }
 #endif
 /**

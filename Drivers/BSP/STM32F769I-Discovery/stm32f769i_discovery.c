@@ -137,6 +137,8 @@ void     TS_IO_Delay(uint32_t Delay);
 /* LCD Display IO functions */
 void     OTM8009A_IO_Delay(uint32_t Delay);
 void     NT35510_IO_Delay(uint32_t Delay);
+void     SH8601B_IO_Delay(uint32_t Delay);
+
 /**
   * @}
   */
@@ -601,7 +603,15 @@ void AUDIO_IO_Delay(uint32_t Delay)
 {
   HAL_Delay(Delay);
 }
-
+/**************************** LINK SH8601B (Display driver) ******************/
+/**
+  * @brief  SH8601B delay
+  * @param  Delay: Delay in ms
+  */
+void SH8601B_IO_Delay(uint32_t Delay)
+{
+  HAL_Delay(Delay);
+}
 /******************************** LINK I2C EEPROM *****************************/
 
 /**
