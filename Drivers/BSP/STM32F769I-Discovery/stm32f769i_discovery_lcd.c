@@ -1619,6 +1619,16 @@ void BSP_LCD_SetBrightness(uint8_t BrightnessValue)
                        SH8601B_CMD_WRDISBV, (uint16_t)(BrightnessValue * 255)/100);
   }  
 }
+
+void DSI_IO_Read(uint8_t cmd, uint8_t *buffer, uint32_t size)
+{
+  HAL_StatusTypeDef status = HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+//  if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_ConfigFlowControl().");
+
+  status = HAL_DSI_Read(&hdsi_discovery, LCD_SH8601B_ID, buffer, size, DSI_DCS_SHORT_PKT_READ, cmd, (uint8_t[]){0, 0});
+//  if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_Read().");
+}
+
 /**
   * @brief  DCS or Generic read command
   * @param  ChannelNbr Virtual channel ID
@@ -1627,13 +1637,23 @@ void BSP_LCD_SetBrightness(uint8_t BrightnessValue)
   * @param  Size  Data size to be read (in byte).
   * @retval BSP status
   */
-static int32_t DSI_IO_Read(uint16_t ChannelNbr, uint16_t Reg, uint8_t *pData, uint16_t Size)
+void DSI_IO_Read1Param(uint8_t param, uint8_t *buffer, uint32_t size) 
 {
+  HAL_StatusTypeDef status = HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+//if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_ConfigFlowControl().");
+  status = HAL_DSI_Read(&hdsi_discovery, LCD_SH8601B_ID, buffer, size, DSI_GEN_SHORT_PKT_READ_P1, 0, (uint8_t[]){param, 0});
+//if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_Read().");
+}
 
-//  HAL_DSI_Read(&hdsi_discovery, ChannelNbr, pData, Size, DSI_GEN_SHORT_PKT_READ_P1, Reg, pData);
-HAL_DSI_Read(&hdsi_discovery, ChannelNbr, pData, Size, DSI_GEN_SHORT_PKT_READ_P1, 0, (uint8_t[]){Reg, 0});
+void DSI_IO_Read2Param(uint16_t param, uint8_t *buffer, uint32_t size) 
+{
+  uint8_t params[2];
+  params[0] = param & 0xFF;
+  params[1] = (param >> 8) & 0xFF;
 
-  return 0;
+  HAL_StatusTypeDef status = HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+  status = HAL_DSI_Read(&hdsi_discovery, LCD_SH8601B_ID, buffer, size, DSI_GEN_SHORT_PKT_READ_P2, 0, params);
+//  if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_Read().");
 }
 /**
   * @brief  DCS or Generic short/long write command
@@ -1645,58 +1665,37 @@ HAL_DSI_Read(&hdsi_discovery, ChannelNbr, pData, Size, DSI_GEN_SHORT_PKT_READ_P1
   */
 void DSI_IO_WriteCmd(uint8_t type, uint8_t cmd, uint32_t size, uint8_t* payload)
 {
-//      const uint8_t len = 5;
-//    uint8_t buffer[len];
-//    memset(buffer, 0, len);
-  if(size <= 1)
-  {
-   HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P1, cmd, payload[0]); 
-  }
-  else
-  {
-   HAL_DSI_LongWrite(&hdsi_discovery,  LCD_SH8601B_ID, DSI_DCS_LONG_PKT_WRITE, size, cmd, payload); 
-  } 
-//    uint8_t *params = payload;
-//    switch (type) {
-//    case SHT_DSI_DCS_SHORT_PKT_WRITE_P0:
-//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P0, cmd, 0);
-//        break;
-//    case SHT_DSI_DCS_SHORT_PKT_WRITE_P1:
-//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P1, cmd, payload[0]);
-//        break;
-//    case SHT_DSI_GEN_SHORT_PKT_WRITE_P0:
-//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P0, 0, 0);
-//        break;
-//    case SHT_DSI_GEN_SHORT_PKT_WRITE_P1:
-//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, 0, payload[0]);
-//        break;
-//    case SHT_DSI_GEN_SHORT_PKT_WRITE_P2:
-//        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, payload[0], payload[1]);
-//        break;
-//    case SHT_DSI_DCS_LONG_PKT_WRITE:
-//        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_LONG_PKT_WRITE, size, cmd, payload);
-//        break;
-//    case SHT_DSI_GEN_LONG_PKT_WRITE:
-//        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_LONG_PKT_WRITE, (size - 1), payload[0], &payload[1]);
-//        break;
-//    default:
-//        break;
-//    }
-//            DSI_IO_Read(0x00, 0x0A, buffer, len);
 
-//    return;
+  
+    uint8_t *params = payload;
+    switch (type) {
+    case SHT_DSI_DCS_SHORT_PKT_WRITE_P0:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P0, cmd, 0);
+        break;
+    case SHT_DSI_DCS_SHORT_PKT_WRITE_P1:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P1, cmd, payload[0]);
+        break;
+    case SHT_DSI_GEN_SHORT_PKT_WRITE_P0:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P0, 0, 0);
+        break;
+    case SHT_DSI_GEN_SHORT_PKT_WRITE_P1:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, 0, payload[0]);
+        break;
+    case SHT_DSI_GEN_SHORT_PKT_WRITE_P2:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, payload[0], payload[1]);
+        break;
+    case SHT_DSI_DCS_LONG_PKT_WRITE:
+        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_LONG_PKT_WRITE, size, cmd, payload);
+        break;
+    case SHT_DSI_GEN_LONG_PKT_WRITE:
+        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_LONG_PKT_WRITE, (size - 1), payload[0], &payload[1]);
+        break;
+    default:
+        break;
+    }
+
+    return;
 }
-//void DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
-//{
-//  if(NbrParams <= 1)
-//  {
-//   HAL_DSI_ShortWrite(&hdsi_discovery, LCD_OTM8009A_ID, DSI_DCS_SHORT_PKT_WRITE_P1, pParams[0], pParams[1]); 
-//  }
-//  else
-//  {
-//   HAL_DSI_LongWrite(&hdsi_discovery,  LCD_OTM8009A_ID, DSI_DCS_LONG_PKT_WRITE, NbrParams, pParams[NbrParams], pParams); 
-//  } 
-//}
 /**
   * @brief  Returns the ID of connected screen by checking the HDMI
   *        (adv7533 component) ID or LCD DSI (via TS ID) ID.

@@ -26,6 +26,7 @@
 extern DSI_HandleTypeDef hdsi_discovery;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
+extern PCD_HandleTypeDef hpcd;
 
 /******************************************************************************/
 /*            	  	    Processor Exceptions Handlers                         */
@@ -53,4 +54,14 @@ void SysTick_Handler(void)
   */
 void DSI_IRQHandler(void){
   HAL_DSI_IRQHandler(&hdsi_discovery);
+}
+
+/**
+  * @brief  This function handles USB-On-The-Go FS/HS global interrupt request.
+  * @param  None
+  * @retval None
+  */
+void OTG_HS_IRQHandler(void)
+{
+  HAL_PCD_IRQHandler(&hpcd);
 }

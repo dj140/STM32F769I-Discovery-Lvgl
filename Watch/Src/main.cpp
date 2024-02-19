@@ -9,19 +9,18 @@
 */
 
 #include "main.h"
-//#include <mooncake.h>
 #include "App.h"
 
 USBD_HandleTypeDef USBD_Device;
-FATFS fs;						/* FatFs文件系统对象 */
-FIL fnew;						/* 文件对象 */
+FATFS fs;           /* FatFs文件系统对象 */
+FIL fnew;           /* 文件对象 */
 FRESULT res_flash;              /* 文件操作结果 */
 BYTE work[FF_MAX_SS]; /* Work area (larger is better for processing time) */
     
 //UINT fnum;                        /* 文件成功读写数量 */
 //BYTE ReadBuffer[1024]= {0};       /* 读缓冲区 */
 //BYTE WriteBuffer[] =              /*  写缓冲区*/
-//        "欢迎使用野火STM32开发板 今天是个好日子，新建文件系统测试文件\r\n";
+//        "新建文件系统测试文件\r\n";
 static void MPU_Config(void);
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
@@ -54,16 +53,17 @@ int main(void) {
   printf("****** usart enable ******\r\n");
 //  
   /* Init Device Library */
-//  USBD_Init(&USBD_Device, &MSC_Desc, 0);
-//  
-//  /* Add Supported Class */
-//  USBD_RegisterClass(&USBD_Device, USBD_MSC_CLASS);
-//  
-//  /* Add Storage callbacks for MSC Class */
-//  USBD_MSC_RegisterStorage(&USBD_Device, &USBD_DISK_fops);
-//  
-//  /* Start Device Process */
-//  USBD_Start(&USBD_Device);
+  USBD_Init(&USBD_Device, &MSC_Desc, 0);
+  
+  /* Add Supported Class */
+  USBD_RegisterClass(&USBD_Device, USBD_MSC_CLASS);
+  
+  /* Add Storage callbacks for MSC Class */
+  USBD_MSC_RegisterStorage(&USBD_Device, &USBD_DISK_fops);
+  
+  /* Start Device Process */
+  USBD_Start(&USBD_Device);
+  
   fs_init();
   lv_init();
 //  lv_fs_file_t f;
@@ -71,11 +71,10 @@ int main(void) {
 //  printf("res: %d\n", res);
   tft_init();
   touchpad_init();
-//  App_Init();
+  App_Init();
 
-  lv_demo_benchmark();
+//  lv_demo_benchmark();
 //  lv_demo_music();
-
 
   while(1) {
       lv_task_handler();

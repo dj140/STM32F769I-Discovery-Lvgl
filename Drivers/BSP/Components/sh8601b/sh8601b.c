@@ -93,7 +93,7 @@ static const DSI_REG_DATA_STRUCT EDO_E01_REG_DATA[] =
 {SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_HBM_WRDISBV,    2,      {0x00,0xFF}},
 {SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      SH8601B_CMD_WRCTRLD1,       1,      {0x28}},
 {SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xF0,                       14,     {0x92,0x14,0x11,0xA6,0x91,0x1A,0x08,0x0F,0x80,0x80,0x55,0x55,0x01,0x00}},
-{SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      0x3A,                       1,      {0x55}},
+{SHT_DSI_DCS_SHORT_PKT_WRITE_P0,    1,      0x29,                       0,      {0x00}},
 };
 
 #if defined ( __ICCARM__ )
@@ -295,7 +295,10 @@ __weak void DSI_IO_WriteCmd(uint8_t type, uint8_t cmd, uint32_t size, uint8_t* p
 void SH8601B_Init(uint8_t panel)
 {
     uint32_t i = 0, length = 0;
-
+  
+    const uint8_t len = 1;
+    uint8_t buffer[2];
+  
     switch (panel) {
     case PANEL_EDO_E01:
         length = sizeof(EDO_E01_REG_DATA) / sizeof(DSI_REG_DATA_STRUCT);
@@ -306,6 +309,9 @@ void SH8601B_Init(uint8_t panel)
             }
             
         }
+//        DSI_IO_Read(0x0A, buffer, len);
+        SH8601B_IO_Delay(10);
+        DSI_IO_Read1Param(0x0A, buffer, 1);
         break;
     case PANEL_EDO_E02:
         length = sizeof(EDO_E02_REG_DATA) / sizeof(DSI_REG_DATA_STRUCT);

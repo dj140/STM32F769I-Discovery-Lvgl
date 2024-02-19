@@ -86,6 +86,7 @@
 #define SHT_DSI_GEN_SHORT_PKT_WRITE_P2                  (5)
 #define SHT_DSI_DCS_LONG_PKT_WRITE                      (6)
 #define SHT_DSI_GEN_LONG_PKT_WRITE                      (7)
+#define SHT_DSI_GEN_SHORT_PKT_READ_P1                      (8)
 
 /**
  *  @brief LCD_OrientationTypeDef
@@ -235,6 +236,9 @@
   * @{
   */
 void DSI_IO_WriteCmd(uint8_t type, uint8_t m_cmd, uint32_t m_size,  uint8_t* payload);
+void DSI_IO_Read(uint8_t cmd, uint8_t *buffer, uint32_t size);
+void DSI_IO_Read1Param(uint8_t param, uint8_t *buffer, uint32_t size);
+void DSI_IO_Read2Param(uint16_t param, uint8_t *buffer, uint32_t size);
 void SH8601B_Init(uint8_t panel);
 void SH8601B_IO_Delay(uint32_t Delay);
 /**
