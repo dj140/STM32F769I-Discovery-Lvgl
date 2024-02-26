@@ -550,7 +550,8 @@ static void DMA_Config(void)
 static void DMA_TransferComplete(DMA_HandleTypeDef *han)
 {
   y_flush_act ++;
-
+//    const uint8_t len = 1;
+//    uint8_t buffer[2];
   if(y_flush_act > y2_flush) {
 #if TFT_NO_TEARING
     if(lv_disp_flush_is_last(&disp_drv)) refr_qry = true;
@@ -559,6 +560,7 @@ static void DMA_TransferComplete(DMA_HandleTypeDef *han)
     if(lv_disp_flush_is_last(&disp_drv)) HAL_DSI_Refresh(&hdsi_discovery);
 
     lv_disp_flush_ready(&disp_drv);
+//    DSI_IO_Read1Param(0x0A, buffer, 1);
 #endif
   } else {
     buf_to_flush += x2_flush - x1_flush + 1;

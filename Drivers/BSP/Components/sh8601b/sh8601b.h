@@ -86,8 +86,6 @@
 #define SHT_DSI_GEN_SHORT_PKT_WRITE_P2                  (5)
 #define SHT_DSI_DCS_LONG_PKT_WRITE                      (6)
 #define SHT_DSI_GEN_LONG_PKT_WRITE                      (7)
-#define SHT_DSI_GEN_SHORT_PKT_READ_P1                      (8)
-
 /**
  *  @brief LCD_OrientationTypeDef
  *  Possible values of Display Orientation

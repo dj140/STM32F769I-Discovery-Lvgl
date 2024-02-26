@@ -26,7 +26,7 @@ void StartupView::Create(lv_obj_t* root)
 //    ui.labelLogo = label;
   
     lv_obj_t* img = lv_img_create(cont);
-    lv_img_set_src(img, "0:sdcard/boot_anim/shm_logo.bin");
+    lv_img_set_src(img, "0:sdcard/boot_anim/shm_logo_888.bin");
     lv_obj_center(img);
     ui.labelLogo = img;
     

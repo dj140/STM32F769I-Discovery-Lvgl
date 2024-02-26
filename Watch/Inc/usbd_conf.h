@@ -34,9 +34,10 @@
 #define USBD_MAX_STR_DESC_SIZ                 0x100
 #define USBD_SELF_POWERED                     1
 #define USBD_DEBUG_LEVEL                      0
+#define STORAGE_LUN_NBR                       2           /* 最大支持的设备数, 最大 STORAGE_LUN_NBR +1 个 */
 
 /* MSC Class Config */
-#define MSC_MEDIA_PACKET                      512
+#define MSC_MEDIA_PACKET                      512     /* 定义包大小为32KB,越大,速度越快 */
 
 /* Exported macro ------------------------------------------------------------*/
 /* Memory management macros */   

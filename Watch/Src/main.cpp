@@ -12,20 +12,19 @@
 #include "App.h"
 
 USBD_HandleTypeDef USBD_Device;
-FATFS fs;           /* FatFs文件系统对象 */
+FATFS fs[FF_VOLUMES];           /* FatFs文件系统对象 */
 FIL fnew;           /* 文件对象 */
 FRESULT res_flash;              /* 文件操作结果 */
 BYTE work[FF_MAX_SS]; /* Work area (larger is better for processing time) */
     
-//UINT fnum;                        /* 文件成功读写数量 */
-//BYTE ReadBuffer[1024]= {0};       /* 读缓冲区 */
-//BYTE WriteBuffer[] =              /*  写缓冲区*/
-//        "新建文件系统测试文件\r\n";
+UINT fnum;                        /* 文件成功读写数量 */
+BYTE ReadBuffer[1024]= {0};       /* 读缓冲区 */
+BYTE WriteBuffer[] =              /*  写缓冲区*/
+        "新建文件系统测试文件\r\n";
 static void MPU_Config(void);
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
 static void fs_init(void);
-
 
 int main(void) {
   
@@ -48,10 +47,20 @@ int main(void) {
   HAL_Init();
 
   SystemClock_Config();
-    /* 初始化调试串口，一般为串口1 */
+
   DEBUG_USART_Config();	
-  printf("****** usart enable ******\r\n");
-//  
+  printf("****** usart enable ******\r\n"); 
+  int status = BSP_QSPI_Init();
+  printf("flash init status = %d\n", status);
+
+  fs_init();
+  lv_init();
+  lv_fs_file_t f;
+  lv_fs_res_t res = lv_fs_open(&f, "0:sdcard/boot_anim/background.png", LV_FS_MODE_RD);
+  printf("res: %d\n", res);
+  tft_init();
+  touchpad_init();
+  App_Init();
   /* Init Device Library */
   USBD_Init(&USBD_Device, &MSC_Desc, 0);
   
@@ -63,16 +72,6 @@ int main(void) {
   
   /* Start Device Process */
   USBD_Start(&USBD_Device);
-  
-  fs_init();
-  lv_init();
-//  lv_fs_file_t f;
-//  lv_fs_res_t res = lv_fs_open(&f, "0:sdcard/boot_anim/background.png", LV_FS_MODE_RD);
-//  printf("res: %d\n", res);
-  tft_init();
-  touchpad_init();
-  App_Init();
-
 //  lv_demo_benchmark();
 //  lv_demo_music();
 
@@ -84,19 +83,20 @@ int main(void) {
 
 static void fs_init(void)
 {
-
-  res_flash = f_mount(&fs,"0:",1);
+  f_mount(&fs[0],"0:",1);
+  res_flash = f_mount(&fs[1],"1:",1);
   if (res_flash == FR_NO_FILESYSTEM) {
     printf("》SD卡还没有文件系统，即将进行格式化...\r\n");
     /* 格式化 */
-    res_flash=f_mkfs("0:",0,work, sizeof work);
-
+    res_flash=f_mkfs("1:",0,work, sizeof work);
     if (res_flash == FR_OK) {
         printf("》SD卡已成功格式化文件系统。\r\n");
         /* 格式化后，先取消挂载 */
-        res_flash = f_mount(NULL,"0:",1);
+        res_flash = f_mount(NULL,"1:",1);
         /* 重新挂载 */
-        res_flash = f_mount(&fs,"0:",1);
+        res_flash = f_mount(&fs[1],"1:",1);
+        printf("flash init (%d)\r\n",res_flash);
+
     } else {
         printf("《《格式化失败。》》\r\n");
     }
@@ -108,7 +108,7 @@ static void fs_init(void)
       printf("》文件系统挂载成功，可以进行读写测试\r\n");
   }
 //    printf("\r\n****** 即将进行文件写入测试... ******\r\n");
-//    res_flash=f_open(&fnew,"0:FatFs读写测试文件.txt",FA_CREATE_ALWAYS|FA_WRITE);
+//    res_flash=f_open(&fnew,"1:FatFs读写测试文件.txt",FA_CREATE_ALWAYS|FA_WRITE);
 //    if ( res_flash == FR_OK ) {
 //        printf("》打开/创建FatFs读写测试文件.txt文件成功，向文件写入数据。\r\n");
 //        /* 将指定存储区内容写入到文件内 */

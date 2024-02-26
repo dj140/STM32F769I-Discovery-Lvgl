@@ -19,30 +19,53 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_storage.h"
 #include "stm32f769i_discovery_sd.h"
+#include "stm32f769i_discovery_qspi.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define STORAGE_LUN_NBR                  1
+//#define STORAGE_LUN_NBR                  1
 #define STORAGE_BLK_NBR                  0x10000
 #define STORAGE_BLK_SIZ                  0x200
+#define USER_STORAGE_BLK_SIZ                  4096
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* USB Mass storage Standard Inquiry Data */
 int8_t STORAGE_Inquirydata[] = { /* 36 */
-  /* LUN 0 */
-  0x00,
-  0x80,
-  0x02,
-  0x02,
-  (STANDARD_INQUIRY_DATA_LEN - 5),
-  0x00,
-  0x00,
-  0x00,
-  'S', 'T', 'M', ' ', ' ', ' ', ' ', ' ', /* Manufacturer: 8 bytes  */
-  'P', 'r', 'o', 'd', 'u', 'c', 't', ' ', /* Product     : 16 Bytes */
-  ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-  '0', '.', '0','1',                      /* Version     : 4 Bytes  */
+    /* LUN 0 */
+    0x00,
+    0x80,
+    0x02,
+    0x02,
+    (STANDARD_INQUIRY_DATA_LEN - 4),
+    0x00,
+    0x00,
+    0x00,
+    /* Vendor Identification */
+    'A', 'L', 'I', 'E', 'N', 'T', 'E', 'K', ' ',/* 9字节 */
+    /* Product Identification */
+    'S', 'P', 'I', ' ', 'F', 'l', 'a', 's', 'h',/* 15字节 */
+    ' ', 'D', 'i', 's', 'k', ' ',
+    /* Product Revision Level */
+    '1', '.', '0', ' ',							/* 4字节 */
+
+    /* LUN 1 */
+    0x00,
+    0x80,
+    0x02,
+    0x02,
+    (STANDARD_INQUIRY_DATA_LEN - 4),
+    0x00,
+    0x00,
+    0x00,
+    /* Vendor Identification */
+    'A', 'L', 'I', 'E', 'N', 'T', 'E', 'K', ' ',	/* 9字节 */
+    /* Product Identification */
+    'S', 'D', ' ', 'F', 'l', 'a', 's', 'h', ' ',/* 15字节 */
+    'D', 'i', 's', 'k', ' ', ' ',
+    /* Product Revision Level */
+    '1', '.', '0', ' ',                      	/* 4字节 */
+    
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -73,7 +96,20 @@ USBD_StorageTypeDef USBD_DISK_fops = {
   */
 int8_t STORAGE_Init(uint8_t lun)
 {
-  BSP_SD_Init();
+    switch (lun)
+  {
+      case 0: /* SPI FLASH */
+          /* 没有初始化函数！不能调用：NORFLASH_Init！调用该函数将导致QSPI内存映射模式失效,程序运行可能异常
+           * 因为在sys.c里面,开启内存映射的时候，已经初始化QSPI接口了 
+           */
+//          BSP_QSPI_Init();
+          break;
+
+      case 1: /* SD卡 */
+//          BSP_SD_Init();
+          break;
+  }
+//  BSP_SD_Init();
   return 0;
 }
 
@@ -88,14 +124,24 @@ int8_t STORAGE_GetCapacity(uint8_t lun, uint32_t *block_num, uint16_t *block_siz
 {
   HAL_SD_CardInfoTypeDef info;
   int8_t ret = -1;
-
-  if(BSP_SD_IsDetected() != SD_NOT_PRESENT)
+  switch (lun)
   {
-    BSP_SD_GetCardInfo(&info);
+      case 0: /* SPI FLASH */
+            *block_size = 4096;
+            *block_num = 1024*16;
+                  ret = 0;
+          break;
 
-    *block_num = info.LogBlockNbr;
-    *block_size = info.LogBlockSize;
-    ret = 0;
+      case 1: /* SD卡 */
+          if(BSP_SD_IsDetected() != SD_NOT_PRESENT)
+          {
+            BSP_SD_GetCardInfo(&info);
+
+            *block_num = info.LogBlockNbr;
+            *block_size = info.LogBlockSize;
+            ret = 0;
+          }
+          break;
   }
   return ret;
 }
@@ -127,7 +173,7 @@ int8_t STORAGE_IsReady(uint8_t lun)
   {
     prev_status = -1;
   }
-  return ret;
+  return 0;
 }
 
 /**
@@ -150,22 +196,38 @@ int8_t STORAGE_IsWriteProtected(uint8_t lun)
 int8_t STORAGE_Read(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_len)
 {
   int8_t ret = -1;
+  uint16_t i = 0;
   uint32_t timeout = 100000;
-
-  if(BSP_SD_IsDetected() != SD_NOT_PRESENT)
-  {
-    BSP_SD_ReadBlocks((uint32_t *)buf, blk_addr, blk_len, 1000);
-
-    /* Wait until SD card is ready to use for new operation */
-    while(BSP_SD_GetCardState() != SD_TRANSFER_OK)
+    switch (lun)
     {
-      if (timeout-- == 0)
-      {
-        return ret;
-      }
+      case 0: /* SPI FLASH */
+//          for(i = 0;i < blk_len;i++)
+//          {
+//                    BSP_QSPI_Read(buf, blk_addr * 512, blk_len * 512);
+//          }
+          for(i = 0;i < blk_len;i++)
+          {
+            BSP_QSPI_Read(buf + i * USER_STORAGE_BLK_SIZ, blk_addr * USER_STORAGE_BLK_SIZ+ i * USER_STORAGE_BLK_SIZ, USER_STORAGE_BLK_SIZ);
+          }
+      break;
+
+      case 1: /* SD卡 */
+          if(BSP_SD_IsDetected() != SD_NOT_PRESENT)
+          {
+            BSP_SD_ReadBlocks((uint32_t *)buf, blk_addr, blk_len, 1000);
+
+            /* Wait until SD card is ready to use for new operation */
+            while(BSP_SD_GetCardState() != SD_TRANSFER_OK)
+            {
+              if (timeout-- == 0)
+              {
+                return ret;
+              }
+            }
+            ret = 0;
+          }
+      break;
     }
-    ret = 0;
-  }
   return ret;
 }
 
@@ -179,22 +241,37 @@ int8_t STORAGE_Read(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_l
 int8_t STORAGE_Write(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_len)
 {
   int8_t ret = -1;
+    uint16_t i = 0;
+
   uint32_t timeout = 100000;
-
-  if(BSP_SD_IsDetected() != SD_NOT_PRESENT)
-  {
-    BSP_SD_WriteBlocks((uint32_t *)buf, blk_addr, blk_len, 1000);
-
-    /* Wait until SD card is ready to use for new operation */
-    while(BSP_SD_GetCardState() != SD_TRANSFER_OK)
+    switch (lun)
     {
-      if (timeout-- == 0)
-      {
-        return ret;
-      }
+        case 0: /* SPI FLASH */
+//            BSP_QSPI_Write(buf, blk_addr * 512, blk_len * 512);
+            for(i = 0;i < blk_len;i++)
+            {
+              BSP_QSPI_Write((uint8_t *)(buf + i * USER_STORAGE_BLK_SIZ),blk_addr * USER_STORAGE_BLK_SIZ + i * USER_STORAGE_BLK_SIZ,USER_STORAGE_BLK_SIZ );
+            }
+            break;
+
+        case 1: /* SD卡 */
+            if(BSP_SD_IsDetected() != SD_NOT_PRESENT)
+            {
+              BSP_SD_WriteBlocks((uint32_t *)buf, blk_addr, blk_len, 1000);
+
+              /* Wait until SD card is ready to use for new operation */
+              while(BSP_SD_GetCardState() != SD_TRANSFER_OK)
+              {
+                if (timeout-- == 0)
+                {
+                  return ret;
+                }
+              }
+              ret = 0;
+            }
+        break;
     }
-    ret = 0;
-  }
+
   return ret;
 }
 
