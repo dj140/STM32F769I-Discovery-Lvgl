@@ -17,6 +17,8 @@
   
 #include "bsp_debug_usart.h"
 
+extern DSI_HandleTypeDef hdsi_discovery;
+
 UART_HandleTypeDef UartHandle;
 extern uint8_t ucTemp;  
  /**
@@ -77,7 +79,88 @@ void DEBUG_USART_Config(void)
     __HAL_UART_ENABLE_IT(&UartHandle,UART_IT_RXNE);  
 }
 
+void DEBUG_USART_IRQHandler(void)
+{
+    uint8_t Res;
+  if(__HAL_UART_GET_FLAG(&UartHandle,UART_FLAG_RXNE)!=RESET)
+  {
+    HAL_UART_Receive(&UartHandle,&Res,1,0Xffff); 
+   switch(Res) 
+   {
+     case 0x5E:
+//      HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[idx]);
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_HS_CK_EN");
+     break;
+     
+     case 0x5F:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_HS_RX_EN0");
+     break;
+     
+     case 0x60:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_HS_CK_TERM");
+     break;
+     
+     case 0x61:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_HS_RX_TERM0");
+     break;
+     
+      case 0x62:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_LP_RX_MODE_EN");
+     break;
+      
+     case 0x63:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_LP_CK_SCHMITT_EN");
+     break;
+     
+     case 0x64:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_LP_RX_SCHMITT_EN0");
+     break;
+     
+     case 0x65:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_LP_CK_COMP_EN");
+     break;
+     
+      case 0x66:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_LP_RX_COMP_EN0");
+     break;
+      
+     case 0x67:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_ULPS_CK");
+     break;
+     
+     case 0x68:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_ULPS_RX0");
+     break;
+     
+      case 0x69:
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+      printf("MIPI_ULPS");
+     break;
+      
+     default:
+     HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xFC, Res);
+     printf("FCh write: %d",Res);
+     break;
 
+   }
+  }
+  else if(__HAL_UART_GET_FLAG(&UartHandle,UART_FLAG_IDLE)!=RESET)
+  {
+    printf("Receive a frame data.");
+    __HAL_UART_CLEAR_IDLEFLAG(&UartHandle);
+  }
+}
 /*****************  ·¢ËÍ×Ö·û´® **********************/
 void Usart_SendString( USART_TypeDef * pUSARTx, uint8_t *str)
 {

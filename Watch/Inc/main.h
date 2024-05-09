@@ -26,7 +26,8 @@ extern "C" {
   
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f7xx_hal.h"
-  
+#include "stm32f7xx_it.h"
+
 #include "tft.h"
 #include "touchpad.h"
 #include "lvgl/lvgl.h"

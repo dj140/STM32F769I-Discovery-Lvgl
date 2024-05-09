@@ -488,17 +488,17 @@ uint8_t BSP_LCD_InitEx(LCD_OrientationTypeDef orientation)
     SH8601B_Init(PANEL_EDO_E01);
 #endif
 
-  HAL_DSI_ShortWrite(&(hdsi_discovery),
-                     hdsivideo_handle.VirtualChannelID,
-                     DSI_DCS_SHORT_PKT_WRITE_P1,
-                     SH8601B_CMD_DISPON,
-                     0x00);
+//  HAL_DSI_ShortWrite(&(hdsi_discovery),
+//                     hdsivideo_handle.VirtualChannelID,
+//                     DSI_DCS_SHORT_PKT_WRITE_P1,
+//                     SH8601B_CMD_DISPON,
+//                     0x00);
 
-  HAL_DSI_ShortWrite(&(hdsi_discovery),
-                     hdsivideo_handle.VirtualChannelID,
-                     DSI_DCS_SHORT_PKT_WRITE_P1,
-                     SH8601B_CMD_RAMWR,
-                     0x00);
+//  HAL_DSI_ShortWrite(&(hdsi_discovery),
+//                     hdsivideo_handle.VirtualChannelID,
+//                     DSI_DCS_SHORT_PKT_WRITE_P1,
+//                     SH8601B_CMD_RAMWR,
+//                     0x00);
 /***********************End SH8601B Initialization****************************/ 
 
   return LCD_OK; 

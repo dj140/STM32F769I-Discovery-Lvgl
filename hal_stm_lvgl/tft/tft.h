@@ -18,10 +18,10 @@
 /*********************
  *      DEFINES
  *********************/
-#define TFT_HOR_RES     400
-#define TFT_VER_RES     400
-#define TFT_NO_TEARING  0    /*1: no tearing but slower*/
-
+#define TFT_HOR_RES     390
+#define TFT_VER_RES     450
+#define TFT_NO_TEARING  1    /*1: no tearing but slower*/
+//#define LV_COLOR_DEPTH 32
 /**********************
  *      TYPEDEFS
  **********************/

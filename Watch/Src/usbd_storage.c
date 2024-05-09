@@ -24,9 +24,9 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 //#define STORAGE_LUN_NBR                  1
-#define STORAGE_BLK_NBR                  0x10000
-#define STORAGE_BLK_SIZ                  0x200
-#define USER_STORAGE_BLK_SIZ                  4096
+//#define STORAGE_BLK_NBR                  0x10000
+//#define STORAGE_BLK_SIZ                  0x200
+#define USER_STORAGE_BLK_SIZ                  512
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -129,7 +129,7 @@ int8_t STORAGE_GetCapacity(uint8_t lun, uint32_t *block_num, uint16_t *block_siz
       case 0: /* SPI FLASH */
             *block_size = 4096;
             *block_num = 1024*16;
-                  ret = 0;
+             ret = 0;
           break;
 
       case 1: /* SD¿¨ */
@@ -205,10 +205,16 @@ int8_t STORAGE_Read(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_l
 //          {
 //                    BSP_QSPI_Read(buf, blk_addr * 512, blk_len * 512);
 //          }
-          for(i = 0;i < blk_len;i++)
-          {
-            BSP_QSPI_Read(buf + i * USER_STORAGE_BLK_SIZ, blk_addr * USER_STORAGE_BLK_SIZ+ i * USER_STORAGE_BLK_SIZ, USER_STORAGE_BLK_SIZ);
-          }
+//          for(i = 0;i < blk_len;i++)
+//          {
+//            BSP_QSPI_Read(buf + i * USER_STORAGE_BLK_SIZ, blk_addr * USER_STORAGE_BLK_SIZ+ i * USER_STORAGE_BLK_SIZ, USER_STORAGE_BLK_SIZ);
+//          }
+//                            for (; blk_len > 0; blk_len--)
+//    {
+        BSP_QSPI_Read((uint8_t *)buf, blk_addr * USER_STORAGE_BLK_SIZ, blk_len*USER_STORAGE_BLK_SIZ);
+//        blk_addr++;
+//        buf += USER_STORAGE_BLK_SIZ;
+//    }
       break;
 
       case 1: /* SD¿¨ */
@@ -248,10 +254,17 @@ int8_t STORAGE_Write(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_
     {
         case 0: /* SPI FLASH */
 //            BSP_QSPI_Write(buf, blk_addr * 512, blk_len * 512);
-            for(i = 0;i < blk_len;i++)
-            {
-              BSP_QSPI_Write((uint8_t *)(buf + i * USER_STORAGE_BLK_SIZ),blk_addr * USER_STORAGE_BLK_SIZ + i * USER_STORAGE_BLK_SIZ,USER_STORAGE_BLK_SIZ );
-            }
+//            for(i = 0;i < blk_len;i++)
+//            {
+//              BSP_QSPI_Write((uint8_t *)(buf + i * USER_STORAGE_BLK_SIZ),blk_addr * USER_STORAGE_BLK_SIZ + i * USER_STORAGE_BLK_SIZ,USER_STORAGE_BLK_SIZ );
+//            }
+//                        for (; blk_len > 0; blk_len--)
+//    {
+        BSP_QSPI_Erase_Block(blk_addr / 4096);
+        BSP_QSPI_Write((uint8_t *)buf, blk_addr * USER_STORAGE_BLK_SIZ, blk_len * USER_STORAGE_BLK_SIZ);
+//        blk_addr++;
+//        buf += USER_STORAGE_BLK_SIZ;
+//    }
             break;
 
         case 1: /* SD¿¨ */

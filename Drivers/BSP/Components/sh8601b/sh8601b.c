@@ -35,7 +35,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "sh8601b.h"
-
+#include "stm32f769i_discovery_lcd.h"
+LTDC_HandleTypeDef  hltdc_discovery;
+DSI_HandleTypeDef hdsi_discovery;
 /** @addtogroup BSP
   * @{
   */
@@ -50,7 +52,7 @@
   * @{
   */
 
-#define DSI_MAX_PAYLOAD_SIZE            (110)
+#define DSI_MAX_PAYLOAD_SIZE            (230)
 
 /* Private types -------------------------------------------------------------*/
 typedef struct __DSI_REG_DATA_STRUCT {
@@ -80,20 +82,26 @@ static const DSI_REG_DATA_STRUCT EDO_E01_REG_DATA[] =
 {
 {SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xC0,                       2,      {0x5A,0x5A}},
 {SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xC1,                       2,      {0x5A,0x5A}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xE6,                       8,      {0x02,0x04,0x01,0x72,0x00,0x00,0x00,0x00}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xE7,                       2,      {0x01,0x00}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xC1,                       2,      {0xA5,0xA5}},
+//{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xE6,                       8,      {0x02,0x04,0x01,0x72,0x00,0x00,0x00,0x00}},
+//{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xE7,                       2,      {0x01,0x00}},
+//{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xC1,                       2,      {0xA5,0xA5}},
 {SHT_DSI_DCS_SHORT_PKT_WRITE_P0,    110,    SH8601B_CMD_SLPOUT,         0,      {0x00}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_CASET,          4,      {0x00,0x00,0x01,0x8F}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_PASET,          4,      {0x00,0x00,0x01,0x8F}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_TESCAN,         2,      {0x00,0xFA}},
+{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_CASET,          4,      {0x00,0x00,0x01,0x85}},
+{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_PASET,          4,      {0x00,0x00,0x01,0xC1}},
+{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_TESCAN,         2,      {0x01,0xC1}},
 {SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      SH8601B_CMD_TEON,           1,      {0x00}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_WRDISBV,        2,      {0x00,0xFF}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_AOD_WRDISBV,    2,      {0x00,0xFF}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_HBM_WRDISBV,    2,      {0x00,0xFF}},
-{SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      SH8601B_CMD_WRCTRLD1,       1,      {0x28}},
-{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xF0,                       14,     {0x92,0x14,0x11,0xA6,0x91,0x1A,0x08,0x0F,0x80,0x80,0x55,0x55,0x01,0x00}},
+//{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_WRDISBV,        2,      {0x00,0xFF}},
+//{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_AOD_WRDISBV,    2,      {0x00,0xFF}},
+//{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      SH8601B_CMD_HBM_WRDISBV,    2,      {0x00,0xFF}},
+{SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      SH8601B_CMD_WRCTRLD1,       1,      {0x20}},
+//{SHT_DSI_DCS_LONG_PKT_WRITE,        1,      0xF0,                       14,     {0x92,0x14,0x11,0xA6,0x91,0x1A,0x08,0x0F,0x80,0x80,0x55,0x55,0x01,0x00}},
 {SHT_DSI_DCS_SHORT_PKT_WRITE_P0,    1,      0x29,                       0,      {0x00}},
+{SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      0x3A,                       1,      {0x55}},
+{SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      0xB0,                       1,      {0x09}},
+{SHT_DSI_DCS_SHORT_PKT_WRITE_P1,    1,      0xE7,                       1,      {0x80}},
+
+{SHT_DSI_DCS_LONG_PKT_WRITE,    1,      0xFC,                       3,      {0x60,0x00,0x10}},
+
 };
 
 #if defined ( __ICCARM__ )
@@ -276,15 +284,81 @@ static const DSI_REG_DATA_STRUCT TRULY_R01_NO_HOLE_REG_DATA[] =
   * @{
   */
 
-/**
-  * @brief  DSI IO write short/long command.
-  * @note : Can be surcharged by application code implementation of the function.
-  */
-__weak void DSI_IO_WriteCmd(uint8_t type, uint8_t cmd, uint32_t size, uint8_t* payload)
+void DSI_IO_Read(uint8_t cmd, uint8_t *buffer, uint32_t size)
 {
-  /* NOTE : This function Should not be modified, when it is needed,
-            the DSI_IO_WriteCmd could be implemented in the user file
-   */
+  HAL_StatusTypeDef status = HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+//  if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_ConfigFlowControl().");
+
+  status = HAL_DSI_Read(&hdsi_discovery, LCD_SH8601B_ID, buffer, size, DSI_DCS_SHORT_PKT_READ, cmd, (uint8_t[]){0, 0});
+//  if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_Read().");
+}
+
+/**
+  * @brief  DCS or Generic read command
+  * @param  ChannelNbr Virtual channel ID
+  * @param  Reg Register to be read
+  * @param  pData pointer to a buffer to store the payload of a read back operation.
+  * @param  Size  Data size to be read (in byte).
+  * @retval BSP status
+  */
+void DSI_IO_Read1Param(uint8_t param, uint8_t *buffer, uint32_t size) 
+{
+  HAL_StatusTypeDef status = HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+//if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_ConfigFlowControl().");
+  status = HAL_DSI_Read(&hdsi_discovery, LCD_SH8601B_ID, buffer, size, DSI_GEN_SHORT_PKT_READ_P1, 0, (uint8_t[]){param, 0});
+//if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_Read().");
+}
+
+void DSI_IO_Read2Param(uint16_t param, uint8_t *buffer, uint32_t size) 
+{
+  uint8_t params[2];
+  params[0] = param & 0xFF;
+  params[1] = (param >> 8) & 0xFF;
+
+  HAL_StatusTypeDef status = HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+  status = HAL_DSI_Read(&hdsi_discovery, LCD_SH8601B_ID, buffer, size, DSI_GEN_SHORT_PKT_READ_P2, 0, params);
+//  if (status != HAL_OK) MBED_ERROR(status, "Error calling HAL_DSI_Read().");
+}
+/**
+  * @brief  DCS or Generic short/long write command
+  * @param  type   : DSI command type
+  * @param  cmd    : DCS command
+  * @param  size   : size of parameter values table
+  * @param  payload: Pointer to parameter values table.
+  * @retval none
+  */
+void DSI_IO_WriteCmd(uint8_t type, uint8_t cmd, uint32_t size, uint8_t* payload)
+{
+
+  
+    uint8_t *params = payload;
+    switch (type) {
+    case SHT_DSI_DCS_SHORT_PKT_WRITE_P0:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P0, cmd, 0);
+        break;
+    case SHT_DSI_DCS_SHORT_PKT_WRITE_P1:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_SHORT_PKT_WRITE_P1, cmd, payload[0]);
+        break;
+    case SHT_DSI_GEN_SHORT_PKT_WRITE_P0:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P0, 0, 0);
+        break;
+    case SHT_DSI_GEN_SHORT_PKT_WRITE_P1:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, 0, payload[0]);
+        break;
+    case SHT_DSI_GEN_SHORT_PKT_WRITE_P2:
+        HAL_DSI_ShortWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_SHORT_PKT_WRITE_P1, payload[0], payload[1]);
+        break;
+    case SHT_DSI_DCS_LONG_PKT_WRITE:
+        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_DCS_LONG_PKT_WRITE, size, cmd, payload);
+        break;
+    case SHT_DSI_GEN_LONG_PKT_WRITE:
+        HAL_DSI_LongWrite(&hdsi_discovery, LCD_SH8601B_ID, DSI_GEN_LONG_PKT_WRITE, (size - 1), payload[0], &payload[1]);
+        break;
+    default:
+        break;
+    }
+
+    return;
 }
 
 /**

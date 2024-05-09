@@ -27,6 +27,8 @@
 #include "Pages/StatusBar/StatusBar.h"
 #include "Utils/PageManager/PageManager.h"
 
+LV_IMG_DECLARE(img_src_bg_digital_392x392);
+
 #define ACCOUNT_SEND_CMD(ACT, CMD) \
 do{ \
     DataProc::ACT##_Info_t info; \
@@ -81,8 +83,8 @@ void App_Init()
     /* Set root default style */
     static lv_style_t rootStyle;
     lv_style_init(&rootStyle);
-    lv_style_set_width(&rootStyle, 397);
-    lv_style_set_height(&rootStyle, 397);
+    lv_style_set_width(&rootStyle, 390);
+    lv_style_set_height(&rootStyle, 450);
     lv_style_set_bg_opa(&rootStyle, LV_OPA_COVER);
     lv_style_set_bg_color(&rootStyle, lv_color_black());
     lv_style_set_border_width(&rootStyle, 0);

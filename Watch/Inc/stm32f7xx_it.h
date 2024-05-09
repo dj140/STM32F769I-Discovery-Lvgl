@@ -42,7 +42,10 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 void DSI_IRQHandler(void);
-
+uint32_t millis(void);
+uint32_t micros(void);
+void delay_ms(uint32_t ms);
+void delay_us(uint32_t us);
 #ifdef __cplusplus
 }
 #endif

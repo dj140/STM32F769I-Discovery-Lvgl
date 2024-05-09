@@ -10,6 +10,8 @@
 
 #include "main.h"
 #include "App.h"
+#include "Common/HAL/HAL.h"
+
 
 USBD_HandleTypeDef USBD_Device;
 FATFS fs[FF_VOLUMES];           /* FatFs文件系统对象 */
@@ -25,6 +27,8 @@ static void MPU_Config(void);
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
 static void fs_init(void);
+
+//LV_IMG_DECLARE(img_src_bg_digital_392x392);
 
 int main(void) {
   
@@ -48,33 +52,37 @@ int main(void) {
 
   SystemClock_Config();
 
-  DEBUG_USART_Config();	
+  DEBUG_USART_Config();
   printf("****** usart enable ******\r\n"); 
   int status = BSP_QSPI_Init();
   printf("flash init status = %d\n", status);
 
   fs_init();
   lv_init();
-  lv_fs_file_t f;
-  lv_fs_res_t res = lv_fs_open(&f, "0:sdcard/boot_anim/background.png", LV_FS_MODE_RD);
-  printf("res: %d\n", res);
+//  lv_fs_file_t f;
+//  lv_fs_res_t res = lv_fs_open(&f, "0:sdcard/boot_anim/background.png", LV_FS_MODE_RD);
+//  printf("res: %d\n", res);
   tft_init();
-  touchpad_init();
+//  touchpad_init();
+  HAL::HAL_Init();
   App_Init();
   /* Init Device Library */
-  USBD_Init(&USBD_Device, &MSC_Desc, 0);
-  
-  /* Add Supported Class */
-  USBD_RegisterClass(&USBD_Device, USBD_MSC_CLASS);
-  
-  /* Add Storage callbacks for MSC Class */
-  USBD_MSC_RegisterStorage(&USBD_Device, &USBD_DISK_fops);
-  
-  /* Start Device Process */
-  USBD_Start(&USBD_Device);
+//  USBD_Init(&USBD_Device, &MSC_Desc, 0);
+//  
+//  /* Add Supported Class */
+//  USBD_RegisterClass(&USBD_Device, USBD_MSC_CLASS);
+//  
+//  /* Add Storage callbacks for MSC Class */
+//  USBD_MSC_RegisterStorage(&USBD_Device, &USBD_DISK_fops);
+//  
+//  /* Start Device Process */
+//  USBD_Start(&USBD_Device);
 //  lv_demo_benchmark();
 //  lv_demo_music();
-
+//    lv_obj_t * img1 = lv_img_create(lv_scr_act());
+//    lv_img_set_src(img1, &img_src_bg_digital_392x392);
+//    lv_obj_align(img1, LV_ALIGN_CENTER, 0, 0);
+    
   while(1) {
       lv_task_handler();
       HAL_Delay(5);
@@ -96,7 +104,6 @@ static void fs_init(void)
         /* 重新挂载 */
         res_flash = f_mount(&fs[1],"1:",1);
         printf("flash init (%d)\r\n",res_flash);
-
     } else {
         printf("《《格式化失败。》》\r\n");
     }

@@ -27,9 +27,18 @@ JPEG_STATIC int JPEGInit(JPEGIMAGE *pJPEG);
 JPEG_STATIC int JPEGParseInfo(JPEGIMAGE *pPage, int bExtractThumb);
 JPEG_STATIC void JPEGGetMoreData(JPEGIMAGE *pPage);
 JPEG_STATIC int DecodeJPEG(JPEGIMAGE *pImage);
-
+//void JPEG_setFramebuffer(JPEGIMAGE *pPage, void *pFramebuffer);
+void JPEG_setFramebuffer(JPEGIMAGE *pJPEG, void *pFramebuffer)
+{
+    pJPEG->pFramebuffer = pFramebuffer;
+} /* JPEG_setFramebuffer() */
 // Include the C code which does the actual work
 #include "jpeg.inl"
+
+void JPEGDEC::setFramebuffer(void *pFramebuffer)
+{
+    JPEG_setFramebuffer(&_jpeg, pFramebuffer);
+} /* setFramebuffer() */
 
 void JPEGDEC::setPixelType(int iType)
 {

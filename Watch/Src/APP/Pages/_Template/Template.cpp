@@ -1,12 +1,15 @@
 #include "Template.h"
 #include "stdio.h"
+#include "stm32f7xx_hal.h"
+
 using namespace Page;
+extern DSI_HandleTypeDef hdsi_discovery;
 
 //char* imagepath[100];                /* 保存当前扫描路径 */
 uint32_t counter = 0;
 uint8_t  ubNumberOfFiles = 0;
 uint8_t str[100];
-#define MAX_BMP_FILES     25
+#define MAX_BMP_FILES     50
 #define MAX_BMP_FILE_NAME 100
 char* pDirectoryFiles[MAX_BMP_FILES];
 uint8_t num = 0;
@@ -51,7 +54,7 @@ void Template::onViewWillAppear()
 
 //    lv_obj_set_style_bg_color(_root, param.color, LV_PART_MAIN);
 //    lv_obj_set_style_bg_opa(_root, LV_OPA_COVER, LV_PART_MAIN);
-    timer = lv_timer_create(onTimerUpdate, 4000, this);
+    timer = lv_timer_create(onTimerUpdate, 5500, this);
       for (counter = 0; counter < MAX_BMP_FILES; counter++)
     {
 
@@ -104,14 +107,53 @@ void Template::AttachEvent(lv_obj_t* obj)
 void Template::Update()
 {
 //    lv_label_set_text_fmt(View.ui.labelTick, "tick = %d save = %d", Model.GetData(), Model.TickSave);
-  if(num == ubNumberOfFiles)
-  {
-    num = 0;
-  }
+    if(num == ubNumberOfFiles)
+    {
+      num = 0;
+    }
     sprintf ((char*)str, "0:Media/%s", pDirectoryFiles[num]);
     lv_img_set_src(View.ui.image, (char*)str);
-    lv_obj_fade_in(View.ui.image, 3000, 0);
-//    printf("%d: %s\r\n", num, (char*)str);
+    
+    for(uint8_t i=0; i < 255; i++)
+    {
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0x51, i);
+       HAL_Delay(10);
+    }
+
+    for(uint8_t i=255; i > 0; i--)
+    {
+      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0x51, i);
+      HAL_Delay(10);
+    }
+     
+//     lv_opa_t opa;
+//   opa = lv_obj_get_style_opa(View.ui.image, 0);
+////   LV_LOG_USER("opa: %d", opa);
+//   if (opa < 10)
+//   {
+//       //TRANSP -> Bright
+////       lv_obj_fade_in(View.ui.image, 1000, 0);
+//    lv_img_set_src(View.ui.image, (char*)str);
+//     for(uint8_t i=0; i < 255; i++)
+//     {
+//        HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0x51, i);
+//         HAL_Delay(10);
+//     }
+
+//   }
+//   else
+//   {   
+//          for(uint8_t i=255; i > 0; i--)
+//     {
+//        HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0x51, i);
+//        HAL_Delay(10);
+//     }
+//       //Bright -> TRANSP
+////       lv_obj_fade_out(View.ui.image, 1000, 0); 
+//   }
+//    lv_img_set_src(View.ui.image, (char*)str);
+//    lv_obj_fade_in(View.ui.image, 3000, 0);
+    printf("%d: %s\r\n", num, (char*)str);
     num++;
 }
 

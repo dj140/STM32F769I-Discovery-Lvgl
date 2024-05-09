@@ -54,7 +54,7 @@ void Dialplate::onViewWillAppear()
 //        lv_group_focus_obj(View.ui.btnCont.btnRec);
 //    }
 
-    Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
+//    Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
 
     Update();
 

@@ -130,23 +130,23 @@
   */
 
 /* Width and Height in Portrait mode */
-#define  SH8601B_PORTRAIT_WIDTH             ((uint16_t)400)     /* LCD PIXEL WIDTH   */
-#define  SH8601B_PORTRAIT_HEIGHT            ((uint16_t)400)     /* LCD PIXEL HEIGHT  */
+#define  SH8601B_PORTRAIT_WIDTH             ((uint16_t)390)     /* LCD PIXEL WIDTH   */
+#define  SH8601B_PORTRAIT_HEIGHT            ((uint16_t)450)     /* LCD PIXEL HEIGHT  */
 
 /* Width and Height in Landscape mode */
-#define  SH8601B_LANDSCAPE_WIDTH            ((uint16_t)400)     /* LCD PIXEL WIDTH   */
-#define  SH8601B_LANDSCAPE_HEIGHT           ((uint16_t)400)     /* LCD PIXEL HEIGHT  */
+#define  SH8601B_LANDSCAPE_WIDTH            ((uint16_t)390)     /* LCD PIXEL WIDTH   */
+#define  SH8601B_LANDSCAPE_HEIGHT           ((uint16_t)450)     /* LCD PIXEL HEIGHT  */
 #endif
 
 /**
   * @brief  EDO 1.4" Panel Timing parameters for Portrait orientation mode
   */
-#define  SH8601B_PORTRAIT_HSYNC             ((uint16_t)2)      /* Horizontal synchronization */
-#define  SH8601B_PORTRAIT_HBP               ((uint16_t)34)     /* Horizontal back porch      */
-#define  SH8601B_PORTRAIT_HFP               ((uint16_t)34)     /* Horizontal front porch     */
+#define  SH8601B_PORTRAIT_HSYNC             ((uint16_t)1)      /* Horizontal synchronization */
+#define  SH8601B_PORTRAIT_HBP               ((uint16_t)20)     /* Horizontal back porch      */
+#define  SH8601B_PORTRAIT_HFP               ((uint16_t)20)     /* Horizontal front porch     */
 #define  SH8601B_PORTRAIT_VSYNC             ((uint16_t)1)      /* Vertical synchronization   */
-#define  SH8601B_PORTRAIT_VBP               ((uint16_t)15)     /* Vertical back porch        */
-#define  SH8601B_PORTRAIT_VFP               ((uint16_t)16)     /* Vertical front porch       */
+#define  SH8601B_PORTRAIT_VBP               ((uint16_t)6)     /* Vertical back porch        */
+#define  SH8601B_PORTRAIT_VFP               ((uint16_t)8)     /* Vertical front porch       */
 
 /**
   * @brief  EDO 1.4" Panel Timing parameters for Landscape orientation mode

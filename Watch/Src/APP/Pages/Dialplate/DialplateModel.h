@@ -26,6 +26,7 @@ public:
     void Deinit();
 
     bool GetGPSReady();
+    void GetClockinfo(HAL::Clock_Info_t* info);
 
     float GetSpeed()
     {

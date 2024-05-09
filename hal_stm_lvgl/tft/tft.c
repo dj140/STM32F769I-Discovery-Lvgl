@@ -12,6 +12,7 @@
 
 #include "tft.h"
 #include "stm32f7xx_hal.h"
+#include "bsp_debug_usart.h"
 
 #include "stm32f769i_discovery.h"
 #include "stm32f769i_discovery_lcd.h"
@@ -46,11 +47,11 @@
 #define VSYNC                       1 
 #define VBP                         1 
 #define VFP                         1
-#define VACT                        400
+#define VACT                        TFT_VER_RES
 #define HSYNC                       1
 #define HBP                         1
 #define HFP                         1
-#define HACT                        400 / ZONES
+#define HACT                        TFT_HOR_RES / ZONES
 
 #define LAYER0_ADDRESS               (LCD_FB_START_ADDRESS)
 
@@ -107,21 +108,35 @@ static volatile bool refr_qry;
 static volatile uint32_t t_last = 0;
 
 #if TFT_NO_TEARING
-uint8_t pPage[]       = {0x00, 0x00, 0x01, 0x8F}; /*   0 -> 479 */
+uint8_t pPage[]       = {0x00, 0x00, 0x01, 0x85}; /*   0 -> 479 */
 
+uint8_t PASET[ZONES][4] =
+{
+#if (ZONES == 4 )
+  {0x00, 0x00, 0x00, 0x63}, /*   0 -> 99 */
+  {0x00, 0x64, 0x00, 0xC7}, /* 100 -> 199 */
+  {0x00, 0xC8, 0x01, 0x2B}, /* 200 -> 299 */
+  {0x01, 0x2C, 0x01, 0x85}, /* 300 -> 399 */
+#elif (ZONES == 2 )
+  {0x00, 0x00, 0x01, 0x85}, /*   0 -> 399 */
+  {0x01, 0x90, 0x03, 0x1F}
+#elif (ZONES == 1 )
+  {0x00, 0x00, 0x01, 0xC1}, /*   0 -> 799 */
+#endif
 
+};
 uint8_t pCols[ZONES][4] =
 {
 #if (ZONES == 4 )
   {0x00, 0x00, 0x00, 0x63}, /*   0 -> 99 */
   {0x00, 0x64, 0x00, 0xC7}, /* 100 -> 199 */
   {0x00, 0xC8, 0x01, 0x2B}, /* 200 -> 299 */
-  {0x01, 0x2C, 0x01, 0x8F}, /* 300 -> 399 */
+  {0x01, 0x2C, 0x01, 0x85}, /* 300 -> 399 */
 #elif (ZONES == 2 )
-  {0x00, 0x00, 0x01, 0x8F}, /*   0 -> 399 */
+  {0x00, 0x00, 0x01, 0x85}, /*   0 -> 399 */
   {0x01, 0x90, 0x03, 0x1F}
 #elif (ZONES == 1 )
-  {0x00, 0x00, 0x01, 0x8F}, /*   0 -> 799 */
+  {0x00, 0x00, 0x01, 0x85}, /*   0 -> 799 */
 #endif
 };
 #endif
@@ -162,17 +177,19 @@ void tft_init(void)
 
   DMA_Config();
 
-  static lv_color_t disp_buf1[TFT_HOR_RES * 100];
-  static lv_color_t disp_buf2[TFT_HOR_RES * 100];
+  static lv_color_t disp_buf1[TFT_HOR_RES * 450];
+//  static lv_color_t disp_buf2[TFT_HOR_RES * 90];
   static lv_disp_draw_buf_t buf;
-  lv_disp_draw_buf_init(&buf, disp_buf1, disp_buf2, TFT_HOR_RES * 100);
+  lv_disp_draw_buf_init(&buf, disp_buf1, NULL, TFT_HOR_RES * 450);
 
   lv_disp_drv_init(&disp_drv);
   disp_drv.draw_buf = &buf;
   disp_drv.flush_cb = tft_flush_cb;
   disp_drv.monitor_cb = monitor_cb;
-  disp_drv.hor_res = 400;
-  disp_drv.ver_res = 400;
+  disp_drv.hor_res = TFT_HOR_RES;
+  disp_drv.ver_res = TFT_VER_RES;
+  disp_drv.full_refresh = 1;
+
   lv_disp_drv_register(&disp_drv);
 }
 
@@ -198,7 +215,7 @@ static void tft_flush_cb(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t
   y2_flush = act_y2;
   y_flush_act = act_y1;
   buf_to_flush = color_p;
-
+//  printf("x1_flush: %d, y1_flush: %d, x2_flush: %d, y2_flush: %d  \r\n", act_x1, act_y1, act_x2, act_y2);
   /*Use DMA instead of DMA2D to leave it free for GPU*/
   HAL_StatusTypeDef err;
   err = HAL_DMA_Start_IT(&DmaHandle,(uint32_t)buf_to_flush, (uint32_t)&my_fb[y_flush_act * TFT_HOR_RES + x1_flush],
@@ -208,11 +225,36 @@ static void tft_flush_cb(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t
     while(1);	/*Halt on error*/
   }
 }
+void BSP_LCD_Reset(void)
+{
+  GPIO_InitTypeDef  gpio_init_structure;
+
+  __HAL_RCC_GPIOJ_CLK_ENABLE();
+
+    /* Configure the GPIO on PJ15 */
+    gpio_init_structure.Pin   = GPIO_PIN_15;
+    gpio_init_structure.Mode  = GPIO_MODE_OUTPUT_PP;
+    gpio_init_structure.Pull  = GPIO_PULLUP;
+    gpio_init_structure.Speed = GPIO_SPEED_HIGH;
+
+    HAL_GPIO_Init(GPIOJ, &gpio_init_structure);
+
+    /* Activate XRES active low */
+    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_15, GPIO_PIN_RESET);
+
+    HAL_Delay(10); /* wait 20 ms */
+
+    /* Desactivate XRES */
+    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_15, GPIO_PIN_SET);
+    
+    /* Wait for 10ms after releasing XRES before sending commands */
+    HAL_Delay(10);
+}
 
 static void LCD_Config(void)
 {
   DSI_PHY_TimerTypeDef  PhyTimings;
-
+  DSI_InitTypeDef disinit;
   /* Toggle Hardware Reset of the DSI LCD using
    * its XRES signal (active low) */
   BSP_LCD_Reset();
@@ -224,7 +266,6 @@ static void LCD_Config(void)
    * - NVIC IRQ related to IP blocks enabled
    */
   BSP_LCD_MspInit();
-
   /* LCD clock configuration */
   /* PLLSAI_VCO Input = HSE_VALUE/PLL_M = 1 Mhz */
   /* PLLSAI_VCO Output = PLLSAI_VCO Input * PLLSAIN = 417 Mhz */
@@ -243,7 +284,9 @@ static void LCD_Config(void)
 
   dsiPllInit.PLLNDIV  = 100;
   dsiPllInit.PLLIDF   = DSI_PLL_IN_DIV5;
-  dsiPllInit.PLLODF   = DSI_PLL_OUT_DIV1;
+  dsiPllInit.PLLODF   = DSI_PLL_OUT_DIV2;
+
+  hdsi_discovery.Init.AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_DISABLE;
 
   hdsi_discovery.Init.NumberOfLanes = DSI_ONE_DATA_LANE;
   hdsi_discovery.Init.TXEscapeCkdiv = 0x3;
@@ -295,7 +338,7 @@ static void LCD_Config(void)
   PhyTimings.StopWaitTime = 10;
   HAL_DSI_ConfigPhyTimer(&hdsi_discovery, &PhyTimings);
 
-    SH8601B_Init(PANEL_EDO_E01);
+  SH8601B_Init(PANEL_EDO_E01);
 
   /* Initialize the OTM8009A LCD Display IC Driver (KoD LCD IC Driver)
    *  depending on configuration set in 'hdsivideo_handle'.
@@ -306,31 +349,25 @@ static void LCD_Config(void)
 //  OTM8009A_Init(OTM8009A_FORMAT_RGB888, LCD_ORIENTATION_LANDSCAPE);
 //#endif
   LPCmd.LPGenShortWriteNoP    = DSI_LP_GSW0P_DISABLE;
-  LPCmd.LPGenShortWriteOneP   = DSI_LP_GSW1P_DISABLE;
+//  LPCmd.LPGenShortWriteOneP   = DSI_LP_GSW1P_DISABLE;
   LPCmd.LPGenShortWriteTwoP   = DSI_LP_GSW2P_DISABLE;
   LPCmd.LPGenShortReadNoP     = DSI_LP_GSR0P_DISABLE;
   LPCmd.LPGenShortReadOneP    = DSI_LP_GSR1P_DISABLE;
   LPCmd.LPGenShortReadTwoP    = DSI_LP_GSR2P_DISABLE;
   LPCmd.LPGenLongWrite        = DSI_LP_GLW_DISABLE;
   LPCmd.LPDcsShortWriteNoP    = DSI_LP_DSW0P_DISABLE;
-  LPCmd.LPDcsShortWriteOneP   = DSI_LP_DSW1P_DISABLE;
+//  LPCmd.LPDcsShortWriteOneP   = DSI_LP_DSW1P_DISABLE;
   LPCmd.LPDcsShortReadNoP     = DSI_LP_DSR0P_DISABLE;
   LPCmd.LPDcsLongWrite        = DSI_LP_DLW_DISABLE;
   HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
 
   HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
 
-  /* Send Display Off DCS Command to display */
-//  HAL_DSI_ShortWrite(&(hdsi_discovery),
-//      0,
-//      DSI_DCS_SHORT_PKT_WRITE_P1,
-//      SH8601B_CMD_DISPOFF,
-//      0x00);
 
 
 #if TFT_NO_TEARING
-    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[0]);
-    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_PASET, pPage);
+//    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[0]);
+//    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_PASET, pPage);
 
   /* Enable GPIOJ clock */
   __HAL_RCC_GPIOJ_CLK_ENABLE();
@@ -348,18 +385,6 @@ static void LCD_Config(void)
   GPIO_Init_Structure.Alternate = GPIO_AF13_DSI;
   HAL_GPIO_Init(GPIOJ, &GPIO_Init_Structure);
 
-  static uint8_t ScanLineParams[2];
-#if ZONES == 2
-  uint16_t scanline = 200;
-#elif ZONES == 4
-  uint16_t scanline = 283;
-#endif
-//  ScanLineParams[0] = scanline >> 8;
-//  ScanLineParams[1] = scanline & 0x00FF;
-
-//  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 2, 0x44, ScanLineParams);
-//  /* set_tear_on */
-  HAL_DSI_ShortWrite(&hdsi_discovery, 0, DSI_DCS_SHORT_PKT_WRITE_P1, SH8601B_CMD_TEON, 0x00);
 #endif
 
 }
@@ -370,7 +395,14 @@ static void LCD_Config(void)
 */
 void LCD_SetUpdateRegion(int idx)
 {
-  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[idx]);
+//  LPCmd.LPDcsLongWrite        = DSI_LP_DLW_ENABLE;
+//  HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
+//  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[idx]);
+//  DELAY_US(10);
+//  HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_PASET, PASET[idx]);
+
+//    LPCmd.LPDcsLongWrite        = DSI_LP_DLW_DISABLE;
+//  HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
 }
 #endif
 /**
@@ -415,7 +447,7 @@ static void LTDC_Init(void)
    Layercfg.WindowX0 = 0;
    Layercfg.WindowX1 = HACT;
    Layercfg.WindowY0 = 0;
-   Layercfg.WindowY1 = BSP_LCD_GetYSize();
+   Layercfg.WindowY1 = TFT_VER_RES;
 #if LV_COLOR_DEPTH == 16
    Layercfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB565;
 #else
@@ -429,8 +461,8 @@ static void LTDC_Init(void)
    Layercfg.Backcolor.Red = 0;
    Layercfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
    Layercfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
-   Layercfg.ImageWidth = BSP_LCD_GetXSize();;
-   Layercfg.ImageHeight = BSP_LCD_GetYSize();
+   Layercfg.ImageWidth = TFT_HOR_RES;;
+   Layercfg.ImageHeight = TFT_VER_RES;
 
    HAL_LTDC_ConfigLayer(&hltdc_discovery, &Layercfg, 0);
 
@@ -447,32 +479,46 @@ static volatile uint32_t LCD_ActiveRegion;
   */
 void HAL_DSI_TearingEffectCallback(DSI_HandleTypeDef *hdsi)
 {
+    uint8_t buffer[2];
     if(refr_qry) {
         LCD_ActiveRegion = 1;
         HAL_DSI_Refresh(hdsi);
         refr_qry = false;
+//        DSI_IO_Read1Param(0x0A, buffer, 1);
+//      printf("0Ah: %X \r\n",buffer[0]);
+////      DELAY_US(10);
+
+////        SH8601B_IO_Delay(1);
+//      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xB0, 0x0A);
+//      DELAY_US(10);
+//      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xE7, 0x14);
+//      DELAY_US(10);
+//      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xB0, 0x0A);
+//      DELAY_US(10);
+//      HAL_DSI_ShortWrite(&(hdsi_discovery), 0, DSI_DCS_SHORT_PKT_WRITE_P1, 0xE7, 0x04);
+
     }
 }
 
 void HAL_DSI_EndOfRefreshCallback(DSI_HandleTypeDef *hdsi)
 {
 
-    if(LCD_ActiveRegion < ZONES )
-    {
-        /* Disable DSI Wrapper */
-        __HAL_DSI_WRAPPER_DISABLE(hdsi);
-        /* Update LTDC configuaration */
-        LTDC_LAYER(&hltdc_discovery, 0)->CFBAR  = LAYER0_ADDRESS + LCD_ActiveRegion  * HACT * sizeof(lv_color_t);
-        __HAL_LTDC_RELOAD_CONFIG(&hltdc_discovery);
-        __HAL_DSI_WRAPPER_ENABLE(hdsi);
+//    if(LCD_ActiveRegion < ZONES )
+//    {
+//        /* Disable DSI Wrapper */
+//        __HAL_DSI_WRAPPER_DISABLE(hdsi);
+//        /* Update LTDC configuaration */
+//        LTDC_LAYER(&hltdc_discovery, 0)->CFBAR  = LAYER0_ADDRESS + LCD_ActiveRegion  * HACT * sizeof(lv_color_t);
+//        __HAL_LTDC_RELOAD_CONFIG(&hltdc_discovery);
+//        __HAL_DSI_WRAPPER_ENABLE(hdsi);
 
-        LCD_SetUpdateRegion(LCD_ActiveRegion++);
-        /* Refresh the right part of the display */
-        HAL_DSI_Refresh(hdsi);
+//        LCD_SetUpdateRegion(LCD_ActiveRegion++);
+//        /* Refresh the right part of the display */
+//        HAL_DSI_Refresh(hdsi);
 
-    }
-    else
-    {
+//    }
+//    else
+//    {
         __HAL_DSI_WRAPPER_DISABLE(&hdsi_discovery);
         LTDC_LAYER(&hltdc_discovery, 0)->CFBAR  = LAYER0_ADDRESS;
 
@@ -480,8 +526,9 @@ void HAL_DSI_EndOfRefreshCallback(DSI_HandleTypeDef *hdsi)
         __HAL_DSI_WRAPPER_ENABLE(&hdsi_discovery);
 
         LCD_SetUpdateRegion(0);
-        if(disp_drv.draw_buf)  lv_disp_flush_ready(&disp_drv);
-    }
+        
+//        if(disp_drv.draw_buf)  lv_disp_flush_ready(&disp_drv);
+//    }
 }
 #endif
 
@@ -555,12 +602,12 @@ static void DMA_TransferComplete(DMA_HandleTypeDef *han)
   if(y_flush_act > y2_flush) {
 #if TFT_NO_TEARING
     if(lv_disp_flush_is_last(&disp_drv)) refr_qry = true;
-    else lv_disp_flush_ready(&disp_drv);
+    lv_disp_flush_ready(&disp_drv);
+//    printf("DMA Buffer Transfer finish !!!! \r\n");
 #else
     if(lv_disp_flush_is_last(&disp_drv)) HAL_DSI_Refresh(&hdsi_discovery);
 
     lv_disp_flush_ready(&disp_drv);
-//    DSI_IO_Read1Param(0x0A, buffer, 1);
 #endif
   } else {
     buf_to_flush += x2_flush - x1_flush + 1;

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F769xx,USE_STM32F769I_DISCO,USE_USB_HS</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../../../../../../Drivers/CMSIS/Device/ST/STM32F7xx/Include;../../../../../../Drivers/STM32F7xx_HAL_Driver/Inc;../../../../../../Drivers/BSP/STM32F769I-Discovery;../../../../../../Drivers/BSP/Components/Common;../../../../../../Utilities/Log;../../../../../../Utilities/Fonts;../../../../../../Utilities/CPU;..\..\Drivers\CMSIS\Device\ST\STM32F7xx\Include;..\..\Drivers\STM32F7xx_HAL_Driver\Inc;..\..\Drivers\BSP\STM32F769I-Discovery;..\..\Drivers\BSP\Components\Common;..\..\hal_stm_lvgl\tft;..\..\hal_stm_lvgl\touchpad;..\..\Middlewares\Third_Party;..\..\Middlewares\Third_Party\mooncake\src;..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets;..\..\Middlewares\Third_Party\FatFs\src\drivers;..\..\Middlewares\Third_Party\FatFs\src;..\..\Middlewares\ST\STM32_USB_Device_Library\Class\MSC\Inc;..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc;..\..\Middlewares\Third_Party\ArduinoJson\src;..\Src\APP;..\Src\APP\Utils\DataCenter;..\Src\APP\Utils\PageManager;..\Src\APP\Utils\ResourceManager;..\Src\APP\Config;..\Src\APP\Common;..\Src\APP\Utils\lv_ext;..\Src\HAL;..\Src</IncludePath>
+              <IncludePath>../Inc;../../../../../../Drivers/CMSIS/Device/ST/STM32F7xx/Include;../../../../../../Drivers/STM32F7xx_HAL_Driver/Inc;../../../../../../Drivers/BSP/STM32F769I-Discovery;../../../../../../Drivers/BSP/Components/Common;../../../../../../Utilities/Log;../../../../../../Utilities/Fonts;../../../../../../Utilities/CPU;..\..\Drivers\CMSIS\Device\ST\STM32F7xx\Include;..\..\Drivers\STM32F7xx_HAL_Driver\Inc;..\..\Drivers\BSP\STM32F769I-Discovery;..\..\Drivers\BSP\Components\Common;..\..\hal_stm_lvgl\tft;..\..\hal_stm_lvgl\touchpad;..\..\Middlewares\Third_Party;..\..\Middlewares\Third_Party\mooncake\src;..\..\Middlewares\Third_Party\mooncake\src\builtin_apps\assets;..\..\Middlewares\Third_Party\FatFs\src\drivers;..\..\Middlewares\Third_Party\FatFs\src;..\..\Middlewares\ST\STM32_USB_Device_Library\Class\MSC\Inc;..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc;..\..\Middlewares\Third_Party\ArduinoJson\src;..\Src\APP;..\Src\APP\Utils\DataCenter;..\Src\APP\Utils\PageManager;..\Src\APP\Utils\ResourceManager;..\Src\APP\Config;..\Src\APP\Common;..\Src\APP\Utils\lv_ext;..\Src\HAL;..\Src;..\..\Middlewares\Third_Party\JPEGDEC\src;..\..\ArduinoAPI\</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -418,6 +418,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\bsp_debug_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>MjpegClass.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\MjpegClass.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -442,6 +447,57 @@
               <FileName>stm32f769i_discovery_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\STM32F769I-Discovery\stm32f769i_discovery_lcd.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>stm32f769i_discovery_sdram.c</FileName>
@@ -472,6 +528,57 @@
               <FileName>otm8009a.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\Components\otm8009a\otm8009a.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>ft6x06.c</FileName>
@@ -482,16 +589,6 @@
               <FileName>sh8601b.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\Components\sh8601b\sh8601b.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Doc</GroupName>
-          <Files>
-            <File>
-              <FileName>readme.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>../readme.txt</FilePath>
             </File>
           </Files>
         </Group>
@@ -2186,95 +2283,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>App/Page/LiveMap</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>0</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <uGnu>2</uGnu>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>2</vShortEn>
-                <vShortWch>2</vShortWch>
-                <v6Lto>2</v6Lto>
-                <v6WtE>2</v6WtE>
-                <v6Rtti>2</v6Rtti>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
-          <Files>
-            <File>
-              <FileName>LiveMap.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Src\APP\Pages\LiveMap\LiveMap.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>LiveMapModel.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Src\APP\Pages\LiveMap\LiveMapModel.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>LiveMapView.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Src\APP\Pages\LiveMap\LiveMapView.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>App/Page/SystemInfos</GroupName>
           <Files>
             <File>
@@ -2776,6 +2784,66 @@
               <FileName>HAL_Clock.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Src\HAL\HAL_Clock.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>JPEGDEC</GroupName>
+          <Files>
+            <File>
+              <FileName>JPEGDEC.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Middlewares\Third_Party\JPEGDEC\src\JPEGDEC.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ArduinoAPI</GroupName>
+          <Files>
+            <File>
+              <FileName>Arduino.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\ArduinoAPI\Arduino.c</FilePath>
+            </File>
+            <File>
+              <FileName>dtostrf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\ArduinoAPI\dtostrf.c</FilePath>
+            </File>
+            <File>
+              <FileName>itoa.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\ArduinoAPI\itoa.c</FilePath>
+            </File>
+            <File>
+              <FileName>Print.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\ArduinoAPI\Print.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Stream.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\ArduinoAPI\Stream.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Wire.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\ArduinoAPI\Wire.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WireBase.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\ArduinoAPI\WireBase.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WMath.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\ArduinoAPI\WMath.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WString.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\ArduinoAPI\WString.cpp</FilePath>
             </File>
           </Files>
         </Group>

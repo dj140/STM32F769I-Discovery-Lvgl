@@ -31,6 +31,14 @@ extern PCD_HandleTypeDef hpcd;
 /******************************************************************************/
 /*            	  	    Processor Exceptions Handlers                         */
 /******************************************************************************/
+#ifndef SYSTICK_TICK_FREQ
+#  define SYSTICK_TICK_FREQ     1000 // Hz
+#endif
+
+#define SYSTICK_TICK_INTERVAL   (1000 / SYSTICK_TICK_FREQ)
+#define SYSTICK_LOAD_VALUE      (SystemCoreClock / SYSTICK_TICK_FREQ)
+#define SYSTICK_MILLIS          (SystemTickCount * SYSTICK_TICK_INTERVAL)
+static volatile uint32_t SystemTickCount = 0;
 
 /**
   * @brief  This function handles SysTick Handler, but only if no RTOS defines it.
@@ -39,6 +47,7 @@ extern PCD_HandleTypeDef hpcd;
   */
 void SysTick_Handler(void)
 {
+  SystemTickCount++;
   HAL_IncTick();
   HAL_SYSTICK_IRQHandler();
   lv_tick_inc(1);
@@ -47,6 +56,46 @@ void SysTick_Handler(void)
 #endif
 }
 
+uint32_t millis(void)
+{
+    return SYSTICK_MILLIS;
+}
+
+void delay_ms(uint32_t ms)
+{
+    uint32_t tickstart = SystemTickCount;
+    uint32_t wait = ms / SYSTICK_TICK_INTERVAL;
+
+    while((SystemTickCount - tickstart) < wait)
+    {
+    }
+}
+
+void delay_us(uint32_t us)
+{
+    uint32_t total = 0;
+    uint32_t target = SystemCoreClock / 1000000U * us;
+    int last = SysTick->VAL;
+    int now = last;
+    int diff = 0;
+start:
+    now = SysTick->VAL;
+    diff = last - now;
+    if(diff > 0)
+    {
+        total += diff;
+    }
+    else
+    {
+        total += diff + SYSTICK_LOAD_VALUE;
+    }
+    if(total > target)
+    {
+        return;
+    }
+    last = now;
+    goto start;
+}
 /**
   * @brief  This function handles DSI Handler.
   * @param  None
@@ -65,3 +114,4 @@ void OTG_HS_IRQHandler(void)
 {
   HAL_PCD_IRQHandler(&hpcd);
 }
+

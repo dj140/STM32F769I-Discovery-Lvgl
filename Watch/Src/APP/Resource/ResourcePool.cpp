@@ -61,9 +61,9 @@ do{\
 //        IMPORT_IMG(app_icon_hdpi_boxing_png);
 //        IMPORT_IMG(app_icon_hdpi_pingpong_png);
 //        IMPORT_IMG(app_icon_hdpi_settings_png);
-        IMPORT_IMG(wave1_png);
-        IMPORT_IMG(wave2_png);
-        IMPORT_IMG(bg_digital_392x392);
+//        IMPORT_IMG(wave1_png);
+//        IMPORT_IMG(wave2_png);
+//        IMPORT_IMG(bg_digital_392x392);
         IMPORT_IMG(dot_alpha_8x8);
         IMPORT_IMG(icn_flash_blue_alpha_17x21);
         IMPORT_IMG(icn_message_alpha_25x25);
