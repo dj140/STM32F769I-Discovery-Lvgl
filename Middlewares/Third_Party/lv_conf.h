@@ -17,6 +17,8 @@
 #ifndef LV_CONF_H
 #define LV_CONF_H
 
+#define TFT_HOR_RES     390
+#define TFT_VER_RES     450
 
 #include <stdint.h>
 

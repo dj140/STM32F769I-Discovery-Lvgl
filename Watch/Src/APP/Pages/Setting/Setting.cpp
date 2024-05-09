@@ -25,6 +25,7 @@ void Setting::onViewLoad()
     View.Create(_root);
     AttachEvent(_root);
     AttachEvent(View.ui.cont);
+    AttachEvent(View.ui.bg_img);
 
 }
 

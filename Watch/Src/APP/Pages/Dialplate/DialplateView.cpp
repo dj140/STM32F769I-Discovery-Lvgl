@@ -53,7 +53,7 @@ void DialplateView::Dialplate_Create(lv_obj_t* par)
 {
   lv_obj_t* cont = lv_obj_create(par);
   lv_obj_remove_style_all(cont);
-  lv_obj_set_size(cont, 397, 397);
+  lv_obj_set_size(cont, TFT_HOR_RES, TFT_VER_RES);
   lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
   lv_obj_clear_flag(cont, LV_OBJ_FLAG_GESTURE_BUBBLE);      /// Flags
   lv_obj_set_style_bg_color(cont, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -65,7 +65,7 @@ void DialplateView::Dialplate_Create(lv_obj_t* par)
   lv_obj_t* home_digital = lv_obj_create(cont);
   lv_obj_remove_style_all(home_digital);
   lv_obj_clear_flag(home_digital, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-  lv_obj_set_size(home_digital, 397, 397);
+  lv_obj_set_size(home_digital, TFT_HOR_RES, TFT_VER_RES);
 
 //  lv_obj_clear_flag(home_digital, LV_OBJ_FLAG_GESTURE_BUBBLE);      /// Flags
   ui.dialplate.bg = home_digital;

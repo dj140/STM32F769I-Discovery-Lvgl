@@ -52,7 +52,7 @@ void Watch_analog_View::Watch_Create(lv_obj_t* par)
     lv_obj_clear_flag(ui_watch_analog, LV_OBJ_FLAG_GESTURE_BUBBLE);      /// Flags
     lv_obj_set_style_bg_color(ui_watch_analog, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_watch_analog, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_size(ui_watch_analog, 397, 397);
+    lv_obj_set_size(ui_watch_analog, TFT_HOR_RES, TFT_VER_RES);
     lv_obj_set_align(ui_watch_analog, LV_ALIGN_CENTER);
     ui.cont = ui_watch_analog;
   

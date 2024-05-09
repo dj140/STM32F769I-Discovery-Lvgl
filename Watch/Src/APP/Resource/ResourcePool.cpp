@@ -85,6 +85,8 @@ do{\
         IMPORT_IMG(cxk_hour);
         IMPORT_IMG(cxk_min);
         IMPORT_IMG(cxk_sec);
+        IMPORT_IMG(setting_menu);
+
     }
 
 } /* extern "C" */

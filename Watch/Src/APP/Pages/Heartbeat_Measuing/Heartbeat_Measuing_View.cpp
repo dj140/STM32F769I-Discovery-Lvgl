@@ -70,7 +70,7 @@ void Heartbeat_Measuing_View::Create(lv_obj_t* root)
     lv_obj_clear_flag(ui_measuing, LV_OBJ_FLAG_GESTURE_BUBBLE);      /// Flags
     lv_obj_set_style_bg_color(ui_measuing, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_measuing, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_size(ui_measuing, 397, 397);
+    lv_obj_set_size(ui_measuing, TFT_HOR_RES, TFT_VER_RES);
     lv_obj_set_align(ui_measuing, LV_ALIGN_CENTER);
     ui.cont = ui_measuing;
 

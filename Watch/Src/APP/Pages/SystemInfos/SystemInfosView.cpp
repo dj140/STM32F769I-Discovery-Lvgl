@@ -14,7 +14,7 @@ void SystemInfosView::Create(lv_obj_t* root)
     lv_obj_t* appPanel = lv_obj_create(root);
     lv_obj_remove_style_all(appPanel);
 
-    lv_obj_set_size(appPanel, 397, 397);
+    lv_obj_set_size(appPanel, TFT_HOR_RES, TFT_VER_RES);
     //lv_obj_clear_flag(root, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_clear_flag(appPanel, LV_OBJ_FLAG_GESTURE_BUBBLE);      /// Flags
     lv_obj_align(appPanel, LV_ALIGN_BOTTOM_MID, 0, 0);
