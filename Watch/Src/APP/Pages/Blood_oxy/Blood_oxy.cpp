@@ -16,7 +16,7 @@ void Blood_oxy::onCustomAttrConfig()
 {
     LV_LOG_USER("begin");
     SetCustomCacheEnable(true);
-    SetCustomLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP, 1000, lv_anim_path_bounce);
+    SetCustomLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP, 1000, lv_anim_path_overshoot);
 }
 
 void Blood_oxy::onViewLoad()
@@ -64,6 +64,7 @@ void Blood_oxy::onViewUnload()
 void Blood_oxy::onViewDidUnload()
 {
     LV_LOG_USER("begin");
+      View.Delete();
 }
 
 void Blood_oxy::AttachEvent(lv_obj_t* obj)
@@ -116,7 +117,6 @@ void Blood_oxy::onEvent(lv_event_t* event)
         {
             instance->_Manager->Push("Pages/Heartbeat_Measuing");
         }
-  
     }
     //if (code == LV_EVENT_LONG_PRESSED)
     //{

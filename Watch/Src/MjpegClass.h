@@ -7,7 +7,7 @@
 #ifndef _MJPEGCLASS_H_
 #define _MJPEGCLASS_H_
 
-#define READ_BUFFER_SIZE 1024
+#define READ_BUFFER_SIZE 4096
 #define MAXOUTPUTSIZE (MAX_BUFFERED_PIXELS / 16 / 16)
 
 /* Wio Terminal */
@@ -21,12 +21,14 @@
 
 #include <JPEGDEC.h>
 #include "Stream.h"
+#include "ff.h"
+#include "diskio.h"
 
 class MjpegClass
 {
 public:
   bool setup(
-      Stream *input, uint8_t *mjpeg_buf, JPEG_DRAW_CALLBACK *pfnDraw, bool useBigEndian,
+      FIL input, uint8_t *mjpeg_buf, JPEG_DRAW_CALLBACK *pfnDraw, bool useBigEndian,
       int x, int y, int widthLimit, int heightLimit)
   {
     _input = input;
@@ -51,7 +53,10 @@ public:
   {
     if (_inputindex == 0)
     {
-      _buf_read = _input->readBytes(_read_buf, READ_BUFFER_SIZE);
+//      _buf_read = _input->readBytes(_read_buf, READ_BUFFER_SIZE);
+      f_read(&_input, _read_buf, READ_BUFFER_SIZE, &fnum);
+      _buf_read = fnum;
+      printf("_buf_read: %d.\n", _buf_read);
       _inputindex += _buf_read;
     }
     _mjpeg_buf_offset = 0;
@@ -64,7 +69,7 @@ public:
       {
         if ((_read_buf[i] == 0xFF) && (_read_buf[i + 1] == 0xD8)) // JPEG header
         {
-          // Serial.printf("Found FFD8 at: %d.\n", i);
+          printf("Found FFD8 at: %d.\n", i);
           found_FFD8 = true;
         }
         ++i;
@@ -75,7 +80,9 @@ public:
       }
       else
       {
-        _buf_read = _input->readBytes(_read_buf, READ_BUFFER_SIZE);
+//        _buf_read = _input->readBytes(_read_buf, READ_BUFFER_SIZE);
+         f_read(&_input, _read_buf, READ_BUFFER_SIZE, &fnum);
+        _buf_read = fnum;
       }
     }
     uint8_t *_p = _read_buf + i;
@@ -88,7 +95,7 @@ public:
       {
         if ((_mjpeg_buf_offset > 0) && (_mjpeg_buf[_mjpeg_buf_offset - 1] == 0xFF) && (_p[0] == 0xD9)) // JPEG trailer
         {
-          // Serial.printf("Found FFD9 at: %d.\n", i);
+          printf("Found FFD9 at: %d.\n", i);
           found_FFD9 = true;
         }
         else
@@ -104,23 +111,27 @@ public:
           }
         }
 
-        // Serial.printf("i: %d\n", i);
+        printf("i: %d\n", i);
         memcpy(_mjpeg_buf + _mjpeg_buf_offset, _p, i);
         _mjpeg_buf_offset += i;
         size_t o = _buf_read - i;
         if (o > 0)
         {
-          // Serial.printf("o: %d\n", o);
+          printf("o: %d\n", o);
           memcpy(_read_buf, _p + i, o);
-          _buf_read = _input->readBytes(_read_buf + o, READ_BUFFER_SIZE - o);
+//          _buf_read = _input->readBytes(_read_buf + o, READ_BUFFER_SIZE - o);
+          f_read(&_input, _read_buf + o, READ_BUFFER_SIZE - o, &fnum);
+          _buf_read = fnum;
           _p = _read_buf;
           _inputindex += _buf_read;
           _buf_read += o;
-          // Serial.printf("_buf_read: %d\n", _buf_read);
+          printf("_buf_read: %d\n", _buf_read);
         }
         else
         {
-          _buf_read = _input->readBytes(_read_buf, READ_BUFFER_SIZE);
+//          _buf_read = _input->readBytes(_read_buf, READ_BUFFER_SIZE);
+           f_read(&_input, _read_buf, READ_BUFFER_SIZE, &fnum);
+          _buf_read = fnum;
           _p = _read_buf;
           _inputindex += _buf_read;
         }
@@ -173,8 +184,11 @@ public:
         h /= 8;
       }
       _jpeg.setMaxOutputSize(iMaxMCUs);
+      printf("iMaxMCUs: %d\n", iMaxMCUs);
       _x = (w > _widthLimit) ? 0 : ((_widthLimit - w) / 2);
+            printf("_x: %d\n", _x);
       _y = (_heightLimit - h) / 2;
+            printf("_y: %d\n", _y);
     }
     if (_useBigEndian)
     {
@@ -187,7 +201,7 @@ public:
   }
 
 private:
-  Stream *_input;
+  FIL _input;
   uint8_t *_mjpeg_buf;
   JPEG_DRAW_CALLBACK *_pfnDraw;
   bool _useBigEndian;
@@ -195,6 +209,7 @@ private:
   int _y;
   int _widthLimit;
   int _heightLimit;
+  UINT fnum;
 
   uint8_t *_read_buf;
   int32_t _mjpeg_buf_offset = 0;

@@ -95,7 +95,7 @@ void App_Init()
     ResourcePool::Init();
 
     /* Initialize status bar */
-    Page::StatusBar_Create(lv_layer_top());
+//    Page::StatusBar_Create(lv_layer_top());
 
 //    /* Initialize pages */
     manager.Install("Template",    "Pages/_Template");

@@ -153,7 +153,7 @@ static void StatusBar_Update(lv_timer_t* timer)
 //    }
 
     /* clock */
-    HAL::Clock_Info_t clock;
+//    HAL::Clock_Info_t clock;
 //    if(actStatusBar->Pull("Clock", &clock, sizeof(clock)) == Account::RES_OK)
 //    {
 //        lv_label_set_text_fmt(ui.labelClock, "%02d:%02d", clock.hour, clock.minute);

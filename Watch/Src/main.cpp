@@ -29,6 +29,29 @@ static void CPU_CACHE_Enable(void);
 static void fs_init(void);
 
 //LV_IMG_DECLARE(img_src_bg_digital_392x392);
+//#include "MjpegClass.h"
+//static MjpegClass mjpeg;
+//#define MJPEG_BUFFER_SIZE (390 * 450 * 2) // memory for a single JPEG frame
+//extern DMA_HandleTypeDef     DmaHandle;
+//static uint16_t * my_fb = (uint16_t *)((uint32_t)0xC0000000);
+
+/* variables */
+//static int total_frames = 0;
+//static unsigned long total_read_video = 0;
+//static unsigned long total_decode_video = 0;
+//static unsigned long total_show_video = 0;
+//static unsigned long start_ms, curr_ms;
+
+// pixel drawing callback
+//static int jpegDrawCallback(JPEGDRAW *pDraw)
+//{
+//  printf("Draw pos = %d,%d. size = %d x %d\n", pDraw->x, pDraw->y, pDraw->iWidth, pDraw->iHeight);
+//  unsigned long start = millis();
+////  gfx->draw16bitBeRGBBitmap(pDraw->x, pDraw->y, pDraw->pPixels, pDraw->iWidth, pDraw->iHeight);
+//  HAL_DMA_Start_IT(&DmaHandle,(uint32_t)pDraw->pPixels, (uint32_t)&my_fb[pDraw->y * TFT_HOR_RES + pDraw->x],pDraw->iWidth * pDraw->iHeight * 2);
+//  total_show_video += millis() - start;
+//  return 1;
+//}
 
 int main(void) {
   
@@ -66,6 +89,30 @@ int main(void) {
 //  touchpad_init();
   HAL::HAL_Init();
   App_Init();
+  
+//  res_flash = f_open(&fnew,"0:earth.mjpeg",FA_READ);
+//  printf("res: %d\n", res_flash);
+//  uint8_t *mjpeg_buf = (uint8_t *)malloc(MJPEG_BUFFER_SIZE);
+//  start_ms = millis();
+//  curr_ms = millis();
+//  mjpeg.setup(
+//  fnew, mjpeg_buf, jpegDrawCallback, true /* useBigEndian */,
+//  0 /* x */, 0 /* y */, 390 /* widthLimit */, 450 /* heightLimit */);
+
+//  while ( !res_flash && mjpeg.readMjpegBuf())
+//  {
+//    // Read video
+//    total_read_video += millis() - curr_ms;
+//    curr_ms = millis();
+
+//    // Play video
+//    mjpeg.drawJpg();
+//    total_decode_video += millis() - curr_ms;
+
+//    curr_ms = millis();
+//    total_frames++;
+//  }
+
   /* Init Device Library */
 //  USBD_Init(&USBD_Device, &MSC_Desc, 0);
 //  

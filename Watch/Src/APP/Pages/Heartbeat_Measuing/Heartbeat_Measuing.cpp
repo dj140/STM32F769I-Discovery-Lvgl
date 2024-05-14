@@ -57,6 +57,7 @@ void Heartbeat_Measuing::onViewDidDisappear()
 void Heartbeat_Measuing::onViewUnload()
 {
     LV_LOG_USER("begin");
+    View.Delete();
 }
 
 void Heartbeat_Measuing::onViewDidUnload()

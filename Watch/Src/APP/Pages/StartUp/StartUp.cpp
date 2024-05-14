@@ -32,7 +32,7 @@ void Startup::onViewDidLoad()
 
 void Startup::onViewWillAppear()
 {
-    Model.PlayMusic("Startup");
+//    Model.PlayMusic("Startup");
     lv_anim_timeline_start(View.ui.anim_timeline);
 }
 
@@ -48,13 +48,12 @@ void Startup::onViewWillDisappear()
 
 void Startup::onViewDidDisappear()
 {
-    Model.SetStatusBarAppear(true);
+//    Model.SetStatusBarAppear(true);
 }
 
 void Startup::onViewUnload()
 {
     View.Delete();
-//    Model.SetEncoderEnable(true);
     Model.Deinit();
 }
 
@@ -81,7 +80,7 @@ void Startup::onEvent(lv_event_t* event)
     {
         if (code == LV_EVENT_LEAVE)
         {
-            //instance->Manager->Pop();
+//            instance->Manager->Pop();
         }
     }
 }

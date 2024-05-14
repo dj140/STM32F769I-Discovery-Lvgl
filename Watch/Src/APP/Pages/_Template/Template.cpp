@@ -39,7 +39,25 @@ void Template::onViewLoad()
 
     AttachEvent(_root);
     AttachEvent(View.ui.cont);
+      for (counter = 0; counter < MAX_BMP_FILES; counter++)
+    {
 
+      pDirectoryFiles[counter] = new char[MAX_BMP_FILE_NAME];
+      if(pDirectoryFiles[counter] == NULL)
+      {
+
+        printf("Cannot allocate memory \n");
+
+      }
+    }
+    ubNumberOfFiles = View.Storage_GetDirectoryBitmapFiles("/Media", pDirectoryFiles);
+    if (ubNumberOfFiles == 0)
+    {
+      for (counter = 0; counter < MAX_BMP_FILES; counter++)
+      {
+        free(pDirectoryFiles[counter]);
+      }
+    }
 //    Model.TickSave = Model.GetData();
 }
 
@@ -55,18 +73,7 @@ void Template::onViewWillAppear()
 //    lv_obj_set_style_bg_color(_root, param.color, LV_PART_MAIN);
 //    lv_obj_set_style_bg_opa(_root, LV_OPA_COVER, LV_PART_MAIN);
     timer = lv_timer_create(onTimerUpdate, 5500, this);
-      for (counter = 0; counter < MAX_BMP_FILES; counter++)
-    {
 
-      pDirectoryFiles[counter] = new char[MAX_BMP_FILE_NAME];
-      if(pDirectoryFiles[counter] == NULL)
-      {
-
-        printf("Cannot allocate memory \n");
-
-      }
-    }
-    ubNumberOfFiles = View.Storage_GetDirectoryBitmapFiles("/Media", pDirectoryFiles);
 
 }
 
@@ -86,6 +93,7 @@ void Template::onViewDidDisappear()
 {
     LV_LOG_USER("begin");
     lv_timer_del(timer);
+
 }
 
 void Template::onViewUnload()
@@ -95,7 +103,11 @@ void Template::onViewUnload()
 
 void Template::onViewDidUnload()
 {
-    LV_LOG_USER("begin");
+    LV_LOG_USER("begin"); 
+    for (counter = 0; counter < MAX_BMP_FILES; counter++)
+    {
+      free(pDirectoryFiles[counter]);
+    }
 }
 
 void Template::AttachEvent(lv_obj_t* obj)

@@ -187,3 +187,9 @@ void Heartbeat_Measuing_View::Create(lv_obj_t* root)
     lv_obj_clear_flag(ui_x, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
 }
+
+void Heartbeat_Measuing_View::Delete()
+{
+  lv_obj_del(ui.cont);
+
+}

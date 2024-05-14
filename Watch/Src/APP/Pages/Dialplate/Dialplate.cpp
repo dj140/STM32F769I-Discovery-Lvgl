@@ -35,11 +35,11 @@ void Dialplate::onViewDidLoad()
 
 void Dialplate::onViewWillAppear()
 {
-    lv_indev_wait_release(lv_indev_get_act());
-    lv_group_t* group = lv_group_get_default();
-    LV_ASSERT_NULL(group);
+//    lv_indev_wait_release(lv_indev_get_act());
+//    lv_group_t* group = lv_group_get_default();
+//    LV_ASSERT_NULL(group);
 
-    lv_group_set_wrap(group, false);
+//    lv_group_set_wrap(group, false);
 
 //    lv_group_add_obj(group, View.ui.btnCont.btnMap);
 //    lv_group_add_obj(group, View.ui.btnCont.btnRec);
@@ -59,6 +59,8 @@ void Dialplate::onViewWillAppear()
     Update();
 
     View.AppearAnimStart();
+//    lv_obj_set_style_opa(_root, LV_OPA_TRANSP, 0);
+//    lv_obj_fade_in(_root, 500, 0);
 }
 
 void Dialplate::onViewDidAppear()
@@ -68,10 +70,10 @@ void Dialplate::onViewDidAppear()
 
 void Dialplate::onViewWillDisappear()
 {
-    lv_group_t* group = lv_group_get_default();
-    LV_ASSERT_NULL(group);
-    lastFocus = lv_group_get_focused(group);
-    lv_group_remove_all_objs(group);
+//    lv_group_t* group = lv_group_get_default();
+//    LV_ASSERT_NULL(group);
+//    lastFocus = lv_group_get_focused(group);
+//    lv_group_remove_all_objs(group);
     lv_timer_del(timer);
     //View.AppearAnimStart(true);
 }
@@ -151,11 +153,10 @@ void Dialplate::onEvent(lv_event_t* event)
             instance->_Manager->Replace("Pages/Watch_analog");
         }
     }
-    if (code == LV_EVENT_LONG_PRESSED)
-    {
-        instance->_Manager->Replace("Pages/Watch_analog");
-
-    }
+//    if (code == LV_EVENT_LONG_PRESSED)
+//    {
+//        instance->_Manager->Replace("Pages/Watch_analog");
+//    }
 //    if (code == LV_EVENT_SHORT_CLICKED)
 //    {
 //        instance->onBtnClicked(obj);
