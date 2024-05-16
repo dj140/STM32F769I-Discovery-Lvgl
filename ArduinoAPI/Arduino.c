@@ -88,7 +88,7 @@ uint8_t digitalRead(uint8_t pin)
 //        return 0;
 //    }
 
-//    return digitalRead_FAST(pin);
+   return 0;
 }
 
 /**

@@ -497,11 +497,10 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG__IMG_MENU
 };
 
 const lv_img_dsc_t img_src_menu_alpha_11x117 = {
-  .header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
-  .header.always_zero = 0,
-  .header.reserved = 0,
+  .header.cf = LV_COLOR_FORMAT_RGB565,
+  .header.magic = LV_IMAGE_HEADER_MAGIC,
   .header.w = 11,
   .header.h = 117,
-  .data_size = 1287 * LV_IMG_PX_SIZE_ALPHA_BYTE,
+  .data_size = 1287 * 2,
   .data = _img_menu_alpha_11x117_map,
 };

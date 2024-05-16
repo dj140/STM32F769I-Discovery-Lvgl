@@ -252,7 +252,7 @@ void Watch_analog_View::Delete()
 {
     if (ui.anim_timeline)
     {
-        lv_anim_timeline_del(ui.anim_timeline);
+        lv_anim_timeline_delete(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
 }

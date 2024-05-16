@@ -73,7 +73,7 @@ void Startup::onEvent(lv_event_t* event)
     Startup* instance = (Startup*)lv_event_get_user_data(event);
     LV_ASSERT_NULL(instance);
 
-    lv_obj_t* obj = lv_event_get_current_target(event);
+    lv_obj_t* obj = lv_event_get_current_target_obj(event);
     lv_event_code_t code = lv_event_get_code(event);
 
     if (obj == instance->_root)

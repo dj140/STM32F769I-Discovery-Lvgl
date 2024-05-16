@@ -103,7 +103,7 @@ void SystemInfos::onEvent(lv_event_t* event)
     SystemInfos* instance = (SystemInfos*)lv_event_get_user_data(event);
     LV_ASSERT_NULL(instance);
 
-    lv_obj_t* obj = lv_event_get_current_target(event);
+    lv_obj_t* obj = lv_event_get_current_target_obj(event);
     lv_event_code_t code = lv_event_get_code(event);
     //LV_LOG_USER("LV_EVENT_GESTURE %d", code);
 
@@ -123,11 +123,11 @@ void SystemInfos::onEvent(lv_event_t* event)
         /* Pressed feedback */
         if (code == LV_EVENT_PRESSED) {
             /* If pressed, smaller Icon */
-            lv_img_set_zoom(lv_event_get_target(event), lv_img_get_zoom(lv_event_get_target(event)) - 10);
+            lv_img_set_zoom(lv_event_get_current_target_obj(event), lv_img_get_zoom(lv_event_get_current_target_obj(event)) - 10);
         }
         if (code == LV_EVENT_RELEASED) {
             /* If released, set it back */
-            lv_img_set_zoom(lv_event_get_target(event), lv_img_get_zoom(lv_event_get_target(event)) + 10);
+            lv_img_set_zoom(lv_event_get_current_target_obj(event), lv_img_get_zoom(lv_event_get_current_target_obj(event)) + 10);
         }
     }
     /* If scrolling, update Icon zooming */

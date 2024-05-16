@@ -132,7 +132,7 @@ int main(void) {
     
   while(1) {
       lv_task_handler();
-      HAL_Delay(5);
+      HAL_Delay(1);
     }
 }
 

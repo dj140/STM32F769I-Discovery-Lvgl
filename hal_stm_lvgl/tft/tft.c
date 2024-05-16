@@ -64,7 +64,7 @@
  **********************/
 
 /*For LittlevGL*/
-static void tft_flush_cb(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t * color_p);
+static void tft_flush_cb(lv_disp_t * disp, const lv_area_t * area, uint8_t * pxmap);
 
 /*LCD*/
 static void LCD_Config(void);
@@ -93,16 +93,15 @@ static uint16_t * my_fb = (uint16_t *)LAYER0_ADDRESS;
 static uint32_t * my_fb = (uint32_t *)LAYER0_ADDRESS;
 #endif
 
-static lv_disp_drv_t disp_drv;
+static lv_display_t * disp;
 
 static DMA_HandleTypeDef     DmaHandle;
-static lv_disp_drv_t disp_drv;
 static volatile int32_t x1_flush;
 static volatile int32_t y1_flush;
 static volatile int32_t x2_flush;
 static volatile int32_t y2_flush;
 static volatile int32_t y_flush_act;
-static volatile const lv_color_t * buf_to_flush;
+static volatile const uint8_t * buf_to_flush;
 
 static volatile bool refr_qry;
 static volatile uint32_t t_last = 0;
@@ -149,14 +148,6 @@ uint8_t pCols[ZONES][4] =
  *   GLOBAL FUNCTIONS
  **********************/
 
-/**
- * Monitor refresh time
- * */
-void monitor_cb(lv_disp_drv_t * d, uint32_t t, uint32_t p)
-{
-    t_last = t;
-     //lv_obj_invalidate(lv_scr_act());   /*Continuously refresh the whole screen*/
-}
 
 /**
  * Initialize your display here
@@ -176,31 +167,35 @@ void tft_init(void)
       0x00);
 
   DMA_Config();
+  static uint8_t buf1[TFT_HOR_RES * TFT_VER_RES * 2];
+//  static uint8_t buf2[TFT_HOR_RES * 48 * 2];
+  disp = lv_display_create(TFT_HOR_RES, TFT_VER_RES);
+  lv_display_set_buffers(disp, buf1, NULL, TFT_HOR_RES * TFT_VER_RES * 2, LV_DISPLAY_RENDER_MODE_FULL);
+  lv_display_set_flush_cb(disp, tft_flush_cb);
+  
+//  static lv_color_t disp_buf1[TFT_HOR_RES * 450];
+////  static lv_color_t disp_buf2[TFT_HOR_RES * 90];
+//  static lv_disp_draw_buf_t buf;
+//  lv_disp_draw_buf_init(&buf, disp_buf1, NULL, TFT_HOR_RES * 450);
 
-  static lv_color_t disp_buf1[TFT_HOR_RES * 450];
-//  static lv_color_t disp_buf2[TFT_HOR_RES * 90];
-  static lv_disp_draw_buf_t buf;
-  lv_disp_draw_buf_init(&buf, disp_buf1, NULL, TFT_HOR_RES * 450);
+//  lv_disp_drv_init(&disp_drv);
+//  disp_drv.draw_buf = &buf;
+//  disp_drv.flush_cb = tft_flush_cb;
+//  disp_drv.monitor_cb = monitor_cb;
+//  disp_drv.hor_res = TFT_HOR_RES;
+//  disp_drv.ver_res = TFT_VER_RES;
+//  disp_drv.full_refresh = 1;
 
-  lv_disp_drv_init(&disp_drv);
-  disp_drv.draw_buf = &buf;
-  disp_drv.flush_cb = tft_flush_cb;
-  disp_drv.monitor_cb = monitor_cb;
-  disp_drv.hor_res = TFT_HOR_RES;
-  disp_drv.ver_res = TFT_VER_RES;
-  disp_drv.full_refresh = 1;
-
-  lv_disp_drv_register(&disp_drv);
+//  lv_disp_drv_register(&disp_drv);
 }
 
 /**********************
  *   STATIC FUNCTIONS
  **********************/
 
-static void tft_flush_cb(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t * color_p)
+static void tft_flush_cb(lv_disp_t * disp, const lv_area_t * area, uint8_t * pxmap)
 {
-//    lv_disp_flush_ready(drv);
-//    return;
+
   SCB_CleanInvalidateDCache();
 
   /*Truncate the area to the screen*/
@@ -214,8 +209,8 @@ static void tft_flush_cb(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t
   x2_flush = act_x2;
   y2_flush = act_y2;
   y_flush_act = act_y1;
-  buf_to_flush = color_p;
-//  printf("x1_flush: %d, y1_flush: %d, x2_flush: %d, y2_flush: %d  \r\n", act_x1, act_y1, act_x2, act_y2);
+  buf_to_flush = pxmap;
+
   /*Use DMA instead of DMA2D to leave it free for GPU*/
   HAL_StatusTypeDef err;
   err = HAL_DMA_Start_IT(&DmaHandle,(uint32_t)buf_to_flush, (uint32_t)&my_fb[y_flush_act * TFT_HOR_RES + x1_flush],
@@ -225,6 +220,7 @@ static void tft_flush_cb(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t
     while(1);	/*Halt on error*/
   }
 }
+
 void BSP_LCD_Reset(void)
 {
   GPIO_InitTypeDef  gpio_init_structure;
@@ -403,6 +399,8 @@ void LCD_SetUpdateRegion(int idx)
 
 //    LPCmd.LPDcsLongWrite        = DSI_LP_DLW_DISABLE;
 //  HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
+    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, SH8601B_CMD_CASET, pCols[idx]);
+
 }
 #endif
 /**
@@ -527,7 +525,7 @@ void HAL_DSI_EndOfRefreshCallback(DSI_HandleTypeDef *hdsi)
 
         LCD_SetUpdateRegion(0);
         
-//        if(disp_drv.draw_buf)  lv_disp_flush_ready(&disp_drv);
+        lv_disp_flush_ready(disp);
 //    }
 }
 #endif
@@ -601,16 +599,16 @@ static void DMA_TransferComplete(DMA_HandleTypeDef *han)
 //    uint8_t buffer[2];
   if(y_flush_act > y2_flush) {
 #if TFT_NO_TEARING
-    if(lv_disp_flush_is_last(&disp_drv)) refr_qry = true;
-    lv_disp_flush_ready(&disp_drv);
+    if(lv_disp_flush_is_last(disp)) refr_qry = true;
+    lv_disp_flush_ready(disp);
 //    printf("DMA Buffer Transfer finish !!!! \r\n");
 #else
-    if(lv_disp_flush_is_last(&disp_drv)) HAL_DSI_Refresh(&hdsi_discovery);
+    if(lv_disp_flush_is_last(disp)) HAL_DSI_Refresh(&hdsi_discovery);
 
-    lv_disp_flush_ready(&disp_drv);
+    lv_disp_flush_ready(disp);
 #endif
   } else {
-    buf_to_flush += x2_flush - x1_flush + 1;
+    buf_to_flush += (x2_flush - x1_flush + 1) * 2;
     /*##-7- Start the DMA transfer using the interrupt mode ####################*/
     /* Configure the source, destination and buffer size DMA fields and Start DMA Stream transfer */
     /* Enable All the DMA interrupts */

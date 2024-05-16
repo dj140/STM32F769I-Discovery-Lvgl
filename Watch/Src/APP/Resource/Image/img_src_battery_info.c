@@ -1,7 +1,15 @@
+#ifdef __has_include
+    #if __has_include("lvgl.h")
+        #ifndef LV_LVGL_H_INCLUDE_SIMPLE
+            #define LV_LVGL_H_INCLUDE_SIMPLE
+        #endif
+    #endif
+#endif
+
 #if defined(LV_LVGL_H_INCLUDE_SIMPLE)
-#include "lvgl.h"
+    #include "lvgl.h"
 #else
-#include "lvgl/lvgl.h"
+    #include "lvgl/lvgl.h"
 #endif
 
 
@@ -209,11 +217,11 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_IMG_SRC_B
 };
 
 const lv_img_dsc_t img_src_battery_info = {
-  .header.always_zero = 0,
+  .header.cf = LV_COLOR_FORMAT_RGB565,
+  .header.magic = LV_IMAGE_HEADER_MAGIC,
   .header.w = 26,
   .header.h = 45,
-  .data_size = 1170 * LV_IMG_PX_SIZE_ALPHA_BYTE,
-  .header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
+  .data_size = 1170 * 2,
   .data = img_src_battery_info_map,
 };
 

@@ -12,7 +12,7 @@ void SystemInfosView::Create(lv_obj_t* root)
     LauncherData_t.icon_y = 0;
     LauncherData_t.is_long_row = true;  
 //    lv_obj_t* appPanel = lv_obj_create(root);
-//    lv_obj_remove_style_all(appPanel);
+//    lv_obj_remove_style_all(root);
 
     lv_obj_set_size(root, TFT_HOR_RES, TFT_VER_RES);
     //lv_obj_clear_flag(root, LV_OBJ_FLAG_SCROLLABLE);      /// Flags

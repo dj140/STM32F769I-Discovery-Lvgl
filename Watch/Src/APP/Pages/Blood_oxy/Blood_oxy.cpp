@@ -93,7 +93,7 @@ void Blood_oxy::onEvent(lv_event_t* event)
     Blood_oxy* instance = (Blood_oxy*)lv_event_get_user_data(event);
     LV_ASSERT_NULL(instance);
 
-    lv_obj_t* obj = lv_event_get_current_target(event);
+    lv_obj_t* obj = lv_event_get_current_target_obj(event);
     lv_event_code_t code = lv_event_get_code(event);
 
 

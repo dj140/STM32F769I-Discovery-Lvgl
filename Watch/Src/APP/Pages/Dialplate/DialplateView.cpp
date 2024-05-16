@@ -44,7 +44,7 @@ void DialplateView::Delete()
 {
     if (ui.anim_timeline)
     {
-        lv_anim_timeline_del(ui.anim_timeline);
+        lv_anim_timeline_delete(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
 }
@@ -72,7 +72,7 @@ void DialplateView::Dialplate_Create(lv_obj_t* par)
   //Write style for home_digital, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
   lv_obj_set_style_bg_opa(home_digital, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
   lv_obj_set_style_bg_img_src(home_digital, ResourcePool::GetImage("bg_digital_392x392"), LV_PART_MAIN | LV_STATE_DEFAULT);
-  lv_obj_set_style_bg_img_opa(home_digital, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_image_opa(home_digital, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
   //Write codes home_digital_arc_step
   //lv_obj_t* home_digital_arc_step = lv_arc_create(home_digital);

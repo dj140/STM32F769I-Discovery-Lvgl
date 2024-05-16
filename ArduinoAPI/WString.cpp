@@ -19,8 +19,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #define WSTRING_MEM_INCLUDE                 "lvgl/lvgl.h"
-#define WSTRING_MEM_REALLOC                 lv_mem_realloc
-#define WSTRING_MEM_FREE                    lv_mem_free
+#define WSTRING_MEM_REALLOC                 lv_realloc
+#define WSTRING_MEM_FREE                    lv_free
 
 #include "WString.h"
 #include "itoa.h"

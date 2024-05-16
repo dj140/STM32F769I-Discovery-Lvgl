@@ -309,11 +309,10 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG__TEXT_MES
 };
 
 const lv_img_dsc_t img_src_text_message_alpha_70x70 = {
-  .header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
-  .header.always_zero = 0,
-  .header.reserved = 0,
+  .header.cf = LV_COLOR_FORMAT_RGB565,
+  .header.magic = LV_IMAGE_HEADER_MAGIC,
   .header.w = 70,
   .header.h = 70,
-  .data_size = 4900 * LV_IMG_PX_SIZE_ALPHA_BYTE,
+  .data_size = 4900 * 2,
   .data = _text_message_alpha_70x70_map,
 };
